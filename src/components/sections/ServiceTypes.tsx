@@ -9,7 +9,7 @@ export function ServiceTypes() {
   const c = installationCopy.systems;
 
   return (
-    <section id="systems" aria-labelledby="solutions-title" className="py-20 sm:py-24 lg:py-28">
+    <section id="systems" aria-labelledby="solutions-title" className="pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pb-28">
       <div className="container-page">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading id="solutions-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />

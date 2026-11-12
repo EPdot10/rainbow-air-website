@@ -5,6 +5,7 @@ import { quoteHref } from "@/lib/quote";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { ButtonLink } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/SectionHeading";
+import { VeuCard } from "@/components/sections/VeuStrip";
 
 export function Hero() {
   return (
@@ -18,7 +19,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="container-page flex min-h-[min(46rem,calc(100svh-5rem))] flex-col justify-center py-20 lg:py-28">
+      <div className="container-page grid min-h-[min(46rem,calc(100svh-5rem))] items-center gap-12 pt-16 pb-24 lg:grid-cols-[minmax(0,40rem)_minmax(0,25rem)] lg:justify-between lg:py-20">
         <div className="max-w-[40rem]">
           <Eyebrow tone="light">{hero.eyebrow}</Eyebrow>
           <h1
@@ -54,6 +55,9 @@ export function Hero() {
             ))}
           </ul>
         </div>
+
+        {/* VEU highlight – visible on the first screen on desktop (below the hero on smaller screens). */}
+        <VeuCard layout="stacked" className="hidden lg:flex lg:self-center" />
       </div>
     </section>
   );

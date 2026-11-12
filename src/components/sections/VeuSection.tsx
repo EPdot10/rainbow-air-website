@@ -12,7 +12,7 @@ import { Reveal } from "@/components/ui/Reveal";
  */
 export function VeuSection() {
   return (
-    <section id="veu" aria-labelledby="veu-title" className="py-20 sm:py-24">
+    <section id="veu" aria-labelledby="veu-title" className="pt-14 pb-4 sm:pt-16">
       <div className="container-page">
         <Reveal className="relative overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-sky-50 via-white to-flame-50 p-8 shadow-card sm:p-12 lg:p-14">
           <div aria-hidden className="absolute top-0 left-0 h-full w-1.5 bg-gradient-to-b from-rb-green via-rb-sky to-rb-blue" />

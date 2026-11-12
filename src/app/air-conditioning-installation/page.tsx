@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/air-conditioning-installation/" },
 };
 
-/** 2. Air Conditioning Installation – systems, models, help me choose, VEU block. */
+/** 2. Air Conditioning Installation – VEU block first (client priority), then systems, models, help me choose. */
 export default function InstallationPage() {
   const h = installationCopy.hero;
   return (
@@ -30,10 +30,10 @@ export default function InstallationPage() {
           Help Me Choose
         </ButtonLink>
       </PageHero>
+      <VeuSection />
       <ServiceTypes />
       <ProductShowcase />
       <HelpMeChoose />
-      <VeuSection />
     </>
   );
 }

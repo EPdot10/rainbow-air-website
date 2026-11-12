@@ -18,6 +18,14 @@ export const hero = {
   image: "heroLivingRoom" as const,
 };
 
+/** Home-page VEU highlight (links to the VEU section of the Installation page). */
+export const veuStrip = {
+  eyebrow: "Victorian Energy Upgrades (VEU) Program",
+  title: "Replacing an old heater or air conditioner? You may be eligible for a VEU discount.",
+  body: "Eligibility depends on your existing equipment, the selected system and program requirements – any discount is confirmed in your written quotation.",
+  cta: "Check VEU Eligibility",
+};
+
 export const homeCopy = {
   packages: {
     eyebrow: "Installation Packages",
