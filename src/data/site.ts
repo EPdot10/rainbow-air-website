@@ -81,22 +81,30 @@ export const heroHighlights = [
 ];
 
 /**
- * Social channels for the floating social button.
- * `href: null` until Rainbow Air confirms the account – the item then shows "Account coming soon".
- * `color` follows the logo's rainbow sequence.
+ * Floating contact & social button.
+ * Brand items use official platform icons (simple-icons, CC0); colours follow the logo's rainbow.
+ *  - `href: null` → account not confirmed yet; the item shows "coming soon".
+ *  - `kind: "info"` items (phone, email, WeChat) show their value in a small pop-over;
+ *    phone and email also become tap-to-call / tap-to-email links once confirmed.
  */
 export interface SocialChannel {
-  id: "xiaohongshu" | "instagram" | "wechat" | "facebook";
+  id: "xiaohongshu" | "instagram" | "phone" | "wechat" | "whatsapp" | "facebook" | "email";
   label: string;
+  /** Profile URL (brand channels). */
   href: string | null;
-  /** WeChat has no public profile URL – show the WeChat ID instead. */
-  handle?: string;
+  /** Value shown in the pop-over (phone number, email, WeChat ID). */
+  value?: string;
   color: string;
+  /** Icon colour on top of the ball. */
+  ink?: string;
 }
 
 export const socialChannels: SocialChannel[] = [
   { id: "xiaohongshu", label: "Xiaohongshu (RED)", href: null, color: "#e8231b" },
   { id: "instagram", label: "Instagram", href: null, color: "#f7801e" },
-  { id: "wechat", label: "WeChat", href: null, handle: TBC, color: "#3cb44a" },
+  { id: "phone", label: "Phone", href: null, value: site.contact.phone, color: "#fbd40a", ink: "#03224f" },
+  { id: "wechat", label: "WeChat", href: null, value: TBC, color: "#3cb44a" },
+  { id: "whatsapp", label: "WhatsApp", href: null, color: "#12a0dc" },
   { id: "facebook", label: "Facebook", href: null, color: "#1450b4" },
+  { id: "email", label: "Email", href: null, value: site.contact.email, color: "#4a3aa8" },
 ];

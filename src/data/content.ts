@@ -1,4 +1,5 @@
 import { TBC, type Project, type SystemSolution } from "./types";
+import type { ImageKey } from "./images";
 
 /**
  * Page copy, organised by page. Wording follows the client's copy document
@@ -68,6 +69,70 @@ export const processSteps = [
     body: "Once the quotation and scope of work are confirmed, we'll agree on an installation time with you.",
   },
 ] as const;
+
+/**
+ * Home showcase sections.
+ * ALL PLACEHOLDER CONTENT – shown with visible "Sample" labels for layout review only.
+ * Do not present as genuine: replace with verified reviews, confirmed partners/brands
+ * and real projects (with permission) before launch.
+ */
+export const homeShowcase = {
+  commercial: {
+    eyebrow: "Commercial Projects",
+    title: "Commercial & Large-Scale Projects",
+    subtitle: "A showcase space for larger installations – offices, retail and multi-residential buildings.",
+    note: "Illustrative images and placeholder project details. Real commercial projects will be added once confirmed.",
+    cta: "Discuss a Commercial Project",
+  },
+  reviews: {
+    eyebrow: "Customer Reviews",
+    title: "What Our Customers Say",
+    subtitle: "Feedback from Melbourne homeowners.",
+    note: "Sample reviews for layout preview only – these will be replaced with verified customer reviews (for example from Google) before launch.",
+  },
+  partners: {
+    eyebrow: "Brands & Partners",
+    title: "Air Conditioning Brands & Partner Companies",
+    subtitle: "The equipment brands we install and the companies we work with.",
+    brandsLabel: "Air conditioning brands",
+    partnersLabel: "Partner companies",
+    note: "Logo placeholders – confirmed brands and partner companies will be shown here once approved.",
+  },
+};
+
+export const commercialProjects: { id: string; title: string; type: string; image: ImageKey; detail: string }[] = [
+  { id: "c1", title: "Office Fit-out", type: "Ducted / VRF", image: "commercialOffice", detail: "Client, location and scope to be confirmed" },
+  { id: "c2", title: "Retail Tenancy", type: "Multi-Split", image: "commercialFacade", detail: "Client, location and scope to be confirmed" },
+  { id: "c3", title: "Multi-Residential Building", type: "Split Systems", image: "commercialOutdoor", detail: "Client, location and scope to be confirmed" },
+  { id: "c4", title: "Commercial Ceiling Installation", type: "Ducted", image: "commercialCeilingWork", detail: "Client, location and scope to be confirmed" },
+];
+
+/** SAMPLE reviews – placeholder names and suburbs; never present as real customer feedback. */
+export const sampleReviews = [
+  {
+    id: "r1",
+    quote:
+      "The team explained the difference between a split system and multi-split clearly, and the written quote listed exactly what was included.",
+    name: "[Customer name]",
+    detail: "[Suburb] · Multi-split installation",
+  },
+  {
+    id: "r2",
+    quote:
+      "We replaced an old heater and were told up front what extra work might be needed. Installation was tidy and finished on the day agreed.",
+    name: "[Customer name]",
+    detail: "[Suburb] · Replacement",
+  },
+  {
+    id: "r3",
+    quote: "Helpful advice on which rooms needed cooling and a straightforward process from enquiry to installation.",
+    name: "[Customer name]",
+    detail: "[Suburb] · Split system",
+  },
+];
+
+export const brandPlaceholders = 6;
+export const partnerPlaceholders = 4;
 
 /* ─────────────── 2. Air Conditioning Installation ─────────────── */
 

@@ -7,7 +7,7 @@ client's copy document ("Rainbow Air｜首版网站文案"):
 
 | Page | Route | Content |
 |---|---|---|
-| Home | `/` | Hero, featured packages (with VEU note + Check Eligibility), how it works, contact CTA |
+| Home | `/` | Hero with VEU card, featured packages, how it works, commercial projects, reviews, brands & partners, contact CTA |
 | Air Conditioning Installation | `/air-conditioning-installation/` | System comparison, models, Help Me Choose, VEU block (`#veu`) |
 | Service Areas & Projects | `/service-areas-projects/` | Service area (TBC), illustrative project gallery |
 | About & Aftercare | `/about-aftercare/` | About, company info (TBC), why us, warranty & aftercare |
@@ -106,6 +106,10 @@ Cloudflare (Workers Builds), connected to this GitHub repository – every push 
 Build command `npm run build`, deploy command `npx wrangler deploy` (static assets from `out/`, see `wrangler.jsonc`). Full steps: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 The demo is deliberately **noindex** (`site.seo.indexable`, `public/robots.txt`, `public/_headers`). Flip all three at launch.
+
+## Change history
+
+See [`CHANGELOG.md`](CHANGELOG.md) – every release is tagged (`v0.x.y`) and the file explains how to roll back.
 
 ## Further documentation
 

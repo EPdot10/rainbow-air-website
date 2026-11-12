@@ -19,7 +19,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="container-page grid min-h-[min(46rem,calc(100svh-5rem))] items-center gap-12 pt-16 pb-24 lg:grid-cols-[minmax(0,40rem)_minmax(0,25rem)] lg:justify-between lg:py-20">
+      <div className="container-page grid min-h-[min(46rem,calc(100svh-5rem))] items-center gap-10 pt-16 pb-16 lg:grid-cols-[minmax(0,40rem)_minmax(0,25rem)] lg:justify-between lg:py-20">
         <div className="max-w-[40rem]">
           <Eyebrow tone="light">{hero.eyebrow}</Eyebrow>
           <h1
@@ -56,8 +56,8 @@ export function Hero() {
           </ul>
         </div>
 
-        {/* VEU highlight – visible on the first screen on desktop (below the hero on smaller screens). */}
-        <VeuCard layout="stacked" className="hidden lg:flex lg:self-center" />
+        {/* VEU highlight – beside the headline on desktop, below the intro on smaller screens. */}
+        <VeuCard className="lg:self-center" />
       </div>
     </section>
   );

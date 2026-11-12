@@ -20,6 +20,10 @@ Used as **illustrative** imagery only; gallery tiles are labelled “Illustrativ
 | Gallery – installation detail | `galleryInstallDetail` | https://unsplash.com/photos/electrician-installing-wiring-with-yellow-hardhat-_2AlIm-F6pw |
 | Gallery – compact outdoor unit | `galleryOutdoorGarden` | https://unsplash.com/photos/a-air-conditioner-sitting-on-the-side-of-a-building--nbWCvUiFJA |
 | Gallery – modern home | `galleryModernHome` | https://unsplash.com/photos/a-modern-living-room-with-a-large-window-vIbxvHj9m9g |
+| Home – commercial (outdoor units) | `commercialOutdoor` | https://unsplash.com/photos/four-industrial-air-conditioning-units-lined-up-outside-building-thIufsr8kwg |
+| Home – commercial (façade) | `commercialFacade` | https://unsplash.com/photos/air-conditioning-units-on-grey-wall-994AH40vmVs |
+| Home – commercial (office) | `commercialOffice` | https://unsplash.com/photos/modern-office-space-with-pendant-lights-and-desks-yEh5-9l9L3A |
+| Home – commercial (ceiling work) | `commercialCeilingWork` | https://unsplash.com/photos/construction-worker-on-lift-installing-ceiling-components-5l991aLrCJ8 |
 
 Note: the wall-unit photo shows a third-party brand name on the unit; swap it before launch if that is a concern.
 
@@ -47,6 +51,12 @@ Data handling rules applied:
 
 https://www.eacommercialservice.com.au – reviewed for information architecture and conversion patterns
 (package cards, inclusions disclosure, rebate block, repeated quote CTAs). No code, copy, images or branding were copied.
+
+## Platform icons
+
+Floating contact button icons (Xiaohongshu, Instagram, WeChat, WhatsApp, Facebook) come from
+[simple-icons](https://simpleicons.org) (CC0). The platforms' trademarks belong to their owners; the icons are used
+only to link to Rainbow Air's own accounts.
 
 ## Brand assets
 

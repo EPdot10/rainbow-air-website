@@ -10,7 +10,7 @@ import { PackageCard } from "@/components/cards/PackageCard";
 export function FeaturedPackages() {
   const c = homeCopy.packages;
   return (
-    <section id="packages" aria-labelledby="packages-title" className="bg-surface pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pb-28">
+    <section id="packages" aria-labelledby="packages-title" className="bg-surface py-20 sm:py-24 lg:py-28">
       <div className="container-page">
         <SectionHeading id="packages-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} align="center" />
 

@@ -1,23 +1,45 @@
 "use client";
 
-import { Camera, ExternalLink, MessageCircle, Share2, ThumbsUp, X, BookHeart } from "lucide-react";
-import { useEffect, useId, useRef, useState } from "react";
+import { Mail, MessagesSquare, Phone, X } from "lucide-react";
+import { siFacebook, siInstagram, siWechat, siWhatsapp, siXiaohongshu } from "simple-icons";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { socialChannels, type SocialChannel } from "@/data/site";
 import { TBC } from "@/data/types";
 import { cn } from "@/lib/cn";
 
-/** Generic icons (no brand marks) – the label names each channel. */
-const icons: Record<SocialChannel["id"], typeof Camera> = {
-  xiaohongshu: BookHeart,
-  instagram: Camera,
-  wechat: MessageCircle,
-  facebook: ThumbsUp,
+/** Official platform glyphs from simple-icons (CC0), rendered single-colour. */
+function BrandIcon({ path }: { path: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className="size-[1.35rem]" fill="currentColor" aria-hidden>
+      <path d={path} />
+    </svg>
+  );
+}
+
+const icons: Record<SocialChannel["id"], ReactNode> = {
+  xiaohongshu: <BrandIcon path={siXiaohongshu.path} />,
+  instagram: <BrandIcon path={siInstagram.path} />,
+  wechat: <BrandIcon path={siWechat.path} />,
+  whatsapp: <BrandIcon path={siWhatsapp.path} />,
+  facebook: <BrandIcon path={siFacebook.path} />,
+  phone: <Phone className="size-5" aria-hidden />,
+  email: <Mail className="size-5" aria-hidden />,
 };
 
+/** Resolve where an item goes: a profile URL, tel:/mailto: once confirmed, or a pop-over. */
+function targetOf(ch: SocialChannel): string | null {
+  if (ch.href) return ch.href;
+  if (ch.value && ch.value !== TBC) {
+    if (ch.id === "phone") return `tel:${ch.value.replace(/\s+/g, "")}`;
+    if (ch.id === "email") return `mailto:${ch.value}`;
+  }
+  return null;
+}
+
 /**
- * Floating social button. Opens a stack of rainbow-coloured balls linking to
- * Rainbow Air's Xiaohongshu, Instagram, WeChat and Facebook.
- * Channels without a confirmed account show a small "coming soon" note instead of a link.
+ * Floating contact & social button (all pages). Opens a stack of rainbow-coloured balls:
+ * Xiaohongshu, Instagram, phone, WeChat, WhatsApp, Facebook and email.
+ * Unconfirmed accounts show a small "coming soon" pop-over instead of a dead link.
  */
 export function SocialFab() {
   const [open, setOpen] = useState(false);
@@ -27,17 +49,13 @@ export function SocialFab() {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpen(false);
-        setNote(null);
-      }
+    const close = () => {
+      setOpen(false);
+      setNote(null);
     };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     const onClick = (e: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
-        setOpen(false);
-        setNote(null);
-      }
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) close();
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("mousedown", onClick);
@@ -47,36 +65,38 @@ export function SocialFab() {
     };
   }, [open]);
 
+  const noteText = (ch: SocialChannel) => {
+    if (ch.id === "wechat") return ch.value && ch.value !== TBC ? `WeChat ID: ${ch.value}` : "WeChat ID coming soon.";
+    if (ch.id === "phone") return "Phone number coming soon.";
+    if (ch.id === "email") return "Email address coming soon.";
+    return "Account coming soon.";
+  };
+
   return (
     <div ref={rootRef} className="fixed right-4 bottom-4 z-40 flex flex-col items-end sm:right-6 sm:bottom-6">
       {note && open && (
-        <div
-          role="status"
-          className="mb-3 max-w-[15rem] rounded-xl border border-line bg-white px-4 py-3 text-sm shadow-lift data-[state=open]:animate-fade-in"
-        >
+        <div role="status" className="mb-3 max-w-[16rem] rounded-xl border border-line bg-white px-4 py-3 text-sm shadow-lift">
           <p className="font-semibold text-ink">{note.label}</p>
-          <p className="mt-0.5 text-muted">
-            {note.handle && note.handle !== TBC ? `WeChat ID: ${note.handle}` : "Account details coming soon."}
-          </p>
+          <p className="mt-0.5 text-muted">{noteText(note)}</p>
         </div>
       )}
 
       <ul
         id={panelId}
-        aria-label="Rainbow Air social channels"
+        aria-label="Contact Rainbow Air and follow us"
         className={cn(
-          "mb-3 flex flex-col items-end gap-2.5 transition-[opacity,transform] duration-300",
+          "mb-3 flex flex-col items-end gap-2 transition-[opacity,transform] duration-300",
           open ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
         )}
       >
         {socialChannels.map((ch, i) => {
-          const Icon = icons[ch.id];
+          const href = targetOf(ch);
           const ball = (
             <span
-              className="inline-flex size-12 items-center justify-center rounded-full text-white shadow-[0_8px_20px_-8px_rgb(0_0_0/0.45)] ring-2 ring-white transition-transform duration-200 group-hover:scale-110"
-              style={{ backgroundColor: ch.color }}
+              className="inline-flex size-11 items-center justify-center rounded-full shadow-[0_8px_20px_-8px_rgb(0_0_0/0.45)] ring-2 ring-white transition-transform duration-200 group-hover:scale-110 sm:size-12"
+              style={{ backgroundColor: ch.color, color: ch.ink ?? "#fff" }}
             >
-              <Icon className="size-5" aria-hidden />
+              {icons[ch.id]}
             </span>
           );
           const label = (
@@ -84,20 +104,20 @@ export function SocialFab() {
               {ch.label}
             </span>
           );
+          const external = href?.startsWith("http");
           return (
-            <li key={ch.id} style={{ transitionDelay: open ? `${(socialChannels.length - i) * 30}ms` : "0ms" }}>
-              {ch.href ? (
+            <li key={ch.id} style={{ transitionDelay: open ? `${(socialChannels.length - i) * 25}ms` : "0ms" }}>
+              {href ? (
                 <a
-                  href={ch.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={href}
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
                   tabIndex={open ? 0 : -1}
                   className="group flex items-center gap-2 rounded-full"
-                  aria-label={`${ch.label} (opens in a new tab)`}
+                  aria-label={external ? `${ch.label} (opens in a new tab)` : ch.label}
                 >
                   {label}
                   {ball}
-                  <ExternalLink className="sr-only" aria-hidden />
                 </a>
               ) : (
                 <button
@@ -105,7 +125,7 @@ export function SocialFab() {
                   tabIndex={open ? 0 : -1}
                   onClick={() => setNote((n) => (n?.id === ch.id ? null : ch))}
                   className="group flex items-center gap-2 rounded-full"
-                  aria-label={`${ch.label} – account coming soon`}
+                  aria-label={`${ch.label} – details coming soon`}
                 >
                   {label}
                   {ball}
@@ -124,15 +144,14 @@ export function SocialFab() {
         }}
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label={open ? "Close social links" : "Follow Rainbow Air on social media"}
+        aria-label={open ? "Close contact options" : "Contact Rainbow Air or follow us"}
         className="relative inline-flex size-14 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_-8px_rgb(3_34_79/0.55)] transition-transform duration-200 hover:scale-105"
       >
-        {/* Rainbow ring echoing the logo arc */}
         <span
           aria-hidden
-          className="absolute inset-0 rounded-full p-[3px] [background:conic-gradient(from_200deg,#e8231b,#f7801e,#fbd40a,#3cb44a,#12a0dc,#1450b4,#e8231b)] [mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]"
+          className="absolute inset-0 rounded-full p-[3px] [background:conic-gradient(from_200deg,#e8231b,#f7801e,#fbd40a,#3cb44a,#12a0dc,#1450b4,#4a3aa8,#e8231b)] [mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]"
         />
-        {open ? <X className="size-6 text-navy-900" aria-hidden /> : <Share2 className="size-6 text-navy-900" aria-hidden />}
+        {open ? <X className="size-6 text-navy-900" aria-hidden /> : <MessagesSquare className="size-6 text-navy-900" aria-hidden />}
       </button>
     </div>
   );

@@ -13,7 +13,7 @@ Everything below is currently a placeholder, “To Be Confirmed”, or demo data
 - [ ] Insurance held (About page)
 - [ ] Workmanship warranty – period, coverage and terms (About & Aftercare page)
 - [ ] Production domain name (for SEO & Open Graph URLs)
-- [ ] Social accounts for the floating button: Xiaohongshu, Instagram, Facebook profile URLs and WeChat ID (or QR code)
+- [ ] Floating contact button: Xiaohongshu, Instagram, Facebook profile URLs, WeChat ID (or QR code) and WhatsApp number
 
 ## Brand
 - [ ] Confirm the horizontal logo (Logo-1) as the primary logo; supply vector (SVG/AI/PDF) if available
@@ -45,6 +45,12 @@ Only add if Rainbow Air can provide evidence:
 - [ ] Is Rainbow Air participating in Victorian Energy Upgrades? Directly or via an Accredited Provider (name & number)?
 - [ ] Eligible products and how discounts are presented
 - [ ] Approved wording for the VEU section and a future VEU page
+
+## Home page showcase (currently SAMPLE placeholders – must be replaced, not published as real)
+- [ ] Customer reviews: real, verifiable reviews (e.g. Google reviews) with the customer's permission
+- [ ] Air conditioning brands Rainbow Air installs / is authorised to supply (and permission to show their logos)
+- [ ] Partner companies (and permission to show their names/logos)
+- [ ] Commercial projects: client name (if allowed), location, scope, system and photos
 
 ## Projects & reviews
 - [ ] Real installation photos (with customer permission), suburb and system type for each
