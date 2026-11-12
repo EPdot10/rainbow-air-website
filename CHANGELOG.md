@@ -1,7 +1,7 @@
 # Changelog
 
-Every push to `main` is deployed automatically to Cloudflare. Each release below has a **git tag**
-so any version can be restored. Newest first.
+Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
+version so it can be restored. Newest first. Add an entry here with every push.
 
 ## How to roll back
 
@@ -13,7 +13,7 @@ so any version can be restored. Newest first.
 ```bash
 git revert <commit>            # undo one change, then push → redeploys
 # or restore the whole site to a tagged version:
-git checkout v0.2.1 -- .        # copy that version's files into the working tree
+git checkout 89d3b44 -- .       # copy that version's files (example: v0.2.1) into the working tree
 git commit -m "revert: restore v0.2.1" && git push
 ```
 
@@ -21,13 +21,13 @@ Never force-push `main`.
 
 ---
 
-## v0.3.0 – 2026-11-13 · Fuller home page, contact options, changelog
+## v0.3.0 – 2026-11-13 · Fuller home page, contact options, changelog (`0585c38`)
 - Home VEU card restyled as a dark frosted-glass card inside the hero (no stark white box); shown in the hero on all screen sizes.
 - Home page gains three new sections: **Commercial & Large-Scale Projects** (illustrative images), **Customer Reviews**
   (clearly labelled *sample* placeholders) and **Brands & Partner Companies** (logo placeholders).
 - Floating button now has 7 channels in rainbow order: Xiaohongshu, Instagram, Phone, WeChat, WhatsApp, Facebook, Email –
   using official platform icons (simple-icons, CC0). Phone/email become tap-to-call / tap-to-email once confirmed.
-- Added this changelog and version tags.
+- Added this changelog with rollback instructions.
 
 ## v0.2.1 – 2026-11-13 · VEU prominence (`89d3b44`)
 - VEU card on the home page first screen, linking to `/air-conditioning-installation/#veu`.

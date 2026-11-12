@@ -109,7 +109,7 @@ The demo is deliberately **noindex** (`site.seo.indexable`, `public/robots.txt`,
 
 ## Change history
 
-See [`CHANGELOG.md`](CHANGELOG.md) – every release is tagged (`v0.x.y`) and the file explains how to roll back.
+See [`CHANGELOG.md`](CHANGELOG.md) – every release lists its commit ID, and the file explains how to roll back.
 
 ## Further documentation
 
