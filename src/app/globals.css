@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/*
+ * Rainbow Air design tokens
+ * Derived from the logo: deep navy wordmark (#03224F), the rainbow arc
+ * (red → orange → yellow → green → sky → blue) and neutral grey descriptor (#5F5F5F).
+ * Rainbow colour is used sparingly as an accent; navy carries the brand,
+ * and a warm flame orange (from the logo's flame) is reserved for primary CTAs.
+ */
+@theme {
+  --font-sans: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit Variable", "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-navy-950: #021734;
+  --color-navy-900: #03224f;
+  --color-navy-800: #0a2f66;
+  --color-navy-700: #163f80;
+  --color-navy-100: #e6ecf5;
+  --color-navy-50: #f2f5fa;
+
+  --color-flame-500: #ea580c;
+  --color-flame-600: #c2410c;
+  --color-flame-700: #9a3412;
+  --color-flame-50: #fff4ed;
+
+  --color-sky-600: #0b6fc4;
+  --color-sky-500: #1a8be0;
+  --color-sky-50: #eef6fd;
+
+  --color-ink: #152034;
+  --color-body: #3f4a5c;
+  --color-muted: #637085;
+  --color-line: #e2e7ef;
+  --color-surface: #f6f8fb;
+
+  --color-rb-red: #e8231b;
+  --color-rb-orange: #f7801e;
+  --color-rb-yellow: #fbd40a;
+  --color-rb-green: #3cb44a;
+  --color-rb-sky: #12a0dc;
+  --color-rb-blue: #1450b4;
+
+  --shadow-card: 0 1px 2px rgb(3 34 79 / 0.05), 0 8px 24px -12px rgb(3 34 79 / 0.14);
+  --shadow-lift: 0 2px 4px rgb(3 34 79 / 0.06), 0 18px 40px -16px rgb(3 34 79 / 0.24);
+
+  --animate-fade-in: fade-in 0.2s ease-out;
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    @apply bg-white font-sans text-body antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-ink;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  :focus-visible {
+    outline: 3px solid var(--color-sky-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::selection { background: var(--color-navy-100); color: var(--color-navy-900); }
+}
+
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) { padding-inline: 2rem; }
+}
+
+/* Brand rule: the two short gradient dashes either side of "HEATING & COOLING" in the logo. */
+@utility rb-warm {
+  background-image: linear-gradient(90deg, var(--color-rb-red), var(--color-rb-orange) 55%, var(--color-rb-yellow));
+}
+@utility rb-cool {
+  background-image: linear-gradient(90deg, var(--color-rb-sky), var(--color-rb-blue));
+}
+@utility rb-full {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-rb-red),
+    var(--color-rb-orange) 20%,
+    var(--color-rb-yellow) 40%,
+    var(--color-rb-green) 60%,
+    var(--color-rb-sky) 80%,
+    var(--color-rb-blue)
+  );
+}
