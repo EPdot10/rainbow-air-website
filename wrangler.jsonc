@@ -1,0 +1,12 @@
+{
+  // Cloudflare Workers (static assets only – free plan, no server code).
+  // `npm run build` writes the static site to ./out; `npx wrangler deploy` uploads it.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rainbow-air-website",
+  "compatibility_date": "2026-11-10",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

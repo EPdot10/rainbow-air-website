@@ -16,7 +16,7 @@ product data, imagery, contact details and company information are placeholders 
 | Icons | lucide-react | Consistent line icons |
 | Fonts | Outfit (headings) + Figtree (body), self-hosted via `@fontsource-variable` | No Google Fonts request at runtime |
 | Motion | CSS transitions + one IntersectionObserver (`RevealObserver`) | SSR-safe, ~0 KB, respects `prefers-reduced-motion` |
-| Hosting | Cloudflare Pages (free `*.pages.dev`) | |
+| Hosting | Cloudflare Workers static assets (free `*.workers.dev`) – Pages also supported | `wrangler.jsonc` |
 
 ## Run locally
 
@@ -90,8 +90,8 @@ for example a Cloudflare Pages Function with Turnstile + email notification (see
 
 ## Deployment
 
-Cloudflare Pages, connected to this GitHub repository – every push to `main` deploys automatically.
-Build command `npm run build`, output directory `out`. Full steps: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+Cloudflare (Workers Builds), connected to this GitHub repository – every push to `main` deploys automatically.
+Build command `npm run build`, deploy command `npx wrangler deploy` (static assets from `out/`, see `wrangler.jsonc`). Full steps: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 The demo is deliberately **noindex** (`site.seo.indexable`, `public/robots.txt`, `public/_headers`). Flip all three at launch.
 
