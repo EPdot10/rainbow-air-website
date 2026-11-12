@@ -10,7 +10,7 @@ export const site = {
   slogan: "Better Air. Better Living.",
   descriptor: "Heating & Cooling",
   /** Update to the production domain at launch (used for Open Graph URLs). */
-  url: "https://rainbow-air-demo.pages.dev",
+  url: "https://rainbow-air-website.wangxcep.workers.dev",
   locale: "en_AU",
   seo: {
     title: "Rainbow Air | Air Conditioning Installation Melbourne",

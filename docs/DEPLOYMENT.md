@@ -6,6 +6,7 @@ Both are free and both auto-deploy on every push to `main`.
 
 ## Current setup – Cloudflare Workers Builds
 - Worker name: `rainbow-air-website` (must match `name` in `wrangler.jsonc`)
+- Live demo URL: https://rainbow-air-website.wangxcep.workers.dev
 - Build command: `npm run build`
 - Deploy command: `npx wrangler deploy` (reads `wrangler.jsonc` and uploads `./out` as static assets – no server code)
 - Environment variable (build): `NODE_VERSION` = `22`
