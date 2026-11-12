@@ -1,9 +1,11 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 /** One shared IntersectionObserver for every [data-reveal] element on the page. */
 export function RevealObserver() {
+  const pathname = usePathname();
   useEffect(() => {
     document.documentElement.classList.add("reveal-ready");
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-visible)"));
@@ -24,6 +26,6 @@ export function RevealObserver() {
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, []);
+  }, [pathname]);
   return null;
 }

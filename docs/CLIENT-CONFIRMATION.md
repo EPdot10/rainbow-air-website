@@ -9,9 +9,11 @@ Everything below is currently a placeholder, “To Be Confirmed”, or demo data
 - [ ] Legal business name
 - [ ] ABN
 - [ ] Licence details (e.g. ARC refrigerant handling licence, electrical licence – numbers and holders)
-- [ ] Exact service area (suburbs / regions / travel limits)
+- [ ] Exact service area: main areas covered and suburb / postcode list (Service Areas page)
+- [ ] Insurance held (About page)
+- [ ] Workmanship warranty – period, coverage and terms (About & Aftercare page)
 - [ ] Production domain name (for SEO & Open Graph URLs)
-- [ ] Social media links (if any)
+- [ ] Social accounts for the floating button: Xiaohongshu, Instagram, Facebook profile URLs and WeChat ID (or QR code)
 
 ## Brand
 - [ ] Confirm the horizontal logo (Logo-1) as the primary logo; supply vector (SVG/AI/PDF) if available

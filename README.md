@@ -1,8 +1,21 @@
-# Rainbow Air – Website (Phase 1 homepage demo)
+# Rainbow Air – Website (Phase 1 demo)
 
 **Better Air. Better Living.** Marketing site for Rainbow Air, a Melbourne air conditioning supply & installation business.
 
-Phase 1 is a single, high-fidelity, interactive **homepage demo** for client review. It is **not** a public launch:
+Phase 1 is a high-fidelity, interactive **multi-page demo** for client review, structured to follow the
+client's copy document ("Rainbow Air｜首版网站文案"):
+
+| Page | Route | Content |
+|---|---|---|
+| Home | `/` | Hero, featured packages (with VEU note + Check Eligibility), how it works, contact CTA |
+| Air Conditioning Installation | `/air-conditioning-installation/` | System comparison, models, Help Me Choose, VEU block (`#veu`) |
+| Service Areas & Projects | `/service-areas-projects/` | Service area (TBC), illustrative project gallery |
+| About & Aftercare | `/about-aftercare/` | About, company info (TBC), why us, warranty & aftercare |
+| Contact Us | `/contact/` | Static contact details + online enquiry form (`#enquiry`) |
+
+Every "Get a Quote" / "Check Eligibility" / "Help Me Choose" button links to `/contact/?type=…&item=…#enquiry`,
+which pre-fills the form (fields stay editable). A floating social button (Xiaohongshu, Instagram, WeChat, Facebook,
+in the logo's rainbow colours) appears on every page – accounts are set in `src/data/site.ts → socialChannels`. It is **not** a public launch:
 product data, imagery, contact details and company information are placeholders and are clearly labelled as such.
 
 ## Tech stack
@@ -36,16 +49,15 @@ npm start            # serve ./out locally (uses npx serve)
 src/
   app/                 layout (SEO/metadata, fonts), page (section order), globals.css (design tokens), icons
   components/
-    layout/            Header (sticky, mobile menu, active-section highlight), Footer
-    sections/          Hero, FeaturedPackages, ServiceTypes, ProductShowcase, WhyChooseUs,
-                       InstallationProcess, VeuBanner, QuoteCTA
+    layout/            Header (sticky, mobile menu, active page), Footer, PageHero, SocialFab
+    sections/          Hero, FeaturedPackages, InstallationProcess, CtaBand, ServiceTypes, ProductShowcase,
+                       HelpMeChoose, VeuSection, ServiceArea, AboutSections, WhyChooseUs, ContactSection
     cards/             PackageCard, ProductCard (+ specification dialog)
     gallery/           ProjectGallery (+ lightbox)
     forms/             QuoteEnquiryForm (validation, prefill, Demo Mode)
     ui/                Button, SectionHeading/Eyebrow, SmartImage, Reveal, RevealObserver, DemoBadge
-  context/QuoteContext  "Get a Quote" buttons pre-fill the form and scroll to it
   data/                ALL editable content – see below
-  lib/                 image resolver, class helper
+  lib/                 quoteHref (pre-filled enquiry links), image resolver, class helper
 public/
   brand/               web logos (transparent + reversed), favicon source
   images/              locally downloaded images (after `npm run images:download`)
@@ -61,8 +73,8 @@ Everything shown on the page comes from `src/data/` – no copy is hard-coded in
 
 | File | Contains |
 |---|---|
-| `site.ts` | Brand, SEO, contact details, company info, navigation, footer links |
-| `content.ts` | Hero and section copy, system types, benefits, process steps, gallery items, VEU block |
+| `site.ts` | Brand, SEO, routes, contact details, company info, navigation, footer links, social channels |
+| `content.ts` | Page copy grouped by page (home, installation, projects, about, contact), VEU block, gallery |
 | `packages.ts` | Installation packages (set `price` when confirmed – otherwise “Request a Quote” is shown) |
 | `products.ts` | Product cards and spec sheets (**currently Midea demo data**) |
 | `images.ts` | Image registry: source URL, alt text, licence for every image |

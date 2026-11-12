@@ -1,12 +1,14 @@
-import { Info } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Info } from "lucide-react";
 import { packageDisclosure, packages } from "@/data/packages";
-import { sectionCopy } from "@/data/content";
+import { homeCopy } from "@/data/content";
+import { routes } from "@/data/site";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { PackageCard } from "@/components/cards/PackageCard";
 
 export function FeaturedPackages() {
-  const c = sectionCopy.packages;
+  const c = homeCopy.packages;
   return (
     <section id="packages" aria-labelledby="packages-title" className="bg-surface py-20 sm:py-24 lg:py-28">
       <div className="container-page">
@@ -28,6 +30,16 @@ export function FeaturedPackages() {
             ))}
           </div>
         </Reveal>
+
+        <div className="mt-10 flex justify-center">
+          <Link
+            href={`${routes.installation}#products`}
+            className="group inline-flex items-center gap-2 rounded-lg border border-navy-900/20 bg-white px-6 py-3.5 font-semibold text-navy-900 transition-colors hover:border-navy-900/45 hover:bg-navy-50"
+          >
+            {c.productsLink}
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+          </Link>
+        </div>
       </div>
     </section>
   );

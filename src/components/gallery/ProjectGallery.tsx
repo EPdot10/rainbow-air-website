@@ -1,9 +1,13 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { ChevronLeft, ChevronRight, Expand, MapPin, X } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import { useCallback, useState } from "react";
-import { illustrativeLabel, projects, sectionCopy } from "@/data/content";
+import { illustrativeLabel, projects, projectsCopy } from "@/data/content";
+import { routes } from "@/data/site";
+import { quoteHref } from "@/lib/quote";
+import { ButtonLink } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Reveal } from "@/components/ui/Reveal";
@@ -11,7 +15,7 @@ import { DemoBadge } from "@/components/ui/DemoBadge";
 import { cn } from "@/lib/cn";
 
 export function ProjectGallery() {
-  const c = sectionCopy.projects;
+  const c = projectsCopy.gallery;
   const [index, setIndex] = useState<number | null>(null);
   const open = index !== null;
   const current = index !== null ? projects[index] : null;
@@ -22,15 +26,9 @@ export function ProjectGallery() {
   );
 
   return (
-    <section id="projects" aria-labelledby="projects-title" className="bg-surface py-20 sm:py-24 lg:py-28">
+    <section id="projects" aria-labelledby="projects-title" className="py-20 sm:py-24 lg:py-28">
       <div className="container-page">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading id="projects-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />
-          <p className="flex max-w-sm items-start gap-2.5 text-[0.95rem] text-body lg:text-right">
-            <MapPin className="mt-0.5 size-[1.1rem] shrink-0 text-flame-600 lg:order-last" aria-hidden />
-            {c.serviceArea}
-          </p>
-        </div>
+        <SectionHeading id="projects-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />
 
         <ul className="mt-12 grid auto-rows-[15rem] grid-cols-1 gap-4 sm:grid-cols-2 sm:auto-rows-[16rem] lg:grid-cols-3 lg:auto-rows-[17.5rem] lg:gap-5">
           {projects.map((p, i) => (
@@ -67,6 +65,19 @@ export function ProjectGallery() {
         </ul>
 
         <p className="mt-6 text-sm text-muted">{c.note}</p>
+
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href={quoteHref({ type: "general", item: "Similar installation to a project on the website" })} size="lg">
+            {c.similarCta}
+            <ArrowRight className="size-[1.1rem] transition-transform group-hover:translate-x-0.5" aria-hidden />
+          </ButtonLink>
+          <Link
+            href={`${routes.installation}#products`}
+            className="inline-flex h-14 items-center justify-center rounded-lg border border-navy-900/20 bg-white px-7 font-semibold text-navy-900 transition-colors hover:border-navy-900/45 hover:bg-navy-50"
+          >
+            {c.modelsCta}
+          </Link>
+        </div>
       </div>
 
       <Dialog.Root open={open} onOpenChange={(o) => !o && setIndex(null)}>

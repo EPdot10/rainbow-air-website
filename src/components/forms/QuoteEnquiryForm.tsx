@@ -1,11 +1,18 @@
 "use client";
 
 import { AlertCircle, AlertTriangle, ArrowRight, CheckCircle2, Loader2, Pencil } from "lucide-react";
-import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { enquiryTypes, formConfig, installationRequirements, isDemoMode, roomOptions } from "@/data/form";
+import { useSearchParams } from "next/navigation";
+import { useId, useState, type FormEvent, type ReactNode } from "react";
+import {
+  enquiryTypes,
+  formConfig,
+  formCopy,
+  installationRequirements,
+  isDemoMode,
+  roomOptions,
+} from "@/data/form";
 import { packages } from "@/data/packages";
 import { productQuoteLabel, products } from "@/data/products";
-import { useQuote } from "@/context/QuoteContext";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 
@@ -17,7 +24,9 @@ type Fields = {
   enquiryType: string;
   installation: string;
   rooms: string;
+  roomNames: string;
   preferred: string;
+  existing: string;
   message: string;
 };
 
@@ -29,11 +38,15 @@ const empty: Fields = {
   enquiryType: "",
   installation: "",
   rooms: "",
+  roomNames: "",
   preferred: "",
+  existing: "",
   message: "",
 };
 
 type Errors = Partial<Record<keyof Fields, string>>;
+
+const VEU_LABEL = enquiryTypes.find((t) => t.key === "veu")!.label;
 
 const preferredOptions = [
   ...packages.map((p) => `${p.label}: ${p.name} (${p.systemType})`),
@@ -43,51 +56,70 @@ const preferredOptions = [
 
 function validate(v: Fields): Errors {
   const e: Errors = {};
-  if (v.fullName.trim().length < 2) e.fullName = "Please enter your full name.";
+  if (v.fullName.trim().length < 2) e.fullName = "Please enter your name.";
   const digits = v.phone.replace(/[^\d]/g, "");
-  if (!v.phone.trim()) e.phone = "Please enter a phone number.";
+  if (!v.phone.trim()) e.phone = "Please enter a contact number.";
   else if (!/^[\d\s()+-]+$/.test(v.phone) || digits.length < 8 || digits.length > 12)
     e.phone = "Please enter a valid Australian phone number, e.g. 0412 345 678.";
-  if (!v.email.trim()) e.email = "Please enter your email address.";
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) e.email = "Please enter a valid email address.";
+  if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) e.email = "Please enter a valid email address.";
   if (v.suburb.trim().length < 3) e.suburb = "Please enter your suburb or postcode.";
   else if (/^\d+$/.test(v.suburb.trim()) && !/^3\d{3}$/.test(v.suburb.trim()))
     e.suburb = "Victorian postcodes are 4 digits starting with 3.";
   if (!v.enquiryType) e.enquiryType = "Please choose an enquiry type.";
   if (!v.installation) e.installation = "Please tell us whether this is a new installation or a replacement.";
+  if (v.enquiryType === VEU_LABEL && v.existing.trim().length < 3)
+    e.existing = "For VEU enquiries, please describe your existing heating or cooling system.";
   if (v.message.length > 2000) e.message = "Please keep additional information under 2,000 characters.";
   return e;
 }
 
-const order: (keyof Fields)[] = ["fullName", "phone", "email", "suburb", "enquiryType", "installation", "rooms", "preferred", "message"];
+const order: (keyof Fields)[] = [
+  "fullName",
+  "phone",
+  "email",
+  "suburb",
+  "enquiryType",
+  "installation",
+  "rooms",
+  "roomNames",
+  "preferred",
+  "existing",
+  "message",
+];
 
 type Status = "idle" | "submitting" | "demo" | "sent" | "error";
 
+/** Values pre-filled from the link that opened the form (?type=&item=&install=). */
+function prefillFrom(params: URLSearchParams): Partial<Fields> {
+  const type = enquiryTypes.find((t) => t.key === params.get("type"));
+  const install = installationRequirements.find((r) => r.key === params.get("install"));
+  const item = params.get("item")?.slice(0, 200);
+  const out: Partial<Fields> = {};
+  if (type) out.enquiryType = type.label;
+  if (install) out.installation = install.label;
+  if (item) out.preferred = item;
+  return out;
+}
+
 export function QuoteEnquiryForm() {
-  const { prefill } = useQuote();
+  const params = useSearchParams();
+  const paramKey = params.toString();
   const uid = useId();
-  const formRef = useRef<HTMLFormElement>(null);
-  const [values, setValues] = useState<Fields>(empty);
+  const [values, setValues] = useState<Fields>(() => ({ ...empty, ...prefillFrom(new URLSearchParams(paramKey)) }));
+  const [appliedKey, setAppliedKey] = useState(paramKey);
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof Fields, boolean>>>({});
   const [status, setStatus] = useState<Status>("idle");
-  const [prefilledFrom, setPrefilledFrom] = useState<string | null>(null);
   const demo = isDemoMode();
 
-  // Apply prefill from any "Get a Quote" button – fields stay editable.
-  // (State is adjusted during render when a new request arrives – no effect needed.)
-  const [appliedNonce, setAppliedNonce] = useState<number | null>(null);
-  if (prefill && prefill.nonce !== appliedNonce) {
-    setAppliedNonce(prefill.nonce);
-    setValues((v) => ({
-      ...v,
-      enquiryType: prefill.enquiryType ?? v.enquiryType,
-      preferred: prefill.preferred ?? v.preferred,
-      installation: prefill.installation ?? v.installation,
-    }));
-    setPrefilledFrom(prefill.preferred ?? prefill.enquiryType ?? null);
+  // A new "Get a Quote" link while already on this page → apply its values (fields stay editable).
+  if (paramKey !== appliedKey) {
+    setAppliedKey(paramKey);
+    setValues((v) => ({ ...v, ...prefillFrom(new URLSearchParams(paramKey)) }));
     setStatus("idle");
   }
+  const prefilled = prefillFrom(new URLSearchParams(paramKey));
+  const prefilledFrom = prefilled.preferred ?? prefilled.enquiryType ?? null;
 
   const id = (f: keyof Fields) => `${uid}-${f}`;
 
@@ -133,6 +165,7 @@ export function QuoteEnquiryForm() {
   }
 
   const errorCount = Object.values(errors).filter(Boolean).length;
+  const isVeu = values.enquiryType === VEU_LABEL;
 
   if (status === "demo" || status === "sent") {
     const isDemo = status === "demo";
@@ -146,16 +179,16 @@ export function QuoteEnquiryForm() {
         >
           {isDemo ? <AlertTriangle className="size-6" aria-hidden /> : <CheckCircle2 className="size-6" aria-hidden />}
         </span>
-        <h3 className="mt-4 text-2xl font-bold">{isDemo ? "Demo Mode – enquiry not sent" : "Thanks – your enquiry has been sent"}</h3>
+        <h3 className="mt-4 text-2xl font-bold">{isDemo ? "Demo Mode – enquiry not sent" : "Thank you – enquiry received"}</h3>
         {isDemo ? (
           <div className="mt-3 space-y-3 leading-relaxed">
             <p>
-              Your details passed validation, but this demo website is not yet connected to an enquiry service, so{" "}
+              Your details passed validation, but this demo website is not yet connected to an email service, so{" "}
               <strong className="text-ink">nothing has been sent or saved</strong>.
             </p>
             <p className="text-muted">
-              When the live form is connected, this enquiry would be delivered to the Rainbow Air team. Please contact Rainbow
-              Air directly in the meantime.
+              Once connected, this enquiry will be emailed to the Rainbow Air team. Please contact Rainbow Air directly in the
+              meantime.
             </p>
             <dl className="mt-4 grid gap-x-6 gap-y-2 rounded-xl bg-surface p-4 text-sm sm:grid-cols-2">
               {(
@@ -174,7 +207,7 @@ export function QuoteEnquiryForm() {
             </dl>
           </div>
         ) : (
-          <p className="mt-3 leading-relaxed">Our team will be in touch to discuss suitable options for your home.</p>
+          <p className="mt-3 leading-relaxed">{formCopy.success}</p>
         )}
         <Button variant="outline" className="mt-7" onClick={() => setStatus("idle")}>
           <Pencil className="size-4" aria-hidden />
@@ -186,16 +219,15 @@ export function QuoteEnquiryForm() {
 
   return (
     <form
-      ref={formRef}
       noValidate
       onSubmit={onSubmit}
       aria-labelledby="quote-form-heading"
       className="rounded-2xl border border-line bg-white p-6 shadow-card sm:p-8"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 id="quote-form-heading" tabIndex={-1} className="text-xl font-bold outline-none">
-          Quote enquiry
-        </h3>
+        <h2 id="quote-form-heading" tabIndex={-1} className="text-2xl font-bold outline-none">
+          Online Enquiry
+        </h2>
         {demo && (
           <span className="inline-flex items-center gap-1.5 rounded-full bg-flame-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-flame-700 ring-1 ring-flame-600/20">
             <span aria-hidden className="size-1.5 rounded-full bg-flame-600" />
@@ -204,7 +236,7 @@ export function QuoteEnquiryForm() {
         )}
       </div>
       {demo && (
-        <p className="mt-2 text-sm text-muted">Form submission is not connected yet – enquiries are validated but not sent.</p>
+        <p className="mt-2 text-sm text-muted">Email delivery is not connected yet – enquiries are validated but not sent.</p>
       )}
 
       {prefilledFrom && (
@@ -224,15 +256,15 @@ export function QuoteEnquiryForm() {
       )}
 
       <div className="mt-6 grid gap-x-5 gap-y-5 sm:grid-cols-2">
-        <Field id={id("fullName")} label="Full Name" required error={touched.fullName ? errors.fullName : undefined}>
+        <Field id={id("fullName")} label="Name" required error={touched.fullName ? errors.fullName : undefined}>
           {(p) => <input {...p} type="text" autoComplete="name" value={values.fullName} onChange={set("fullName")} onBlur={blur("fullName")} />}
         </Field>
-        <Field id={id("phone")} label="Phone Number" required error={touched.phone ? errors.phone : undefined}>
+        <Field id={id("phone")} label="Contact Number" required error={touched.phone ? errors.phone : undefined}>
           {(p) => (
             <input {...p} type="tel" inputMode="tel" autoComplete="tel" placeholder="04xx xxx xxx" value={values.phone} onChange={set("phone")} onBlur={blur("phone")} />
           )}
         </Field>
-        <Field id={id("email")} label="Email Address" required error={touched.email ? errors.email : undefined}>
+        <Field id={id("email")} label="Email" hint="Optional" error={touched.email ? errors.email : undefined}>
           {(p) => <input {...p} type="email" autoComplete="email" value={values.email} onChange={set("email")} onBlur={blur("email")} />}
         </Field>
         <Field id={id("suburb")} label="Suburb / Postcode" required error={touched.suburb ? errors.suburb : undefined}>
@@ -240,24 +272,14 @@ export function QuoteEnquiryForm() {
             <input {...p} type="text" autoComplete="address-level2" placeholder="e.g. Box Hill or 3128" value={values.suburb} onChange={set("suburb")} onBlur={blur("suburb")} />
           )}
         </Field>
-        <Field id={id("enquiryType")} label="Enquiry Type" required error={touched.enquiryType ? errors.enquiryType : undefined}>
+        <Field id={id("enquiryType")} label="Enquiry Type" required error={touched.enquiryType ? errors.enquiryType : undefined} className="sm:col-span-2">
           {(p) => (
             <select {...p} value={values.enquiryType} onChange={set("enquiryType")} onBlur={blur("enquiryType")}>
               <option value="" disabled>
                 Select an option
               </option>
               {enquiryTypes.map((o) => (
-                <option key={o}>{o}</option>
-              ))}
-            </select>
-          )}
-        </Field>
-        <Field id={id("rooms")} label="Number of Rooms" hint="Rooms to heat or cool">
-          {(p) => (
-            <select {...p} value={values.rooms} onChange={set("rooms")}>
-              <option value="">Select (optional)</option>
-              {roomOptions.map((o) => (
-                <option key={o}>{o}</option>
+                <option key={o.key}>{o.label}</option>
               ))}
             </select>
           )}
@@ -274,10 +296,10 @@ export function QuoteEnquiryForm() {
           <div className="mt-2 grid gap-2.5 sm:grid-cols-3">
             {installationRequirements.map((opt, i) => (
               <label
-                key={opt}
+                key={opt.key}
                 className={cn(
                   "flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 text-[0.95rem] font-medium transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-sky-500",
-                  values.installation === opt ? "border-navy-900 bg-navy-50 text-navy-900" : "border-line hover:border-navy-900/40",
+                  values.installation === opt.label ? "border-navy-900 bg-navy-50 text-navy-900" : "border-line hover:border-navy-900/40",
                   touched.installation && errors.installation && "border-red-400",
                 )}
               >
@@ -285,8 +307,8 @@ export function QuoteEnquiryForm() {
                   type="radio"
                   name={`${uid}-installation`}
                   id={i === 0 ? id("installation") : undefined}
-                  value={opt}
-                  checked={values.installation === opt}
+                  value={opt.label}
+                  checked={values.installation === opt.label}
                   onChange={(e) => {
                     set("installation")(e);
                     setTouched((t) => ({ ...t, installation: true }));
@@ -294,7 +316,7 @@ export function QuoteEnquiryForm() {
                   }}
                   className="size-4 accent-navy-900 focus:outline-none"
                 />
-                {opt}
+                {opt.label}
               </label>
             ))}
           </div>
@@ -305,6 +327,20 @@ export function QuoteEnquiryForm() {
             </p>
           )}
         </fieldset>
+
+        <Field id={id("rooms")} label="Number of Rooms" hint="To heat or cool">
+          {(p) => (
+            <select {...p} value={values.rooms} onChange={set("rooms")}>
+              <option value="">Select (optional)</option>
+              {roomOptions.map((o) => (
+                <option key={o}>{o}</option>
+              ))}
+            </select>
+          )}
+        </Field>
+        <Field id={id("roomNames")} label="Which Rooms?" hint="Optional">
+          {(p) => <input {...p} type="text" placeholder="e.g. Living room, 2 bedrooms" value={values.roomNames} onChange={set("roomNames")} />}
+        </Field>
 
         <Field id={id("preferred")} label="Preferred Package / Model" hint="Choose a suggestion or type your own" className="sm:col-span-2">
           {(p) => (
@@ -318,10 +354,24 @@ export function QuoteEnquiryForm() {
             </>
           )}
         </Field>
+
+        <Field
+          id={id("existing")}
+          label="Existing Heating / Cooling System"
+          required={isVeu}
+          hint={isVeu ? "Needed for VEU eligibility" : "Optional – please fill in for VEU enquiries"}
+          className="sm:col-span-2"
+          error={touched.existing ? errors.existing : undefined}
+        >
+          {(p) => (
+            <input {...p} type="text" placeholder="e.g. 15-year-old gas ducted heater, no cooling" value={values.existing} onChange={set("existing")} onBlur={blur("existing")} />
+          )}
+        </Field>
+
         <Field
           id={id("message")}
-          label="Additional Information"
-          hint="Rooms, existing system, access, timing – anything that helps"
+          label="Room Sizes, Photos or Other Notes"
+          hint="Optional – we can collect photos when we contact you"
           className="sm:col-span-2"
           error={touched.message ? errors.message : undefined}
         >
@@ -341,7 +391,7 @@ export function QuoteEnquiryForm() {
         </p>
         <Button type="submit" size="lg" disabled={status === "submitting"} className="sm:min-w-[13rem]">
           {status === "submitting" ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
-          {demo ? "Check & Preview Enquiry" : "Send Enquiry"}
+          {formCopy.submit}
           {status !== "submitting" && <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />}
         </Button>
       </div>
@@ -355,7 +405,6 @@ interface FieldRenderProps {
   className: string;
   "aria-invalid"?: boolean;
   "aria-describedby"?: string;
-  required?: boolean;
   "aria-required"?: boolean;
 }
 

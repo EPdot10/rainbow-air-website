@@ -1,18 +1,15 @@
-"use client";
-
 import { ArrowRight } from "lucide-react";
-import { sectionCopy, solutions } from "@/data/content";
-import { useQuote } from "@/context/QuoteContext";
+import { installationCopy, solutions } from "@/data/content";
+import { quoteHref } from "@/lib/quote";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function ServiceTypes() {
-  const c = sectionCopy.solutions;
-  const { requestQuote } = useQuote();
+  const c = installationCopy.systems;
 
   return (
-    <section id="solutions" aria-labelledby="solutions-title" className="py-20 sm:py-24 lg:py-28">
+    <section id="systems" aria-labelledby="solutions-title" className="py-20 sm:py-24 lg:py-28">
       <div className="container-page">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading id="solutions-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />
@@ -20,7 +17,7 @@ export function ServiceTypes() {
             href="#products"
             className="inline-flex shrink-0 items-center gap-2 font-semibold text-sky-600 underline-offset-4 hover:text-navy-900 hover:underline"
           >
-            Browse example products
+            Compare models
             <ArrowRight className="size-4" aria-hidden />
           </a>
         </div>
@@ -58,19 +55,18 @@ export function ServiceTypes() {
                   </ul>
                   <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-7">
                     <a
-                      href="#packages"
+                      href="#products"
                       className="inline-flex items-center gap-1.5 font-semibold text-navy-900 underline-offset-4 hover:underline"
                     >
                       Learn More
                     </a>
-                    <button
-                      type="button"
-                      onClick={() => requestQuote({ enquiryType: "Help Me Choose", preferred: s.enquiryValue })}
+                    <a
+                      href={quoteHref({ type: "help", item: s.enquiryValue })}
                       className="group inline-flex items-center gap-1.5 font-semibold text-flame-600 underline-offset-4 hover:text-flame-700 hover:underline"
                     >
                       Enquire Now
                       <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-                    </button>
+                    </a>
                   </div>
                 </div>
               </article>

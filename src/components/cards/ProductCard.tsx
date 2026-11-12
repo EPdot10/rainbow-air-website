@@ -1,13 +1,13 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { ArrowRight, ExternalLink, FileText, Flame, Snowflake, X } from "lucide-react";
+import { ArrowRight, ExternalLink, FileText, Flame, Home, ShieldCheck, Snowflake, X } from "lucide-react";
 import type { Product } from "@/data/types";
 import { TBC } from "@/data/types";
 import { productQuoteLabel } from "@/data/products";
-import { useQuote } from "@/context/QuoteContext";
+import { quoteHref } from "@/lib/quote";
 import { SmartImage } from "@/components/ui/SmartImage";
-import { Button } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { DemoBadge } from "@/components/ui/DemoBadge";
 import { cn } from "@/lib/cn";
 
@@ -25,9 +25,8 @@ function Capacity({ icon: Icon, label, value, tone }: { icon: typeof Flame; labe
 }
 
 export function ProductCard({ product }: { product: Product }) {
-  const { requestQuote } = useQuote();
   const headingId = `prod-${product.id}`;
-  const quote = () => requestQuote({ enquiryType: "Package / Product Quote", preferred: productQuoteLabel(product) });
+  const quote = quoteHref({ type: "package", item: productQuoteLabel(product) });
 
   return (
     <article
@@ -60,6 +59,23 @@ export function ProductCard({ product }: { product: Product }) {
           <Capacity icon={Flame} tone="warm" label="Rated heating" value={product.ratedHeating} />
         </dl>
         {product.capacityNote && <p className="mt-2.5 text-[0.82rem] text-muted">{product.capacityNote}</p>}
+
+        <dl className="mt-4 space-y-1.5 text-[0.88rem]">
+          <div className="flex gap-2">
+            <dt className="flex shrink-0 items-center gap-1.5 text-muted">
+              <Home className="size-3.5" aria-hidden />
+              Suitable for:
+            </dt>
+            <dd className="text-ink">{product.suitableFor}</dd>
+          </div>
+          <div className="flex gap-2">
+            <dt className="flex shrink-0 items-center gap-1.5 text-muted">
+              <ShieldCheck className="size-3.5" aria-hidden />
+              Warranty:
+            </dt>
+            <dd className={product.warranty === TBC ? "italic text-muted" : "text-ink"}>{product.warranty}</dd>
+          </div>
+        </dl>
 
         <ul className="mt-4 space-y-1.5 text-[0.93rem]" aria-label="Key features">
           {product.keyFeatures.map((f) => (
@@ -103,7 +119,7 @@ export function ProductCard({ product }: { product: Product }) {
                   <table className="mt-5 w-full text-sm">
                     <caption className="sr-only">Specifications for {product.model}</caption>
                     <tbody className="divide-y divide-line">
-                      {product.specs.map((s) => (
+                      {[...product.specs, { label: "Equipment warranty", value: product.warranty }].map((s) => (
                         <tr key={s.label}>
                           <th scope="row" className="py-2.5 pr-4 text-left font-medium text-muted">
                             {s.label}
@@ -131,20 +147,18 @@ export function ProductCard({ product }: { product: Product }) {
                   </p>
                 </div>
                 <div className="border-t border-line bg-surface p-4 sm:px-6">
-                  <Dialog.Close asChild>
-                    <Button className="w-full" onClick={quote}>
-                      Get an Installed Quote
-                      <ArrowRight className="size-4" aria-hidden />
-                    </Button>
-                  </Dialog.Close>
+                  <ButtonLink href={quote} className="w-full">
+                    Get an Installed Quote
+                    <ArrowRight className="size-4" aria-hidden />
+                  </ButtonLink>
                 </div>
               </Dialog.Content>
             </Dialog.Portal>
           </Dialog.Root>
 
-          <Button size="sm" className="w-full" onClick={quote} aria-label={`Get an installed quote for ${product.model}`}>
+          <ButtonLink href={quote} size="sm" className="w-full" aria-label={`Get an installed quote for ${product.model}`}>
             Get an Installed Quote
-          </Button>
+          </ButtonLink>
         </div>
       </div>
     </article>

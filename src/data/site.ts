@@ -1,9 +1,17 @@
 import { TBC, type NavItem } from "./types";
 
 /**
- * Brand, contact and navigation settings.
+ * Brand, contact, navigation and social settings.
  * Anything marked To Be Confirmed must be supplied by Rainbow Air before launch.
  */
+
+export const routes = {
+  home: "/",
+  installation: "/air-conditioning-installation/",
+  projects: "/service-areas-projects/",
+  about: "/about-aftercare/",
+  contact: "/contact/",
+} as const;
 
 export const site = {
   name: "Rainbow Air",
@@ -31,6 +39,7 @@ export const site = {
     legalName: TBC,
     abn: TBC,
     licence: TBC,
+    insurance: TBC,
   },
   copyrightYear: 2026,
   logo: {
@@ -43,11 +52,11 @@ export const site = {
 } as const;
 
 export const mainNav: NavItem[] = [
-  { label: "Home", href: "#top", sectionId: "top" },
-  { label: "Air Conditioning Installation", href: "#solutions", sectionId: "solutions" },
-  { label: "Service Areas & Projects", href: "#projects", sectionId: "projects" },
-  { label: "About & Aftercare", href: "#why-rainbow-air", sectionId: "why-rainbow-air" },
-  { label: "Contact Us", href: "#quote", sectionId: "quote" },
+  { label: "Home", href: routes.home },
+  { label: "Air Conditioning Installation", href: routes.installation },
+  { label: "Service Areas & Projects", href: routes.projects },
+  { label: "About & Aftercare", href: routes.about },
+  { label: "Contact Us", href: routes.contact },
 ];
 
 export interface FooterLink {
@@ -58,10 +67,10 @@ export interface FooterLink {
 }
 
 export const footerQuickLinks: FooterLink[] = [
-  { label: "About Us", href: "#why-rainbow-air" },
+  { label: "About Us", href: routes.about },
   { label: "Privacy Policy", comingSoon: true },
   { label: "Terms and Conditions", comingSoon: true },
-  { label: "Quick Enquiry", href: "#quote" },
+  { label: "Quick Enquiry", href: `${routes.contact}#enquiry` },
 ];
 
 /** Short, factual points under the hero. No unverified claims (experience, licences, warranties). */
@@ -69,4 +78,25 @@ export const heroHighlights = [
   "Split, multi-split & ducted systems",
   "New installations & replacements",
   "Serving homes across Melbourne",
+];
+
+/**
+ * Social channels for the floating social button.
+ * `href: null` until Rainbow Air confirms the account – the item then shows "Account coming soon".
+ * `color` follows the logo's rainbow sequence.
+ */
+export interface SocialChannel {
+  id: "xiaohongshu" | "instagram" | "wechat" | "facebook";
+  label: string;
+  href: string | null;
+  /** WeChat has no public profile URL – show the WeChat ID instead. */
+  handle?: string;
+  color: string;
+}
+
+export const socialChannels: SocialChannel[] = [
+  { id: "xiaohongshu", label: "Xiaohongshu (RED)", href: null, color: "#e8231b" },
+  { id: "instagram", label: "Instagram", href: null, color: "#f7801e" },
+  { id: "wechat", label: "WeChat", href: null, handle: TBC, color: "#3cb44a" },
+  { id: "facebook", label: "Facebook", href: null, color: "#1450b4" },
 ];

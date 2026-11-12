@@ -1,5 +1,5 @@
 import { FileCheck2, LifeBuoy, Route, Ruler } from "lucide-react";
-import { benefits, sectionCopy } from "@/data/content";
+import { aboutCopy, benefits } from "@/data/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -7,9 +7,9 @@ const icons = { ruler: Ruler, file: FileCheck2, route: Route, shield: LifeBuoy }
 const accents = ["text-rb-red", "text-rb-orange", "text-rb-green", "text-rb-blue"];
 
 export function WhyChooseUs() {
-  const c = sectionCopy.why;
+  const c = aboutCopy.why;
   return (
-    <section id="why-rainbow-air" aria-labelledby="why-title" className="py-20 sm:py-24 lg:py-28">
+    <section id="why-rainbow-air" aria-labelledby="why-title" className="bg-surface py-20 sm:py-24 lg:py-28">
       <div className="container-page grid gap-12 lg:grid-cols-[0.9fr_1.4fr] lg:gap-16">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHeading id="why-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />

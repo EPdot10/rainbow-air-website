@@ -1,10 +1,13 @@
 import type { InstallPackage } from "./types";
 
 /**
- * DEMO INSTALLATION PACKAGES.
+ * DEMO INSTALLATION PACKAGES (structure follows the client's copy document).
  *
- * Package structure is a proposal for the client to review. Pricing, equipment,
- * unit counts, installation scope and old-unit removal policy are NOT confirmed.
+ * Card format from the copy: "Rainbow Air [Series / full model] | [Package name]",
+ * photo, indoor units & rated capacity, suitable rooms, what the package includes,
+ * and what must be confirmed on site.
+ *
+ * Models, pricing, unit counts, inclusions and old-unit removal policy are NOT confirmed.
  * `price` stays null until confirmed – the UI then shows "Request a Quote".
  */
 
@@ -14,19 +17,16 @@ export const packages: InstallPackage[] = [
     status: "demo",
     label: "Package A",
     name: "Single Room Comfort",
+    modelLabel: "[Rainbow Air series / model – to be confirmed]",
     tagline: "Efficient heating and cooling for the room you use most.",
     systemType: "Split System",
     suitableFor: "Bedrooms, home offices and smaller living spaces",
     highlights: [
-      { label: "System", value: "Wall-mounted split system" },
-      { label: "Example capacity", value: "2.6 kW – 3.5 kW size class" },
       { label: "Indoor units", value: "1" },
+      { label: "Example capacity", value: "2.6 kW – 3.5 kW size class" },
     ],
-    installScope: [
-      "Site check of indoor and outdoor unit positions",
-      "Standard back-to-back style installation",
-      "System commissioning and handover",
-    ],
+    includes: ["Indoor and outdoor unit", "Standard installation", "Old unit removal & disposal – to be confirmed"],
+    siteConfirm: ["Pipework beyond the standard run", "Work at height or difficult access", "Electrical upgrades"],
     price: null,
     image: "mideaEos",
     imageCaption: "Shown: Midea EOS Series (reference model)",
@@ -37,19 +37,16 @@ export const packages: InstallPackage[] = [
     status: "demo",
     label: "Package B",
     name: "Multi-Room Comfort",
-    tagline: "Separate temperature control for several rooms, one outdoor unit.",
+    modelLabel: "[Rainbow Air series / model – to be confirmed]",
+    tagline: "Separate temperature control for several rooms from one outdoor unit.",
     systemType: "Multi-Split System",
     suitableFor: "Homes that need individual control across 2–4 rooms",
     highlights: [
-      { label: "System", value: "Multi-split, one outdoor unit" },
-      { label: "Indoor units (example)", value: "2 to 4 rooms" },
+      { label: "Indoor units", value: "2 to 4 (example)" },
       { label: "Example outdoor unit", value: "7.1 kW cooling / 8.0 kW heating" },
     ],
-    installScope: [
-      "Room-by-room sizing discussion",
-      "Indoor unit and pipework route planning",
-      "Commissioning of each indoor unit",
-    ],
+    includes: ["One outdoor unit and the agreed indoor units", "Standard installation", "Old unit removal & disposal – to be confirmed"],
+    siteConfirm: ["Pipework route between rooms", "Work at height or difficult access", "Electrical upgrades"],
     price: null,
     image: "mideaMulti",
     imageCaption: "Shown: Midea MULTI Series outdoor unit (reference model)",
@@ -60,19 +57,16 @@ export const packages: InstallPackage[] = [
     status: "demo",
     label: "Package C",
     name: "Whole Home Comfort",
+    modelLabel: "[Rainbow Air series / model – to be confirmed]",
     tagline: "Discreet, whole-home heating and cooling through ceiling outlets.",
     systemType: "Ducted Air Conditioning",
     suitableFor: "Homes wanting a central system with optional zoning",
     highlights: [
       { label: "System", value: "Ducted reverse cycle" },
       { label: "Example capacity range", value: "7 kW – 17 kW size class" },
-      { label: "Zoning", value: "Optional, subject to layout" },
     ],
-    installScope: [
-      "Roof-space and layout assessment",
-      "Duct design and outlet placement",
-      "Controller set-up and handover",
-    ],
+    includes: ["Indoor and outdoor unit", "Ductwork and ceiling outlets", "Standard installation and controller set-up"],
+    siteConfirm: ["Roof-space access and layout", "Zoning requirements", "Electrical upgrades"],
     price: null,
     image: "mideaDuctedRac",
     imageCaption: "Shown: Midea Ducted Series – RAC (reference model)",
@@ -80,8 +74,8 @@ export const packages: InstallPackage[] = [
   },
 ];
 
-/** Disclosure shown beneath the package cards (wording supplied in the brief). */
+/** Shown beneath the package cards (from the client's copy document). */
 export const packageDisclosure = [
-  "Standard installation inclusions and exclusions will be confirmed in your written quotation.",
-  "Additional work such as extended pipework, difficult access or electrical upgrades may incur extra costs.",
+  "VEU discounts depend on your existing equipment, the selected model and project eligibility. Your written quotation will show any confirmed discount and the amount payable.",
+  "If on-site work goes beyond the package scope, we'll list the required work and costs in your quotation.",
 ];

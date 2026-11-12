@@ -1,35 +1,21 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { mainNav, site } from "@/data/site";
+import { quoteHref } from "@/lib/quote";
 import { cn } from "@/lib/cn";
 import { ButtonLink } from "@/components/ui/Button";
 
-function useActiveSection(ids: string[]) {
-  const [active, setActive] = useState("top");
-  useEffect(() => {
-    const els = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) setActive(visible[0].target.id);
-      },
-      { rootMargin: "-35% 0px -55% 0px", threshold: [0, 0.25, 0.5] },
-    );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [ids]);
-  return active;
-}
-
-const sectionIds = mainNav.map((n) => n.sectionId!).filter(Boolean);
+const normalise = (p: string) => (p.endsWith("/") ? p : `${p}/`);
 
 export function Header() {
+  const pathname = normalise(usePathname() || "/");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const active = useActiveSection(sectionIds);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -37,6 +23,8 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const isActive = (href: string) => normalise(href) === pathname;
 
   return (
     <header
@@ -47,7 +35,7 @@ export function Header() {
     >
       <div aria-hidden className="rb-full h-[3px] w-full" />
       <div className="container-page flex h-[4.5rem] items-center justify-between gap-3 sm:gap-6 lg:h-20">
-        <a href="#top" className="shrink-0 rounded-md" aria-label={`${site.name} – back to top`}>
+        <Link href="/" className="shrink-0 rounded-md" aria-label={`${site.name} – home`}>
           <img
             src={site.logo.src}
             alt={site.logo.alt}
@@ -55,20 +43,20 @@ export function Header() {
             height={site.logo.height}
             className="h-10 w-auto sm:h-11 lg:h-[3.25rem]"
           />
-        </a>
+        </Link>
 
         <nav aria-label="Main" className="hidden xl:block">
           <ul className="flex items-center gap-1">
             {mainNav.map((item) => {
-              const isActive = active === item.sectionId;
+              const active = isActive(item.href);
               return (
                 <li key={item.href}>
-                  <a
+                  <Link
                     href={item.href}
-                    aria-current={isActive ? "location" : undefined}
+                    aria-current={active ? "page" : undefined}
                     className={cn(
                       "relative rounded-md px-3 py-2 text-[0.92rem] font-semibold transition-colors",
-                      isActive ? "text-navy-900" : "text-body hover:text-navy-900",
+                      active ? "text-navy-900" : "text-body hover:text-navy-900",
                     )}
                   >
                     {item.label}
@@ -76,10 +64,10 @@ export function Header() {
                       aria-hidden
                       className={cn(
                         "absolute inset-x-3 -bottom-0.5 h-[2px] origin-left rounded-full bg-flame-600 transition-transform duration-300",
-                        isActive ? "scale-x-100" : "scale-x-0",
+                        active ? "scale-x-100" : "scale-x-0",
                       )}
                     />
-                  </a>
+                  </Link>
                 </li>
               );
             })}
@@ -87,7 +75,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ButtonLink href="#quote" size="md" className="h-10 px-3.5 text-sm sm:h-12 sm:px-5 sm:text-[0.95rem]">
+          <ButtonLink href={quoteHref()} size="md" className="h-10 px-3.5 text-sm sm:h-12 sm:px-5 sm:text-[0.95rem]">
             Request a Quote
             <ArrowRight className="hidden size-4 transition-transform group-hover:translate-x-0.5 sm:block" aria-hidden />
           </ButtonLink>
@@ -122,24 +110,24 @@ export function Header() {
                   <ul className="space-y-1">
                     {mainNav.map((item) => (
                       <li key={item.href}>
-                        <a
+                        <Link
                           href={item.href}
                           onClick={() => setOpen(false)}
-                          aria-current={active === item.sectionId ? "location" : undefined}
+                          aria-current={isActive(item.href) ? "page" : undefined}
                           className={cn(
                             "flex items-center justify-between rounded-lg px-4 py-3.5 text-[1.02rem] font-semibold",
-                            active === item.sectionId ? "bg-navy-50 text-navy-900" : "text-ink hover:bg-surface",
+                            isActive(item.href) ? "bg-navy-50 text-navy-900" : "text-ink hover:bg-surface",
                           )}
                         >
                           {item.label}
                           <ArrowRight className="size-4 text-muted" aria-hidden />
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </nav>
                 <div className="border-t border-line p-5">
-                  <ButtonLink href="#quote" size="lg" className="w-full" onClick={() => setOpen(false)}>
+                  <ButtonLink href={quoteHref()} size="lg" className="w-full" onClick={() => setOpen(false)}>
                     Request a Quote
                   </ButtonLink>
                   <p className="mt-3 text-center text-sm text-muted">{site.slogan}</p>

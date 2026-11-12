@@ -1,15 +1,16 @@
-"use client";
-
 import { ExternalLink, Leaf } from "lucide-react";
 import { veu } from "@/data/content";
-import { useQuote } from "@/context/QuoteContext";
-import { Button } from "@/components/ui/Button";
+import { TBC } from "@/data/types";
+import { quoteHref } from "@/lib/quote";
+import { ButtonLink } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
-/** Short VEU information block only – no eligibility tool, no discount amounts, no accreditation claims. */
-export function VeuBanner() {
-  const { requestQuote } = useQuote();
+/**
+ * VEU discount block (Installation page). Information only – no eligibility tool,
+ * no discount amounts and no accreditation claims until participation is confirmed.
+ */
+export function VeuSection() {
   return (
     <section id="veu" aria-labelledby="veu-title" className="py-20 sm:py-24">
       <div className="container-page">
@@ -26,14 +27,18 @@ export function VeuBanner() {
                   <p key={p}>{p}</p>
                 ))}
               </div>
+              <p className="mt-4 text-sm text-muted">
+                Rainbow Air’s role and accredited provider details:{" "}
+                <span className="italic">{veu.participation === TBC ? "[To Be Confirmed]" : veu.participation}</span>
+              </p>
             </div>
             <div className="flex flex-col items-start gap-4 lg:items-stretch">
               <span className="hidden size-16 items-center justify-center rounded-2xl bg-white shadow-card ring-1 ring-line lg:inline-flex">
                 <Leaf className="size-8 text-rb-green" strokeWidth={1.6} aria-hidden />
               </span>
-              <Button size="lg" variant="secondary" onClick={() => requestQuote({ enquiryType: "VEU Eligibility Enquiry", installation: "Replacement" })}>
+              <ButtonLink href={quoteHref({ type: "veu", install: "replacement" })} size="lg" variant="secondary">
                 {veu.cta}
-              </Button>
+              </ButtonLink>
               <a
                 href={veu.officialInfo.href}
                 target="_blank"

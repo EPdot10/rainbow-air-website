@@ -33,8 +33,6 @@ export interface ImageAsset {
 export interface NavItem {
   label: string;
   href: string;
-  /** Section id this item highlights when scrolled into view. */
-  sectionId?: string;
 }
 
 export interface Spec {
@@ -55,6 +53,10 @@ export interface Product {
   /** Extra line shown under the capacities, e.g. nominal size class. */
   capacityNote?: string;
   keyFeatures: string[];
+  /** Typical rooms / use. */
+  suitableFor: string;
+  /** Equipment warranty – period and terms. */
+  warranty: string;
   /** Full spec sheet shown in the "View Specifications" dialog. */
   specs: Spec[];
   image: ImageKey;
@@ -67,11 +69,16 @@ export interface InstallPackage {
   status: ContentStatus;
   label: string;
   name: string;
+  /** "Rainbow Air [series / full model]" – placeholder until models are confirmed. */
+  modelLabel: string;
   tagline: string;
   systemType: SystemType;
   suitableFor: string;
   highlights: Spec[];
-  installScope: string[];
+  /** What the package includes (units, standard installation, old unit removal policy). */
+  includes: string[];
+  /** Items that must be confirmed on site (non-standard pipework, access, electrical). */
+  siteConfirm: string[];
   /** Leave as null until the client confirms pricing – UI then shows "Request a Quote". */
   price: string | null;
   image: ImageKey;
@@ -82,6 +89,7 @@ export interface InstallPackage {
 export interface SystemSolution {
   id: string;
   name: SystemType;
+  /** Chinese/English name shown in the comparison, e.g. "Split System". */
   description: string;
   image: ImageKey;
   bestFor: string[];

@@ -19,6 +19,8 @@ const ACCESSED = "13 Nov 2026";
 export const products: Product[] = [
   {
     id: "midea-eos-35",
+    suitableFor: "Bedrooms, studies and small living areas",
+    warranty: TBC,
     status: "demo",
     brand: "Midea",
     series: "EOS Series",
@@ -44,6 +46,8 @@ export const products: Product[] = [
   },
   {
     id: "midea-breezeless-35",
+    suitableFor: "Bedrooms and living areas where a gentle airflow is preferred",
+    warranty: TBC,
     status: "demo",
     brand: "Midea",
     series: "Breezeless Series",
@@ -69,6 +73,8 @@ export const products: Product[] = [
   },
   {
     id: "midea-gaia-50",
+    suitableFor: "Larger living areas",
+    warranty: TBC,
     status: "demo",
     brand: "Midea",
     series: "GAIA Series",
@@ -94,6 +100,8 @@ export const products: Product[] = [
   },
   {
     id: "midea-multi-0371",
+    suitableFor: "Two to three rooms from one outdoor unit",
+    warranty: TBC,
     status: "demo",
     brand: "Midea",
     series: "MULTI Series (outdoor unit)",
@@ -119,6 +127,8 @@ export const products: Product[] = [
   },
   {
     id: "midea-ducted-rac-90",
+    suitableFor: "Whole-home heating and cooling for smaller homes",
+    warranty: TBC,
     status: "demo",
     brand: "Midea",
     series: "Ducted Series – RAC",
@@ -144,6 +154,8 @@ export const products: Product[] = [
   },
   {
     id: "midea-vesta-140",
+    suitableFor: "Whole-home heating and cooling with zoning",
+    warranty: TBC,
     status: "demo",
     brand: "Midea",
     series: "Vesta Ducted",

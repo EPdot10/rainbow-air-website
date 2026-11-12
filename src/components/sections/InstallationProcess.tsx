@@ -1,5 +1,8 @@
 import { CalendarCheck, ClipboardList, MessageSquareText } from "lucide-react";
-import { processSteps, sectionCopy } from "@/data/content";
+import Link from "next/link";
+import { homeCopy, processSteps } from "@/data/content";
+import { routes } from "@/data/site";
+import { quoteHref } from "@/lib/quote";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
@@ -7,7 +10,7 @@ import { ButtonLink } from "@/components/ui/Button";
 const icons = { message: MessageSquareText, clipboard: ClipboardList, calendar: CalendarCheck } as const;
 
 export function InstallationProcess() {
-  const c = sectionCopy.process;
+  const c = homeCopy.process;
   return (
     <section id="how-it-works" aria-labelledby="process-title" className="relative overflow-hidden bg-navy-900 py-20 sm:py-24 lg:py-28">
       {/* Soft arc echoing the logo's rainbow */}
@@ -37,10 +40,16 @@ export function InstallationProcess() {
           })}
         </ol>
 
-        <div className="mt-14 flex justify-center">
-          <ButtonLink href="#quote" size="lg">
+        <div className="mt-14 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <ButtonLink href={quoteHref()} size="lg">
             Start with Step 01
           </ButtonLink>
+          <Link
+            href={routes.projects}
+            className="inline-flex h-14 items-center justify-center rounded-lg border border-white/40 px-7 font-semibold text-white transition-colors hover:border-white/70 hover:bg-white/10"
+          >
+            {c.projectsLink}
+          </Link>
         </div>
       </div>
     </section>

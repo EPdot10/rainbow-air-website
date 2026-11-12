@@ -1,16 +1,14 @@
-"use client";
-
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, ClipboardCheck } from "lucide-react";
 import type { InstallPackage } from "@/data/types";
-import { useQuote } from "@/context/QuoteContext";
+import { quoteHref } from "@/lib/quote";
 import { SmartImage } from "@/components/ui/SmartImage";
-import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/Button";
 import { DemoBadge } from "@/components/ui/DemoBadge";
 import { cn } from "@/lib/cn";
 
 export function PackageCard({ pkg, featured = false }: { pkg: InstallPackage; featured?: boolean }) {
-  const { requestQuote } = useQuote();
   const headingId = `pkg-${pkg.id}`;
+  const item = `${pkg.label}: ${pkg.name} (${pkg.systemType})`;
 
   return (
     <article
@@ -28,9 +26,9 @@ export function PackageCard({ pkg, featured = false }: { pkg: InstallPackage; fe
           sizes="(min-width:1024px) 30vw, (min-width:640px) 50vw, 100vw"
           className="p-10 transition-transform duration-500 group-hover/card:scale-[1.03]"
         />
-        <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-          <span className="rounded-full bg-navy-900 px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-white">{pkg.label}</span>
-        </div>
+        <span className="absolute top-4 left-4 rounded-full bg-navy-900 px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-white">
+          {pkg.label}
+        </span>
         <DemoBadge className="absolute top-4 right-4">Demo package</DemoBadge>
         <p className="absolute inset-x-0 bottom-0 px-4 pb-3 text-center text-[0.72rem] text-muted">{pkg.imageCaption}</p>
       </div>
@@ -40,27 +38,40 @@ export function PackageCard({ pkg, featured = false }: { pkg: InstallPackage; fe
         <h3 id={headingId} className="mt-1.5 text-2xl font-bold tracking-[-0.01em]">
           {pkg.name}
         </h3>
-        <p className="mt-2 leading-relaxed text-body">{pkg.tagline}</p>
+        <p className="mt-1 text-[0.82rem] italic text-muted">{pkg.modelLabel}</p>
+        <p className="mt-3 leading-relaxed text-body">{pkg.tagline}</p>
 
         <dl className="mt-5 divide-y divide-line rounded-xl border border-line bg-surface/60 text-sm">
-          <div className="flex justify-between gap-4 px-4 py-2.5">
-            <dt className="shrink-0 text-muted">Suitable for</dt>
-            <dd className="text-right font-semibold text-ink">{pkg.suitableFor}</dd>
-          </div>
           {pkg.highlights.map((h) => (
             <div key={h.label} className="flex justify-between gap-4 px-4 py-2.5">
               <dt className="shrink-0 text-muted">{h.label}</dt>
               <dd className="text-right font-semibold text-ink">{h.value}</dd>
             </div>
           ))}
+          <div className="flex justify-between gap-4 px-4 py-2.5">
+            <dt className="shrink-0 text-muted">Suitable for</dt>
+            <dd className="text-right font-semibold text-ink">{pkg.suitableFor}</dd>
+          </div>
         </dl>
 
         <div className="mt-5">
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-navy-700">Installation scope</p>
-          <ul className="mt-3 space-y-2 text-[0.95rem]">
-            {pkg.installScope.map((item) => (
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-navy-700">Package includes</p>
+          <ul className="mt-2.5 space-y-2 text-[0.95rem]">
+            {pkg.includes.map((item) => (
               <li key={item} className="flex gap-2.5">
                 <CheckCircle2 className="mt-0.5 size-[1.05rem] shrink-0 text-rb-green" aria-hidden />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-5">
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-navy-700">Confirmed on site</p>
+          <ul className="mt-2.5 space-y-2 text-[0.93rem] text-muted">
+            {pkg.siteConfirm.map((item) => (
+              <li key={item} className="flex gap-2.5">
+                <ClipboardCheck className="mt-0.5 size-[1.05rem] shrink-0 text-rb-orange" aria-hidden />
                 {item}
               </li>
             ))}
@@ -72,17 +83,26 @@ export function PackageCard({ pkg, featured = false }: { pkg: InstallPackage; fe
             <span className="text-sm text-muted">Pricing</span>
             <span className="font-display text-lg font-bold text-navy-900">{pkg.price ?? "Request a Quote"}</span>
           </div>
-          <Button
-            className="w-full"
-            variant={featured ? "primary" : "secondary"}
-            onClick={() =>
-              requestQuote({ enquiryType: "Package / Product Quote", preferred: `${pkg.label}: ${pkg.name} (${pkg.systemType})` })
-            }
-            aria-label={`Get a package quote for ${pkg.name}`}
-          >
-            Get a Package Quote
-            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-          </Button>
+          <div className="flex flex-col gap-2.5">
+            <ButtonLink
+              href={quoteHref({ type: "package", item })}
+              className="w-full"
+              variant={featured ? "primary" : "secondary"}
+              aria-label={`Get a package quote for ${pkg.name}`}
+            >
+              Get a Package Quote
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </ButtonLink>
+            <ButtonLink
+              href={quoteHref({ type: "veu", item, install: "replacement" })}
+              variant="outline"
+              size="sm"
+              className="w-full"
+              aria-label={`Check VEU discount eligibility for ${pkg.name}`}
+            >
+              Check Eligibility
+            </ButtonLink>
+          </div>
         </div>
       </div>
     </article>

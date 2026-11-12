@@ -1,5 +1,6 @@
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
-import { footerQuickLinks, site } from "@/data/site";
+import Link from "next/link";
+import { ArrowRight, Clock, Mail, MapPin, Phone } from "lucide-react";
+import { footerQuickLinks, routes, site } from "@/data/site";
 import { TBC } from "@/data/types";
 import { cn } from "@/lib/cn";
 
@@ -53,9 +54,9 @@ export function Footer() {
                     </span>
                   </span>
                 ) : (
-                  <a href={link.href} className="transition-colors hover:text-white">
+                  <Link href={link.href} className="transition-colors hover:text-white">
                     {link.label}
-                  </a>
+                  </Link>
                 )}
               </li>
             ))}
@@ -63,7 +64,7 @@ export function Footer() {
         </nav>
 
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-white">Contact Details</h3>
+          <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-white">Contact Us</h3>
           <ul className="mt-5 space-y-3.5 text-[0.95rem]">
             {contactRows.map(({ icon: Icon, label, value }) => (
               <li key={label} className="flex gap-3">
@@ -78,6 +79,13 @@ export function Footer() {
               </li>
             ))}
           </ul>
+          <Link
+            href={`${routes.contact}#enquiry`}
+            className="group mt-6 inline-flex items-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-white/60 hover:bg-white/10"
+          >
+            Online Enquiry
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+          </Link>
         </div>
 
         <div>

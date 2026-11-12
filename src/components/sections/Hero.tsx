@@ -1,6 +1,7 @@
 import { ArrowRight, Check } from "lucide-react";
 import { hero } from "@/data/content";
 import { heroHighlights } from "@/data/site";
+import { quoteHref } from "@/lib/quote";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { ButtonLink } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/SectionHeading";
@@ -37,7 +38,7 @@ export function Hero() {
               {hero.primaryCta.label}
               <ArrowRight className="size-[1.1rem] transition-transform group-hover:translate-x-0.5" aria-hidden />
             </ButtonLink>
-            <ButtonLink href={hero.secondaryCta.href} size="lg" variant="ghost-light">
+            <ButtonLink href={quoteHref()} size="lg" variant="ghost-light">
               {hero.secondaryCta.label}
             </ButtonLink>
           </div>
