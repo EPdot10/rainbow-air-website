@@ -34,7 +34,6 @@ export function Footer() {
             alt={site.logo.alt}
             width={site.logo.width}
             height={site.logo.height}
-            loading="lazy"
             className="h-14 w-auto"
           />
           <p className="mt-5 font-display text-lg font-semibold text-white">{site.slogan}</p>
@@ -47,9 +46,9 @@ export function Footer() {
             {footerQuickLinks.map((link) => (
               <li key={link.label}>
                 {link.comingSoon || !link.href ? (
-                  <span className="inline-flex items-center gap-2 text-white/45" aria-disabled="true">
+                  <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 text-white/45" aria-disabled="true">
                     {link.label}
-                    <span className="rounded-full border border-white/15 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wider">
+                    <span className="rounded-full border border-white/15 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap uppercase tracking-wider">
                       Coming soon
                     </span>
                   </span>

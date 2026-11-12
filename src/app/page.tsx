@@ -10,6 +10,7 @@ import { InstallationProcess } from "@/components/sections/InstallationProcess";
 import { ProjectGallery } from "@/components/gallery/ProjectGallery";
 import { VeuBanner } from "@/components/sections/VeuBanner";
 import { QuoteCTA } from "@/components/sections/QuoteCTA";
+import { RevealObserver } from "@/components/ui/RevealObserver";
 
 /**
  * Homepage (Phase 1). Each section is a self-contained component reading from /src/data,
@@ -31,6 +32,7 @@ export default function HomePage() {
         <QuoteCTA />
       </main>
       <Footer />
+      <RevealObserver />
     </QuoteProvider>
   );
 }

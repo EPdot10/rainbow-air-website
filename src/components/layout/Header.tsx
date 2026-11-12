@@ -46,14 +46,14 @@ export function Header() {
       )}
     >
       <div aria-hidden className="rb-full h-[3px] w-full" />
-      <div className="container-page flex h-[4.5rem] items-center justify-between gap-6 lg:h-20">
+      <div className="container-page flex h-[4.5rem] items-center justify-between gap-3 sm:gap-6 lg:h-20">
         <a href="#top" className="shrink-0 rounded-md" aria-label={`${site.name} – back to top`}>
           <img
             src={site.logo.src}
             alt={site.logo.alt}
             width={site.logo.width}
             height={site.logo.height}
-            className="h-11 w-auto lg:h-[3.25rem]"
+            className="h-10 w-auto sm:h-11 lg:h-[3.25rem]"
           />
         </a>
 
@@ -87,9 +87,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ButtonLink href="#quote" size="md" className="hidden sm:inline-flex">
+          <ButtonLink href="#quote" size="md" className="h-10 px-3.5 text-sm sm:h-12 sm:px-5 sm:text-[0.95rem]">
             Request a Quote
-            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            <ArrowRight className="hidden size-4 transition-transform group-hover:translate-x-0.5 sm:block" aria-hidden />
           </ButtonLink>
 
           <Dialog.Root open={open} onOpenChange={setOpen}>

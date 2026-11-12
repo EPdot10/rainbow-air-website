@@ -138,9 +138,9 @@ export const projects: Project[] = [
   { id: "p1", status: "demo", title: "Wall-mounted split system", category: "Split System", image: "galleryWallUnit", wide: true },
   { id: "p2", status: "demo", title: "Outdoor unit placement", category: "Outdoor Unit", image: "galleryOutdoorPaved" },
   { id: "p3", status: "demo", title: "Ducted ceiling outlet", category: "Ducted", image: "galleryDuctedOutlet" },
-  { id: "p4", status: "demo", title: "Installation detail", category: "Installation", image: "galleryInstallDetail" },
-  { id: "p5", status: "demo", title: "Compact outdoor unit", category: "Outdoor Unit", image: "galleryOutdoorGarden" },
-  { id: "p6", status: "demo", title: "Comfort in a modern home", category: "Living Areas", image: "galleryModernHome", wide: true },
+  { id: "p4", status: "demo", title: "Installation detail", category: "Installation", image: "galleryInstallDetail", wide: true },
+  { id: "p5", status: "demo", title: "Compact outdoor unit", category: "Outdoor Unit", image: "galleryOutdoorGarden", wide: true },
+  { id: "p6", status: "demo", title: "Comfort in a modern home", category: "Living Areas", image: "galleryModernHome" },
 ];
 
 export const illustrativeLabel = "Illustrative Installation Image";

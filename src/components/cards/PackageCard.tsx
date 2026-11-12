@@ -44,12 +44,12 @@ export function PackageCard({ pkg, featured = false }: { pkg: InstallPackage; fe
 
         <dl className="mt-5 divide-y divide-line rounded-xl border border-line bg-surface/60 text-sm">
           <div className="flex justify-between gap-4 px-4 py-2.5">
-            <dt className="text-muted">Suitable for</dt>
+            <dt className="shrink-0 text-muted">Suitable for</dt>
             <dd className="text-right font-semibold text-ink">{pkg.suitableFor}</dd>
           </div>
           {pkg.highlights.map((h) => (
             <div key={h.label} className="flex justify-between gap-4 px-4 py-2.5">
-              <dt className="text-muted">{h.label}</dt>
+              <dt className="shrink-0 text-muted">{h.label}</dt>
               <dd className="text-right font-semibold text-ink">{h.value}</dd>
             </div>
           ))}

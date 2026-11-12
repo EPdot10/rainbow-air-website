@@ -70,7 +70,7 @@ export function ProductCard({ product }: { product: Product }) {
           ))}
         </ul>
 
-        <div className="mt-auto grid grid-cols-1 gap-2.5 pt-6 sm:grid-cols-2">
+        <div className="mt-auto flex flex-col-reverse gap-2.5 pt-6">
           <Dialog.Root>
             <Dialog.Trigger asChild>
               <Button variant="outline" size="sm" className="w-full" aria-label={`View specifications for ${product.model}`}>
