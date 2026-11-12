@@ -36,9 +36,12 @@ export function SmartImage({
       fetchPriority={priority ? "high" : "auto"}
       decoding="async"
       referrerPolicy="no-referrer"
+      style={img.position && fit === "cover" ? { objectPosition: img.position } : undefined}
       className={cn(
         "absolute inset-0 h-full w-full",
         fit === "cover" ? "object-cover" : "object-contain",
+        // White-background product shots blend into tinted card panels.
+        img.kind === "product" && "mix-blend-multiply",
         className,
       )}
     />

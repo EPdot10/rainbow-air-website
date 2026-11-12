@@ -42,6 +42,7 @@ export const images = {
     source: "Unsplash",
     sourceUrl: "https://unsplash.com/photos/modern-living-room-with-air-conditioner-and-decor-BsHycOlU6Bg",
     licence: UNSPLASH_LICENCE,
+    position: "50% 8%",
     resizable: true,
   },
   multiOutdoorUnits: {

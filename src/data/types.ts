@@ -24,6 +24,8 @@ export interface ImageAsset {
   source: string;
   sourceUrl: string;
   licence: string;
+  /** CSS object-position focal point for cropped (cover) use, e.g. "50% 20%". */
+  position?: string;
   /** True when the remote host supports width-based resizing (Unsplash). */
   resizable?: boolean;
 }
