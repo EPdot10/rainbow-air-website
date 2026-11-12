@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+# env & secrets — never commit
+.env
+.env*.local
+.dev.vars
+# cloudflare
+.wrangler/
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+# logs
+npm-debug.log*
+*.log
+# QA artefacts
+qa-screenshots/
