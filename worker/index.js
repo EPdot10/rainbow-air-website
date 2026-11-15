@@ -5,7 +5,7 @@
  * (see `run_worker_first` in wrangler.jsonc), so normal page views cost nothing extra.
  *
  * POST /api/enquiry  (multipart/form-data)
- *   kind = "quote" | "veu", form fields, optional files ("photos", "floorPlan"),
+ *   kind = "quote" | "veu", form fields, optional files ("photos", "floorPlan" for VEU; "files" for quote),
  *   "cf-turnstile-response" (Turnstile token), "website" (honeypot – must be empty).
  * → verifies Turnstile, then emails the enquiry (with attachments) via Resend.
  *
@@ -18,10 +18,11 @@
  *                       (needs a verified domain in Resend; defaults to Resend's test sender)
  */
 
-const MAX_FILES = 6; // 5 photos + 1 floor plan
-const MAX_FILE_BYTES = 5 * 1024 * 1024;
-const MAX_TOTAL_BYTES = 26 * 1024 * 1024;
-const FILE_TYPES = /^(image\/(jpeg|png|webp|heic|heif|gif)|application\/pdf)$/;
+const MAX_FILES = 6; // VEU: 5 photos + 1 floor plan · quote: 5 files
+// Resend allows ~40 MB per email after base64 encoding (+33%), so keep raw attachments ≤ 25 MB.
+const MAX_FILE_BYTES = 25 * 1024 * 1024;
+const MAX_TOTAL_BYTES = 25 * 1024 * 1024;
+const FILE_TYPES = /^(image\/(jpeg|png|webp|heic|heif|gif)|application\/pdf|video\/(mp4|quicktime|webm))$/;
 
 const QUOTE_FIELDS = [
   ["fullName", "Name"],
@@ -131,10 +132,11 @@ async function handleEnquiry(request, env) {
   const invalid = validate(kind, values);
   if (invalid) return json({ ok: false, error: "invalid", field: invalid }, 400);
 
-  // Attachments (VEU questionnaire only).
+  // Attachments: VEU photos + floor plan, or files attached to a quote enquiry.
   const attachments = [];
-  if (kind === "veu") {
-    const files = [...form.getAll("photos"), ...form.getAll("floorPlan")].filter((f) => typeof f === "object" && f && f.size > 0);
+  {
+    const names = kind === "veu" ? ["photos", "floorPlan"] : ["files"];
+    const files = names.flatMap((n) => form.getAll(n)).filter((f) => typeof f === "object" && f && f.size > 0);
     if (files.length > MAX_FILES) return json({ ok: false, error: "too_many_files" }, 400);
     let total = 0;
     for (const [i, f] of files.entries()) {
@@ -144,7 +146,8 @@ async function handleEnquiry(request, env) {
       if (total > MAX_TOTAL_BYTES) return json({ ok: false, error: "too_large" }, 413);
       const isPlan = form.getAll("floorPlan").includes(f);
       const safeName = (f.name || `file-${i + 1}`).replace(/[^\w.\- ]+/g, "_").slice(0, 80);
-      attachments.push({ filename: `${isPlan ? "floor-plan" : `photo-${i + 1}`}-${safeName}`, content: toBase64(await f.arrayBuffer()) });
+      const prefix = isPlan ? "floor-plan" : kind === "veu" ? `photo-${i + 1}` : `file-${i + 1}`;
+      attachments.push({ filename: `${prefix}-${safeName}`, content: toBase64(await f.arrayBuffer()) });
     }
   }
 

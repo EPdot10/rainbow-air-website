@@ -37,8 +37,9 @@ export async function submitEnquiry(data: FormData): Promise<SubmitResult> {
 /** Visitor-facing message for a failed submission. */
 export function submitErrorMessage(error: string): string {
   if (error === "verification") return "The security check didn't complete. Please try again.";
-  if (error === "file_too_large" || error === "too_large") return "One of the files is too large. Each file must be under 5 MB.";
-  if (error === "file_type") return "Please upload photos (JPG, PNG, HEIC) or a PDF floor plan.";
+  if (error === "file_too_large" || error === "too_large") return "The attachments are too large. Please keep them under 25 MB in total.";
+  if (error === "too_many_files") return "Too many files attached.";
+  if (error === "file_type") return "Please attach photos, short videos (MP4/MOV) or PDF files.";
   return "Sorry, your enquiry couldn't be sent. Please try again, or call us on 0433 600 166.";
 }
 

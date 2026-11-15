@@ -1,6 +1,7 @@
 "use client";
 
-import { AlertCircle, ArrowRight, CheckCircle2, Loader2, Pencil } from "lucide-react";
+import { AlertCircle, ArrowRight, CheckCircle2, FileText, Film, ImageIcon, Loader2, Paperclip, Pencil, X } from "lucide-react";
+import { compressImage } from "@/lib/compressImage";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import {
@@ -75,6 +76,14 @@ function validate(v: Fields): Errors {
   return e;
 }
 
+const MAX_FILES = 5;
+const MAX_TOTAL_MB = 25;
+const MAX_TOTAL = MAX_TOTAL_MB * 1024 * 1024;
+const ACCEPT = "image/*,video/mp4,video/quicktime,video/webm,application/pdf,.heic,.heif,.mov,.mp4,.pdf";
+
+const fileKind = (f: File) => (f.type.startsWith("video/") || /\.(mov|mp4|webm)$/i.test(f.name) ? "video" : f.type === "application/pdf" || /\.pdf$/i.test(f.name) ? "pdf" : "image");
+const formatSize = (b: number) => (b >= 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
+
 const order: (keyof Fields)[] = [
   "fullName",
   "phone",
@@ -115,6 +124,36 @@ export function QuoteEnquiryForm() {
   const [errorText, setErrorText] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [honeypot, setHoneypot] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const totalSize = files.reduce((n, f) => n + f.size, 0);
+
+  const addFiles = async (list: FileList | null) => {
+    if (!list) return;
+    setFileError(null);
+    const next = [...files];
+    let total = totalSize;
+    for (const original of Array.from(list)) {
+      const kind = fileKind(original);
+      const known = original.type.startsWith("image/") || kind !== "image" || /\.(heic|heif)$/i.test(original.name);
+      if (!known) {
+        setFileError("Please attach photos, videos (MP4/MOV) or PDF files.");
+        continue;
+      }
+      if (next.length >= MAX_FILES) {
+        setFileError(`You can attach up to ${MAX_FILES} files.`);
+        break;
+      }
+      const f = kind === "image" ? await compressImage(original) : original;
+      if (total + f.size > MAX_TOTAL) {
+        setFileError(`Attachments can be up to ${MAX_TOTAL_MB} MB in total. Try a shorter video or fewer files.`);
+        continue;
+      }
+      total += f.size;
+      next.push(f);
+    }
+    setFiles(next);
+  };
   const turnstile = useRef<TurnstileHandle>(null);
 
   // A new "Get a Quote" link while already on this page → apply its values (fields stay editable).
@@ -168,6 +207,7 @@ export function QuoteEnquiryForm() {
     const data = new FormData();
     data.set("kind", "quote");
     for (const k of order) data.set(k, values[k]);
+    files.forEach((f) => data.append("files", f, f.name));
     data.set("website", honeypot);
     data.set("cf-turnstile-response", token);
     const result = await submitEnquiry(data);
@@ -176,6 +216,7 @@ export function QuoteEnquiryForm() {
       setStatus("sent");
       setValues(empty);
       setTouched({});
+      setFiles([]);
     } else {
       setErrorText(submitErrorMessage(result.error));
       setStatus("error");
@@ -337,13 +378,61 @@ export function QuoteEnquiryForm() {
 
         <Field
           id={id("message")}
-          label="Room Sizes, Photos or Other Notes"
-          hint="Optional – we can collect photos when we contact you"
+          label="Room Sizes or Other Notes"
+          hint="Optional"
           className="sm:col-span-2"
           error={touched.message ? errors.message : undefined}
         >
           {(p) => <textarea {...p} rows={4} value={values.message} onChange={set("message")} onBlur={blur("message")} className={cn(p.className, "h-auto py-3")} />}
         </Field>
+
+        <div className="sm:col-span-2">
+          <p className="text-sm font-semibold text-ink">
+            Photos, Videos or Files{" "}
+            <span className="ml-1 text-xs font-normal text-muted">
+              Optional – up to {MAX_FILES} files, {MAX_TOTAL_MB} MB in total (photos, short videos, PDF)
+            </span>
+          </p>
+          <p className="mt-1 text-sm text-muted">e.g. the rooms, your current system, the outdoor area or a floor plan.</p>
+          {files.length > 0 && (
+            <ul className="mt-3 space-y-2">
+              {files.map((f, i) => {
+                const Icon = fileKind(f) === "video" ? Film : fileKind(f) === "pdf" ? FileText : ImageIcon;
+                return (
+                  <li key={`${f.name}-${i}`} className="flex items-center gap-3 rounded-lg border border-line bg-surface px-3 py-2 text-sm">
+                    <Icon className="size-4 shrink-0 text-navy-700" aria-hidden />
+                    <span className="min-w-0 flex-1 truncate font-medium text-ink">{f.name}</span>
+                    <span className="shrink-0 text-muted">{formatSize(f.size)}</span>
+                    <button
+                      type="button"
+                      onClick={() => setFiles(files.filter((_, k) => k !== i))}
+                      className="inline-flex size-7 shrink-0 items-center justify-center rounded-full text-muted hover:bg-white hover:text-ink"
+                      aria-label={`Remove ${f.name}`}
+                    >
+                      <X className="size-4" aria-hidden />
+                    </button>
+                  </li>
+                );
+              })}
+              <li className="text-xs text-muted">
+                {formatSize(totalSize)} of {MAX_TOTAL_MB} MB used
+              </li>
+            </ul>
+          )}
+          {files.length < MAX_FILES && (
+            <label className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-navy-900/25 px-4 py-2.5 text-sm font-semibold text-navy-800 transition-colors hover:border-navy-900/50 hover:bg-navy-50 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-sky-500">
+              <Paperclip className="size-4" aria-hidden />
+              Attach files
+              <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { void addFiles(e.target.files); e.target.value = ""; }} />
+            </label>
+          )}
+          {fileError && (
+            <p role="alert" className="mt-2 flex items-center gap-1.5 text-sm text-red-700">
+              <AlertCircle className="size-3.5 shrink-0" aria-hidden />
+              {fileError}
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Honeypot – hidden from people, bots tend to fill it in. */}

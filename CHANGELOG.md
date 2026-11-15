@@ -21,6 +21,11 @@ Never force-push `main`.
 
 ---
 
+## v0.5.2 – 2026-11-15 · Attachments on the contact form
+- Online Enquiry can now attach photos, short videos (MP4/MOV) or PDFs – up to 5 files, 25 MB in total (photos resized in the
+  browser). Sent as email attachments via the Worker; nothing stored. Field renamed "Room Sizes or Other Notes".
+- Email setup confirmed working (Resend + Turnstile secrets added in Cloudflare).
+
 ## v0.5.1 – 2026-11-15 · Turnstile site key
 - Added the live Cloudflare Turnstile site key so the enquiry forms' security check works on the demo domain.
 
