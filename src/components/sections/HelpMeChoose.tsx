@@ -1,13 +1,13 @@
 import { ArrowRight, Lightbulb } from "lucide-react";
-import { installationCopy } from "@/data/content";
+import { servicesCopy } from "@/data/content";
 import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function HelpMeChoose() {
-  const c = installationCopy.help;
+  const c = servicesCopy.help;
   return (
-    <section id="help-me-choose" aria-labelledby="help-title" className="pt-20 sm:pt-24">
+    <section id="help-me-choose" aria-labelledby="help-title" className="py-20 sm:py-24">
       <div className="container-page">
         <Reveal className="grid gap-8 rounded-3xl border border-line bg-white p-8 shadow-card sm:p-10 md:grid-cols-[auto_1fr_auto] md:items-center">
           <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-flame-50 ring-1 ring-flame-600/10">

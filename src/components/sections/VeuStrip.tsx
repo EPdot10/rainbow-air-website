@@ -1,19 +1,18 @@
-import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
 import { veuStrip } from "@/data/content";
-import { routes } from "@/data/site";
+import { LocalizedLink } from "@/components/locale/LocaleComponents";
 import { cn } from "@/lib/cn";
 
 /**
  * VEU highlight card, shown inside the home hero on every screen size.
- * Dark frosted-glass style so it sits naturally on the hero photo instead of
- * a stark white box. Links to the VEU section of the Installation page.
+ * Dark frosted-glass style so it sits naturally on the hero photo.
+ * Links to the eligibility check on the VEU Discount Program page.
  * No discount amounts or eligibility promises.
  */
 export function VeuCard({ className }: { className?: string }) {
   return (
-    <Link
-      href={`${routes.installation}#veu`}
+    <LocalizedLink
+      href={veuStrip.href}
       className={cn(
         "group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-white/15 bg-navy-950/55 p-6 text-white shadow-[0_24px_60px_-24px_rgb(0_0_0/0.6)] backdrop-blur-md transition-[background-color,border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/30 hover:bg-navy-950/65 sm:p-7",
         className,
@@ -33,6 +32,6 @@ export function VeuCard({ className }: { className?: string }) {
         {veuStrip.cta}
         <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
       </span>
-    </Link>
+    </LocalizedLink>
   );
 }

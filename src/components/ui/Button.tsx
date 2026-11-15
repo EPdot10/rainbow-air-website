@@ -1,5 +1,6 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { LocalizedLink } from "@/components/locale/LocaleComponents";
 
 type Variant = "primary" | "secondary" | "outline" | "ghost-light" | "link";
 type Size = "sm" | "md" | "lg";
@@ -29,15 +30,28 @@ interface CommonProps {
   children: ReactNode;
 }
 
+/**
+ * Link styled as a button. Internal links ("/…") go through LocalizedLink so they keep
+ * the visitor's language and use client-side navigation (incl. #hash scrolling).
+ */
 export function ButtonLink({
   variant = "primary",
   size = "md",
   className,
   children,
+  href = "#",
   ...props
 }: CommonProps & AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const cls = cn(base, variants[variant], sizes[size], className);
+  if (href.startsWith("/") && !href.startsWith("//")) {
+    return (
+      <LocalizedLink href={href} className={cls} {...props}>
+        {children}
+      </LocalizedLink>
+    );
+  }
   return (
-    <a className={cn(base, variants[variant], sizes[size], className)} {...props}>
+    <a href={href} className={cls} {...props}>
       {children}
     </a>
   );

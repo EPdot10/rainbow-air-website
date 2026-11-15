@@ -62,3 +62,16 @@ only to link to Rainbow Air's own accounts.
 
 `brand-assets/original-logo-*.png` – supplied by the client. Transparent and reversed versions were derived
 (see `public/brand/`); internal white details (rainbow highlight, flame, snowflake) were preserved.
+
+## Brand logos (v0.4.0) – Wikimedia Commons
+Midea, Daikin, Mitsubishi Heavy Industries, Mitsubishi Electric, Rinnai and Fujitsu logos are loaded from Wikimedia Commons
+(see `src/data/images.ts` for each file page). They are trademarks of their owners, shown only to indicate brands installed.
+Before launch, ideally replace with logo files supplied by the distributors / Rainbow Air.
+
+## Review avatars (v0.4.0) – DiceBear "Lorelei"
+Cartoon avatars for the sample reviews are generated at build time with DiceBear (`@dicebear/collection`, Lorelei style,
+licence CC0 1.0). Reviews are SAMPLE text ("Robot 1–7") until verified reviews are supplied.
+
+## VEU page imagery
+Images on the VEU page are Unsplash stock (licence above). The energy.vic.gov.au image licence could not be verified,
+so no government images are used; program facts are summarised in our own words with a link to the official site.

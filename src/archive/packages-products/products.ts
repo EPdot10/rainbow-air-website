@@ -1,4 +1,4 @@
-import { TBC, type Product } from "./types";
+import { TBC, type Product } from "@/data/types";
 
 /**
  * DEMO PRODUCT DATA — Midea Australia reference models.

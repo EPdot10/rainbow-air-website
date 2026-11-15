@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SocialFab } from "@/components/layout/SocialFab";
 import { RevealObserver } from "@/components/ui/RevealObserver";
+import { LocaleBanner, LocaleGuard } from "@/components/locale/LocaleComponents";
 
 const ogImage = resolveImage("heroLivingRoom", 1440);
 
@@ -53,10 +54,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         <Header />
+        <LocaleBanner />
         <main id="main">{children}</main>
         <Footer />
         <SocialFab />
         <RevealObserver />
+        <LocaleGuard />
       </body>
     </html>
   );

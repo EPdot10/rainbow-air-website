@@ -1,8 +1,9 @@
-import Link from "next/link";
 import { ArrowRight, Clock, Mail, MapPin, Phone } from "lucide-react";
-import { footerQuickLinks, routes, site } from "@/data/site";
+import { footerQuickLinks, routes, site, telHref } from "@/data/site";
 import { TBC } from "@/data/types";
 import { cn } from "@/lib/cn";
+import { LocalizedLink } from "@/components/locale/LocaleComponents";
+import { SocialRow } from "@/components/social/SocialIcons";
 
 function Value({ children }: { children: string }) {
   const pending = children === TBC;
@@ -11,13 +12,14 @@ function Value({ children }: { children: string }) {
 
 export function Footer() {
   const contactRows = [
-    { icon: Phone, label: "Phone", value: site.contact.phone },
-    { icon: Mail, label: "Email", value: site.contact.email },
+    { icon: Phone, label: "Phone", value: site.contact.phone, href: telHref(site.contact.phone) },
+    { icon: Mail, label: "Email", value: site.contact.email, href: `mailto:${site.contact.email}` },
     { icon: MapPin, label: "Service Area", value: site.contact.serviceArea },
     { icon: Clock, label: "Business Hours", value: site.contact.hours },
   ];
   const companyRows = [
     { label: "Legal Business Name", value: site.company.legalName },
+    { label: "ACN", value: site.company.acn },
     { label: "ABN", value: site.company.abn },
     { label: "Licence Details", value: site.company.licence },
   ];
@@ -28,7 +30,7 @@ export function Footer() {
         Footer
       </h2>
       <div aria-hidden className="rb-full h-1 w-full" />
-      <div className="container-page grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr_1.2fr] lg:gap-10">
+      <div className="container-page grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.3fr_1.2fr] lg:gap-10">
         <div>
           <img
             src={site.logo.reversedSrc}
@@ -39,6 +41,7 @@ export function Footer() {
           />
           <p className="mt-5 font-display text-lg font-semibold text-white">{site.slogan}</p>
           <p className="mt-3 max-w-xs text-[0.95rem] leading-relaxed text-white/65">{site.intro}</p>
+          <SocialRow size="sm" tone="light" className="mt-6" />
         </div>
 
         <nav aria-label="Quick links">
@@ -46,17 +49,12 @@ export function Footer() {
           <ul className="mt-5 space-y-3 text-[0.95rem]">
             {footerQuickLinks.map((link) => (
               <li key={link.label}>
-                {link.comingSoon || !link.href ? (
-                  <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 text-white/45" aria-disabled="true">
+                {link.href ? (
+                  <LocalizedLink href={link.href} className="transition-colors hover:text-white">
                     {link.label}
-                    <span className="rounded-full border border-white/15 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap uppercase tracking-wider">
-                      Coming soon
-                    </span>
-                  </span>
+                  </LocalizedLink>
                 ) : (
-                  <Link href={link.href} className="transition-colors hover:text-white">
-                    {link.label}
-                  </Link>
+                  <span className="text-white/45">{link.label}</span>
                 )}
               </li>
             ))}
@@ -66,26 +64,29 @@ export function Footer() {
         <div>
           <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-white">Contact Us</h3>
           <ul className="mt-5 space-y-3.5 text-[0.95rem]">
-            {contactRows.map(({ icon: Icon, label, value }) => (
+            {contactRows.map(({ icon: Icon, label, value, href }) => (
               <li key={label} className="flex gap-3">
                 <Icon className="mt-0.5 size-4 shrink-0 text-rb-sky" aria-hidden />
-                <span>
-                  <span className="sr-only">{label}: </span>
-                  <span className="block text-xs font-semibold uppercase tracking-wider text-white/45" aria-hidden>
-                    {label}
-                  </span>
-                  <Value>{value}</Value>
+                <span className="min-w-0">
+                  <span className="block text-xs font-semibold uppercase tracking-wider text-white/45">{label}</span>
+                  {href && (value as string) !== TBC ? (
+                    <a href={href} className="break-words hover:text-white">
+                      {value}
+                    </a>
+                  ) : (
+                    <Value>{value}</Value>
+                  )}
                 </span>
               </li>
             ))}
           </ul>
-          <Link
+          <LocalizedLink
             href={`${routes.contact}#enquiry`}
             className="group mt-6 inline-flex items-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-white/60 hover:bg-white/10"
           >
             Online Enquiry
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-          </Link>
+          </LocalizedLink>
         </div>
 
         <div>
@@ -105,8 +106,10 @@ export function Footer() {
 
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col gap-2 py-6 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {site.copyrightYear} Rainbow Air. All rights reserved.</p>
-          <p>Demo website – content, imagery and product data are placeholders pending confirmation.</p>
+          <p>
+            © {site.copyrightYear} {site.company.legalName} (trading as Rainbow Air). All rights reserved.
+          </p>
+          <p>Demo website – some content is placeholder pending confirmation.</p>
         </div>
       </div>
     </footer>

@@ -16,9 +16,11 @@ export const isDemoMode = () => !formConfig.endpoint;
 
 /** Enquiry types – `key` is used in links (?type=…), `label` is what the visitor sees. */
 export const enquiryTypes = [
-  { key: "package", label: "Package / Model Quote" },
+  { key: "veu", label: "VEU Discount Upgrade" },
+  { key: "new", label: "New Installation Quote" },
+  { key: "replacement", label: "Replacement Quote" },
+  { key: "repair", label: "Repair Enquiry" },
   { key: "help", label: "Help Me Choose" },
-  { key: "veu", label: "VEU Eligibility Enquiry" },
   { key: "aftercare", label: "Aftercare Enquiry" },
   { key: "general", label: "General Enquiry" },
 ] as const;

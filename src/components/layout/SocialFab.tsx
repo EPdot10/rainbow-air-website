@@ -1,51 +1,30 @@
 "use client";
 
-import { Mail, MessagesSquare, Phone, X } from "lucide-react";
-import { siFacebook, siInstagram, siWechat, siWhatsapp, siXiaohongshu } from "simple-icons";
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { MessagesSquare, X } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
 import { socialChannels, type SocialChannel } from "@/data/site";
-import { TBC } from "@/data/types";
+import { channelIcon, channelNote, channelTarget } from "@/components/social/SocialIcons";
 import { cn } from "@/lib/cn";
 
-/** Official platform glyphs from simple-icons (CC0), rendered single-colour. */
-function BrandIcon({ path }: { path: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className="size-[1.35rem]" fill="currentColor" aria-hidden>
-      <path d={path} />
-    </svg>
-  );
-}
-
-const icons: Record<SocialChannel["id"], ReactNode> = {
-  xiaohongshu: <BrandIcon path={siXiaohongshu.path} />,
-  instagram: <BrandIcon path={siInstagram.path} />,
-  wechat: <BrandIcon path={siWechat.path} />,
-  whatsapp: <BrandIcon path={siWhatsapp.path} />,
-  facebook: <BrandIcon path={siFacebook.path} />,
-  phone: <Phone className="size-5" aria-hidden />,
-  email: <Mail className="size-5" aria-hidden />,
+/** Hex colour → rgba with alpha (balls are slightly translucent, frosted). */
+const tint = (hex: string, a: number) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
 };
 
-/** Resolve where an item goes: a profile URL, tel:/mailto: once confirmed, or a pop-over. */
-function targetOf(ch: SocialChannel): string | null {
-  if (ch.href) return ch.href;
-  if (ch.value && ch.value !== TBC) {
-    if (ch.id === "phone") return `tel:${ch.value.replace(/\s+/g, "")}`;
-    if (ch.id === "email") return `mailto:${ch.value}`;
-  }
-  return null;
-}
+const SPRING = "cubic-bezier(0.34, 1.56, 0.64, 1)";
 
 /**
- * Floating contact & social button (all pages). Opens a stack of rainbow-coloured balls:
- * Xiaohongshu, Instagram, phone, WeChat, WhatsApp, Facebook and email.
- * Unconfirmed accounts show a small "coming soon" pop-over instead of a dead link.
+ * Floating contact & social button (all pages).
+ * Frosted, semi-transparent main button with the rainbow ring; channels pop out one by one
+ * with a soft spring and collapse in reverse. Linked channels open in a new tab.
  */
 export function SocialFab() {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState<SocialChannel | null>(null);
   const panelId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
+  const n = socialChannels.length;
 
   useEffect(() => {
     if (!open) return;
@@ -54,59 +33,63 @@ export function SocialFab() {
       setNote(null);
     };
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
-    const onClick = (e: MouseEvent) => {
+    const onDown = (e: PointerEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) close();
     };
     document.addEventListener("keydown", onKey);
-    document.addEventListener("mousedown", onClick);
+    document.addEventListener("pointerdown", onDown);
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("pointerdown", onDown);
     };
   }, [open]);
 
-  const noteText = (ch: SocialChannel) => {
-    if (ch.id === "wechat") return ch.value && ch.value !== TBC ? `WeChat ID: ${ch.value}` : "WeChat ID coming soon.";
-    if (ch.id === "phone") return "Phone number coming soon.";
-    if (ch.id === "email") return "Email address coming soon.";
-    return "Account coming soon.";
-  };
-
   return (
     <div ref={rootRef} className="fixed right-4 bottom-4 z-40 flex flex-col items-end sm:right-6 sm:bottom-6">
-      {note && open && (
-        <div role="status" className="mb-3 max-w-[16rem] rounded-xl border border-line bg-white px-4 py-3 text-sm shadow-lift">
-          <p className="font-semibold text-ink">{note.label}</p>
-          <p className="mt-0.5 text-muted">{noteText(note)}</p>
-        </div>
-      )}
-
-      <ul
-        id={panelId}
-        aria-label="Contact Rainbow Air and follow us"
+      <div
+        role="status"
         className={cn(
-          "mb-3 flex flex-col items-end gap-2 transition-[opacity,transform] duration-300",
-          open ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
+          "mb-3 max-w-[16rem] origin-bottom-right rounded-xl border border-white/60 bg-white/90 px-4 py-3 text-sm shadow-lift backdrop-blur-md transition-[opacity,transform] duration-200",
+          note && open ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0",
         )}
       >
+        {note && (
+          <>
+            <p className="font-semibold text-ink">{note.label}</p>
+            <p className="mt-0.5 text-muted">{channelNote(note)}</p>
+          </>
+        )}
+      </div>
+
+      <ul id={panelId} aria-label="Contact Rainbow Air and follow us" className={cn("mb-3 flex flex-col items-end gap-2", !open && "pointer-events-none")}>
         {socialChannels.map((ch, i) => {
-          const href = targetOf(ch);
+          const href = channelTarget(ch);
+          const external = href?.startsWith("http");
+          // Open: bottom item first; close: top item first (reverse).
+          const delay = open ? (n - 1 - i) * 38 : i * 22;
           const ball = (
             <span
-              className="inline-flex size-11 items-center justify-center rounded-full shadow-[0_8px_20px_-8px_rgb(0_0_0/0.45)] ring-2 ring-white transition-transform duration-200 group-hover:scale-110 sm:size-12"
-              style={{ backgroundColor: ch.color, color: ch.ink ?? "#fff" }}
+              className="inline-flex size-11 items-center justify-center rounded-full shadow-[0_8px_22px_-8px_rgb(0_0_0/0.45)] ring-1 ring-white/70 backdrop-blur-md transition-transform duration-200 group-hover:scale-110 group-active:scale-95 sm:size-12"
+              style={{ backgroundColor: tint(ch.color, 0.88), color: ch.ink ?? "#fff" }}
             >
-              {icons[ch.id]}
+              {channelIcon(ch.id)}
             </span>
           );
           const label = (
-            <span className="rounded-full bg-navy-950/85 px-3 py-1 text-xs font-semibold whitespace-nowrap text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+            <span className="rounded-full bg-navy-950/80 px-3 py-1 text-xs font-semibold whitespace-nowrap text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
               {ch.label}
             </span>
           );
-          const external = href?.startsWith("http");
           return (
-            <li key={ch.id} style={{ transitionDelay: open ? `${(socialChannels.length - i) * 25}ms` : "0ms" }}>
+            <li
+              key={ch.id}
+              className="motion-reduce:!transition-none"
+              style={{
+                opacity: open ? 1 : 0,
+                transform: open ? "translateY(0) scale(1)" : "translateY(14px) scale(0.55)",
+                transition: `opacity 240ms ease ${delay}ms, transform 420ms ${SPRING} ${delay}ms`,
+              }}
+            >
               {href ? (
                 <a
                   href={href}
@@ -123,7 +106,7 @@ export function SocialFab() {
                 <button
                   type="button"
                   tabIndex={open ? 0 : -1}
-                  onClick={() => setNote((n) => (n?.id === ch.id ? null : ch))}
+                  onClick={() => setNote((v) => (v?.id === ch.id ? null : ch))}
                   className="group flex items-center gap-2 rounded-full"
                   aria-label={`${ch.label} – details coming soon`}
                 >
@@ -145,13 +128,27 @@ export function SocialFab() {
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? "Close contact options" : "Contact Rainbow Air or follow us"}
-        className="relative inline-flex size-14 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_-8px_rgb(3_34_79/0.55)] transition-transform duration-200 hover:scale-105"
+        className="group relative inline-flex size-14 items-center justify-center rounded-full bg-white/45 shadow-[0_10px_30px_-8px_rgb(3_34_79/0.5)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-90 motion-reduce:transition-none"
       >
+        {/* Rainbow ring echoing the logo arc */}
         <span
           aria-hidden
           className="absolute inset-0 rounded-full p-[3px] [background:conic-gradient(from_200deg,#e8231b,#f7801e,#fbd40a,#3cb44a,#12a0dc,#1450b4,#4a3aa8,#e8231b)] [mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]"
         />
-        {open ? <X className="size-6 text-navy-900" aria-hidden /> : <MessagesSquare className="size-6 text-navy-900" aria-hidden />}
+        <MessagesSquare
+          aria-hidden
+          className={cn(
+            "absolute size-6 text-navy-900 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+            open ? "scale-50 rotate-90 opacity-0" : "scale-100 rotate-0 opacity-100",
+          )}
+        />
+        <X
+          aria-hidden
+          className={cn(
+            "absolute size-6 text-navy-900 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+            open ? "scale-100 rotate-0 opacity-100" : "scale-50 -rotate-90 opacity-0",
+          )}
+        />
       </button>
     </div>
   );

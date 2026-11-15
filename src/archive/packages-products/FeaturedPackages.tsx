@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { ArrowRight, Info } from "lucide-react";
-import { packageDisclosure, packages } from "@/data/packages";
-import { homeCopy } from "@/data/content";
+import { packageDisclosure, packages } from "./packages";
+import { archivedCopy } from "./archivedCopy";
 import { routes } from "@/data/site";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { PackageCard } from "@/components/cards/PackageCard";
+import { PackageCard } from "./PackageCard";
 
 export function FeaturedPackages() {
-  const c = homeCopy.packages;
+  const c = archivedCopy.packages;
   return (
     <section id="packages" aria-labelledby="packages-title" className="bg-surface py-20 sm:py-24 lg:py-28">
       <div className="container-page">

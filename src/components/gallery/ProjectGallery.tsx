@@ -1,13 +1,13 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import { useCallback, useState } from "react";
 import { illustrativeLabel, projects, projectsCopy } from "@/data/content";
 import { routes } from "@/data/site";
 import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
+import { LocalizedLink } from "@/components/locale/LocaleComponents";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Reveal } from "@/components/ui/Reveal";
@@ -71,12 +71,12 @@ export function ProjectGallery() {
             {c.similarCta}
             <ArrowRight className="size-[1.1rem] transition-transform group-hover:translate-x-0.5" aria-hidden />
           </ButtonLink>
-          <Link
-            href={`${routes.installation}#products`}
+          <LocalizedLink
+            href={routes.services}
             className="inline-flex h-14 items-center justify-center rounded-lg border border-navy-900/20 bg-white px-7 font-semibold text-navy-900 transition-colors hover:border-navy-900/45 hover:bg-navy-50"
           >
-            {c.modelsCta}
-          </Link>
+            {c.servicesCta}
+          </LocalizedLink>
         </div>
       </div>
 

@@ -1,11 +1,11 @@
 import { CalendarCheck, ClipboardList, MessageSquareText } from "lucide-react";
-import Link from "next/link";
 import { homeCopy, processSteps } from "@/data/content";
 import { routes } from "@/data/site";
 import { quoteHref } from "@/lib/quote";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
+import { LocalizedLink } from "@/components/locale/LocaleComponents";
 
 const icons = { message: MessageSquareText, clipboard: ClipboardList, calendar: CalendarCheck } as const;
 
@@ -44,12 +44,12 @@ export function InstallationProcess() {
           <ButtonLink href={quoteHref()} size="lg">
             Start with Step 01
           </ButtonLink>
-          <Link
+          <LocalizedLink
             href={routes.projects}
             className="inline-flex h-14 items-center justify-center rounded-lg border border-white/40 px-7 font-semibold text-white transition-colors hover:border-white/70 hover:bg-white/10"
           >
             {c.projectsLink}
-          </Link>
+          </LocalizedLink>
         </div>
       </div>
     </section>

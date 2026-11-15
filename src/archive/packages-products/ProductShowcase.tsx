@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { ArrowRight, Info } from "lucide-react";
-import { products } from "@/data/products";
-import { installationCopy } from "@/data/content";
+import { products } from "./products";
+import { archivedCopy } from "./archivedCopy";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { ProductCard } from "@/components/cards/ProductCard";
+import { ProductCard } from "./ProductCard";
 
 export function ProductShowcase() {
-  const c = installationCopy.products;
+  const c = archivedCopy.products;
   return (
     <section id="products" aria-labelledby="products-title" className="bg-surface py-20 sm:py-24 lg:py-28">
       <div className="container-page">

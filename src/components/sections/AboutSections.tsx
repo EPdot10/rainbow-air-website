@@ -1,5 +1,5 @@
-import { ArrowRight, BadgeCheck, FileText, Wrench } from "lucide-react";
-import { aboutCopy } from "@/data/content";
+import { AlertTriangle, ArrowRight, BadgeCheck, ClipboardList, Compass, ShieldCheck } from "lucide-react";
+import { aboutCopy, aftercarePoints, companyHighlights } from "@/data/content";
 import { site } from "@/data/site";
 import { TBC } from "@/data/types";
 import { quoteHref } from "@/lib/quote";
@@ -11,10 +11,33 @@ function Pending({ value }: { value: string }) {
   return value === TBC ? <span className="italic text-muted">[To Be Confirmed]</span> : <span className="font-semibold text-ink">{value}</span>;
 }
 
-/** Company details – all To Be Confirmed until Rainbow Air supplies them. */
+/** Merged highlights block (client, 4 points). ⚠ First two to be substantiated before launch. */
+export function CompanyHighlights() {
+  return (
+    <section aria-label="Company highlights" className="relative z-10 -mt-10 sm:-mt-12">
+      <div className="container-page">
+        <Reveal>
+          <ul className="grid overflow-hidden rounded-3xl bg-white shadow-lift ring-1 ring-line sm:grid-cols-2 lg:grid-cols-4">
+            {companyHighlights.map((h, i) => (
+              <li key={h.stat} className={`p-6 sm:p-7 ${i > 0 ? "border-t border-line sm:border-t-0 sm:border-l" : ""} ${i === 2 ? "sm:border-t lg:border-t-0" : ""} ${i === 3 ? "sm:border-t lg:border-t-0" : ""}`}>
+                <p className="font-display text-[1.7rem] leading-none font-bold text-navy-900">{h.stat}</p>
+                <span aria-hidden className="rb-full mt-3 block h-[3px] w-10 rounded-full" />
+                <p className="mt-3 text-[0.97rem] leading-relaxed">{h.label}</p>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** Company details (legal name, ACN, ABN confirmed; licence/insurance pending). */
 export function CompanyInfo() {
   const rows = [
     { label: "Legal business name", value: site.company.legalName },
+    { label: "Trading name", value: site.name },
+    { label: "ACN", value: site.company.acn },
     { label: "ABN", value: site.company.abn },
     { label: "Licences & how to verify", value: site.company.licence },
     { label: "Insurance", value: site.company.insurance },
@@ -48,34 +71,33 @@ export function CompanyInfo() {
   );
 }
 
+const aftercareIcons = { shield: ShieldCheck, alert: AlertTriangle, compass: Compass, clipboard: ClipboardList } as const;
+
+/** Client copy – "Equipment Warranty & Installation Aftercare" (4 points). */
 export function Aftercare() {
   const c = aboutCopy.aftercare;
   return (
-    <section id="aftercare" aria-labelledby="aftercare-title" className="py-20 sm:py-24 lg:py-28">
+    <section id="aftercare" aria-labelledby="aftercare-title" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
       <div className="container-page">
-        <SectionHeading id="aftercare-title" eyebrow={c.eyebrow} title={c.title} />
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          <Reveal className="rounded-2xl border border-line bg-white p-7 shadow-card">
-            <FileText className="size-7 text-rb-sky" strokeWidth={1.75} aria-hidden />
-            <h3 className="mt-4 text-lg font-bold">Equipment warranty</h3>
-            <p className="mt-2 leading-relaxed">{c.equipment}</p>
-          </Reveal>
-          <Reveal delay={0.06} className="rounded-2xl border border-line bg-white p-7 shadow-card">
-            <Wrench className="size-7 text-rb-orange" strokeWidth={1.75} aria-hidden />
-            <h3 className="mt-4 text-lg font-bold">{c.workmanshipLabel}</h3>
-            <p className="mt-2 leading-relaxed">
-              Period, coverage and terms: <Pending value={c.workmanship} />
-            </p>
-          </Reveal>
-          <Reveal delay={0.12} className="flex flex-col rounded-2xl border border-navy-900/15 bg-navy-50 p-7 shadow-card">
-            <h3 className="text-lg font-bold">Need help after installation?</h3>
-            <p className="mt-2 leading-relaxed">{c.howTo}</p>
-            <ButtonLink href={quoteHref({ type: "aftercare" })} variant="secondary" className="mt-6 self-start">
-              {c.cta}
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-            </ButtonLink>
-          </Reveal>
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHeading id="aftercare-title" eyebrow={c.eyebrow} title={c.title} />
+          <ButtonLink href={quoteHref({ type: "aftercare" })} variant="secondary" size="lg" className="shrink-0 self-start lg:self-end">
+            {c.cta}
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+          </ButtonLink>
         </div>
+        <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {aftercarePoints.map((p, i) => {
+            const Icon = aftercareIcons[p.icon];
+            return (
+              <Reveal as="li" key={p.title} delay={i * 0.06} className="rounded-2xl border border-line bg-white p-7 shadow-card">
+                <Icon className="size-7 text-rb-sky" strokeWidth={1.75} aria-hidden />
+                <h3 className="mt-4 text-lg font-bold">{p.title}</h3>
+                <p className="mt-2 leading-relaxed">{p.body}</p>
+              </Reveal>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

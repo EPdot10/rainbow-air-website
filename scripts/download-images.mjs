@@ -8,7 +8,7 @@
  *
  * Only run this for images you are permitted to self-host (Unsplash photos are;
  * Midea product images need Midea's permission before public launch).
- * Pass --stock-only to skip product (Midea) images.
+ * Pass --stock-only to skip product (Midea) images and brand logos.
  */
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -36,8 +36,11 @@ for (const e of entries) {
     const res = await fetch(e.url, { headers: { "User-Agent": "rainbow-air-website image sync" } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const buf = Buffer.from(await res.arrayBuffer());
-    const file = `${e.id}.webp`;
-    await sharp(buf).resize({ width: 2400, withoutEnlargement: true }).webp({ quality: e.kind === "product" ? 88 : 78 }).toFile(path.join(outDir, file));
+    // SVG logos are kept as SVG (sharp would rasterise them).
+    const isSvg = e.url.split("?")[0].endsWith(".svg");
+    const file = `${e.id}.${isSvg ? "svg" : "webp"}`;
+    if (isSvg) await writeFile(path.join(outDir, file), buf);
+    else await sharp(buf).resize({ width: 2400, withoutEnlargement: true }).webp({ quality: e.kind === "product" ? 88 : 78 }).toFile(path.join(outDir, file));
     manifest[e.id] = `/images/${file}`;
     console.log(`✓ ${e.id}`);
   } catch (err) {

@@ -1,16 +1,19 @@
 import { TBC, type NavItem } from "./types";
 
 /**
- * Brand, contact, navigation and social settings.
+ * Brand, company, contact, navigation and social settings.
  * Anything marked To Be Confirmed must be supplied by Rainbow Air before launch.
  */
 
 export const routes = {
   home: "/",
-  installation: "/air-conditioning-installation/",
+  services: "/our-services/",
+  veu: "/veu-discount-program/",
   projects: "/service-areas-projects/",
   about: "/about-aftercare/",
   contact: "/contact/",
+  privacy: "/privacy-policy/",
+  terms: "/terms-and-conditions/",
 } as const;
 
 export const site = {
@@ -23,23 +26,27 @@ export const site = {
   seo: {
     title: "Rainbow Air | Air Conditioning Installation Melbourne",
     description:
-      "Explore air conditioning installation and replacement solutions for Melbourne homes with Rainbow Air. Discover suitable systems and request a tailored quote.",
+      "VEU-discounted air conditioning, new installations, replacements and repairs for Melbourne homes. Check your VEU eligibility and request a quote from Rainbow Air.",
     /** Keep false until public launch so demo content is not indexed. */
     indexable: false,
   },
   intro:
-    "Rainbow Air helps Melbourne households choose, quote and install split, multi-split and ducted heating and cooling systems.",
+    "Rainbow Air helps Melbourne households upgrade to efficient reverse cycle air conditioning – from VEU discount applications to installation, replacement and repairs.",
   contact: {
-    phone: TBC,
-    email: TBC,
-    serviceArea: "Melbourne, Victoria",
+    /** Owner's mobile for now (client instruction, 2026-11-15). */
+    phone: "0433 600 166",
+    email: "info@rainbowair.com.au",
+    serviceArea: "Melbourne & surrounding areas, Victoria",
     hours: TBC,
   },
   company: {
-    legalName: TBC,
-    abn: TBC,
+    legalName: "Rainbow Heating and Cooling Pty Ltd",
+    acn: "703 700 985",
+    abn: "73 703 700 985",
     licence: TBC,
     insurance: TBC,
+    /** VEU Accredited Provider number – to be supplied. */
+    veuAccreditation: TBC,
   },
   copyrightYear: 2026,
   logo: {
@@ -51,9 +58,12 @@ export const site = {
   },
 } as const;
 
+export const telHref = (phone: string) => `tel:${phone.replace(/\s+/g, "")}`;
+
 export const mainNav: NavItem[] = [
   { label: "Home", href: routes.home },
-  { label: "Air Conditioning Installation", href: routes.installation },
+  { label: "Our Services", href: routes.services },
+  { label: "VEU Discount Program", href: routes.veu },
   { label: "Service Areas & Projects", href: routes.projects },
   { label: "About & Aftercare", href: routes.about },
   { label: "Contact Us", href: routes.contact },
@@ -68,31 +78,29 @@ export interface FooterLink {
 
 export const footerQuickLinks: FooterLink[] = [
   { label: "About Us", href: routes.about },
-  { label: "Privacy Policy", comingSoon: true },
-  { label: "Terms and Conditions", comingSoon: true },
+  { label: "Privacy Policy", href: routes.privacy },
+  { label: "Terms and Conditions", href: routes.terms },
   { label: "Quick Enquiry", href: `${routes.contact}#enquiry` },
 ];
 
-/** Short, factual points under the hero. No unverified claims (experience, licences, warranties). */
+/** Short, factual points under the hero. */
 export const heroHighlights = [
-  "Split, multi-split & ducted systems",
+  "VEU discount applications",
   "New installations & replacements",
-  "Serving homes across Melbourne",
+  "Serving Melbourne & surrounds",
 ];
 
 /**
- * Floating contact & social button.
+ * Floating contact button + Contact page social rows.
  * Brand items use official platform icons (simple-icons, CC0); colours follow the logo's rainbow.
- *  - `href: null` → account not confirmed yet; the item shows "coming soon".
- *  - `kind: "info"` items (phone, email, WeChat) show their value in a small pop-over;
- *    phone and email also become tap-to-call / tap-to-email links once confirmed.
+ *  - `href: null` → account not confirmed yet; shown as "coming soon".
+ *  - phone / email become tap-to-call / tap-to-email links automatically from `value`.
+ *  - WeChat has no public profile URL – set `value` to the WeChat ID.
  */
 export interface SocialChannel {
   id: "xiaohongshu" | "instagram" | "phone" | "wechat" | "whatsapp" | "facebook" | "email";
   label: string;
-  /** Profile URL (brand channels). */
   href: string | null;
-  /** Value shown in the pop-over (phone number, email, WeChat ID). */
   value?: string;
   color: string;
   /** Icon colour on top of the ball. */
@@ -100,7 +108,7 @@ export interface SocialChannel {
 }
 
 export const socialChannels: SocialChannel[] = [
-  { id: "xiaohongshu", label: "Xiaohongshu (RED)", href: null, color: "#e8231b" },
+  { id: "xiaohongshu", label: "Xiaohongshu (RED)", href: "https://xhslink.cn/o/68M4U64cBJe", color: "#e8231b" },
   { id: "instagram", label: "Instagram", href: null, color: "#f7801e" },
   { id: "phone", label: "Phone", href: null, value: site.contact.phone, color: "#fbd40a", ink: "#03224f" },
   { id: "wechat", label: "WeChat", href: null, value: TBC, color: "#3cb44a" },

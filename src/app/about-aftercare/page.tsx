@@ -3,7 +3,7 @@ import { aboutCopy } from "@/data/content";
 import { quoteHref } from "@/lib/quote";
 import { PageHero } from "@/components/layout/PageHero";
 import { ButtonLink } from "@/components/ui/Button";
-import { CompanyInfo, Aftercare } from "@/components/sections/AboutSections";
+import { Aftercare, CompanyHighlights, CompanyInfo } from "@/components/sections/AboutSections";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about-aftercare/" },
 };
 
-/** 4. About & Aftercare (reviews to be added once a review source is set up). */
+/** 5. About & Aftercare – highlights, why choose us, warranty & aftercare, company information. */
 export default function AboutPage() {
   const h = aboutCopy.hero;
   return (
@@ -25,9 +25,10 @@ export default function AboutPage() {
           {aboutCopy.aftercare.cta}
         </ButtonLink>
       </PageHero>
-      <CompanyInfo />
+      <CompanyHighlights />
       <WhyChooseUs />
       <Aftercare />
+      <CompanyInfo />
     </>
   );
 }

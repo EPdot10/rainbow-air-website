@@ -4,7 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, ExternalLink, FileText, Flame, Home, ShieldCheck, Snowflake, X } from "lucide-react";
 import type { Product } from "@/data/types";
 import { TBC } from "@/data/types";
-import { productQuoteLabel } from "@/data/products";
+import { productQuoteLabel } from "./products";
 import { quoteHref } from "@/lib/quote";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Button, ButtonLink } from "@/components/ui/Button";

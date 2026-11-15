@@ -1,41 +1,58 @@
 import { Suspense } from "react";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { contactCopy } from "@/data/content";
-import { site } from "@/data/site";
+import { site, telHref } from "@/data/site";
 import { TBC } from "@/data/types";
 import { QuoteEnquiryForm } from "@/components/forms/QuoteEnquiryForm";
+import { SocialRow } from "@/components/social/SocialIcons";
 
-/** Static contact details + the online enquiry form (#enquiry). */
+/** Contact details + the online enquiry form (#enquiry). On mobile the form comes first. */
 export function ContactSection() {
   const rows = [
-    { icon: Phone, label: "Phone", value: site.contact.phone },
-    { icon: Mail, label: "Email", value: site.contact.email },
+    { icon: Phone, label: "Phone", value: site.contact.phone, href: telHref(site.contact.phone) },
+    { icon: Mail, label: "Email", value: site.contact.email, href: `mailto:${site.contact.email}` },
     { icon: MapPin, label: "Service area", value: site.contact.serviceArea },
     { icon: Clock, label: "Business hours", value: site.contact.hours },
   ];
   return (
-    <section aria-label="Contact details and online enquiry" className="bg-surface py-16 sm:py-20 lg:py-24">
+    <section aria-label="Contact details and online enquiry" className="bg-surface py-8 sm:py-12 lg:py-14">
       <div className="container-page grid gap-10 lg:grid-cols-[0.8fr_1.5fr] lg:gap-14">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <h2 className="text-[1.6rem] font-bold">{contactCopy.details.title}</h2>
           <ul className="mt-6 space-y-3">
-            {rows.map(({ icon: Icon, label, value }) => (
-              <li key={label} className="flex items-center gap-4 rounded-xl border border-line bg-white px-4 py-3.5">
-                <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-navy-50">
-                  <Icon className="size-[1.15rem] text-navy-800" aria-hidden />
-                </span>
-                <span>
-                  <span className="block text-xs font-semibold uppercase tracking-[0.1em] text-muted">{label}</span>
-                  <span className={value === TBC ? "text-muted italic" : "font-semibold text-ink"}>
-                    {value === TBC ? "[To Be Confirmed]" : value}
+            {rows.map(({ icon: Icon, label, value, href }) => {
+              const pending = value === TBC;
+              const inner = (
+                <>
+                  <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-navy-50">
+                    <Icon className="size-[1.15rem] text-navy-800" aria-hidden />
                   </span>
-                </span>
-              </li>
-            ))}
+                  <span className="min-w-0">
+                    <span className="block text-xs font-semibold uppercase tracking-[0.1em] text-muted">{label}</span>
+                    <span className={pending ? "text-muted italic" : "font-semibold break-words text-ink"}>
+                      {pending ? "[To Be Confirmed]" : value}
+                    </span>
+                  </span>
+                </>
+              );
+              return (
+                <li key={label}>
+                  {href && !pending ? (
+                    <a href={href} className="flex items-center gap-4 rounded-xl border border-line bg-white px-4 py-3.5 transition-colors hover:border-navy-900/30">
+                      {inner}
+                    </a>
+                  ) : (
+                    <div className="flex items-center gap-4 rounded-xl border border-line bg-white px-4 py-3.5">{inner}</div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
+          <h3 className="mt-8 text-sm font-bold uppercase tracking-[0.12em] text-navy-700">{contactCopy.social.title}</h3>
+          <SocialRow size="sm" className="mt-3" />
         </div>
 
-        <div id="enquiry" className="scroll-mt-28">
+        <div id="enquiry" className="order-first scroll-mt-6 lg:order-none">
           <Suspense fallback={<div className="h-[52rem] rounded-2xl border border-line bg-white shadow-card" aria-hidden />}>
             <QuoteEnquiryForm />
           </Suspense>

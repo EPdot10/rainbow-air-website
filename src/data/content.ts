@@ -1,40 +1,35 @@
 import { TBC, type Project, type SystemSolution } from "./types";
 import type { ImageKey } from "./images";
+import { routes } from "./site";
 
 /**
- * Page copy, organised by page. Wording follows the client's copy document
- * ("Rainbow Air｜首版网站文案"), translated to Australian English.
- * Bracketed client placeholders are shown as "To Be Confirmed" until supplied.
+ * Page copy, organised by page (Australian English).
+ * Client-supplied wording is marked "client copy". Items marked ⚠ need client
+ * confirmation before public launch (see docs / project open-questions list).
  */
 
-/* ───────────────────────── 1. Home ───────────────────────── */
+/* ───────────────────────── Home ───────────────────────── */
 
 export const hero = {
   eyebrow: "Melbourne Heating & Cooling",
   title: "Home Air Conditioning Installation & Replacement in Melbourne",
   slogan: "Better Air. Better Living.",
-  body: "Shop Rainbow Air air conditioners and explore our featured installation packages. Replacing an old heating or cooling system at home? You can also check whether your project may be eligible for a Victorian Energy Upgrades (VEU) discount.",
-  primaryCta: { label: "View Packages", href: "#packages" },
+  body: "From VEU discount applications to new installations, replacements and repairs, Rainbow Air helps Melbourne homes switch to efficient reverse cycle heating and cooling. Replacing gas ducted heating? Check whether you may be eligible for a Victorian Energy Upgrades (VEU) discount.",
+  primaryCta: { label: "Our Services", href: routes.services },
   secondaryCta: { label: "Request a Quote" },
   image: "heroLivingRoom" as const,
 };
 
-/** Home-page VEU highlight (links to the VEU section of the Installation page). */
+/** Home-page VEU highlight (links to the VEU Discount Program page). */
 export const veuStrip = {
   eyebrow: "Victorian Energy Upgrades (VEU) Program",
-  title: "Replacing an old heater or air conditioner? You may be eligible for a VEU discount.",
-  body: "Eligibility depends on your existing equipment, the selected system and program requirements – any discount is confirmed in your written quotation.",
+  title: "Replacing gas ducted heating? You may be eligible for a VEU discount.",
+  body: "Take our quick eligibility check. Any discount is confirmed after assessment and shown in your written quotation.",
   cta: "Check VEU Eligibility",
+  href: `${routes.veu}#eligibility`,
 };
 
 export const homeCopy = {
-  packages: {
-    eyebrow: "Installation Packages",
-    title: "Featured Air Conditioning Packages",
-    subtitle:
-      "Three starting points for different homes – from a single bedroom to whole-home comfort. Every package is confirmed in a written quotation.",
-    productsLink: "Explore Our Air Conditioners",
-  },
   process: {
     eyebrow: "How It Works",
     title: "From Selection to Installation",
@@ -59,7 +54,7 @@ export const processSteps = [
   {
     step: "02",
     icon: "clipboard",
-    title: "Confirm Your Model & Quote",
+    title: "Confirm Your System & Quote",
     body: "We'll contact you about your home, arrange a site assessment where needed and provide a written quotation.",
   },
   {
@@ -72,9 +67,8 @@ export const processSteps = [
 
 /**
  * Home showcase sections.
- * ALL PLACEHOLDER CONTENT – shown with visible "Sample" labels for layout review only.
- * Do not present as genuine: replace with verified reviews, confirmed partners/brands
- * and real projects (with permission) before launch.
+ * Reviews are SAMPLE placeholders ("Robot" names, cartoon avatars) until the client supplies
+ * real, verifiable reviews. Commercial images are illustrative stock photography.
  */
 export const homeShowcase = {
   commercial: {
@@ -88,15 +82,13 @@ export const homeShowcase = {
     eyebrow: "Customer Reviews",
     title: "What Our Customers Say",
     subtitle: "Feedback from Melbourne homeowners.",
-    note: "Sample reviews for layout preview only – these will be replaced with verified customer reviews (for example from Google) before launch.",
+    note: "Sample reviews shown for layout preview – verified customer reviews will replace them.",
   },
-  partners: {
-    eyebrow: "Brands & Partners",
-    title: "Air Conditioning Brands & Partner Companies",
-    subtitle: "The equipment brands we install and the companies we work with.",
-    brandsLabel: "Air conditioning brands",
-    partnersLabel: "Partner companies",
-    note: "Logo placeholders – confirmed brands and partner companies will be shown here once approved.",
+  brands: {
+    eyebrow: "Brands We Install",
+    /** Client copy. ⚠ Licences to be confirmed (licence numbers recommended on the About page). */
+    title: "Fully licensed plumbing & Electrical Installers for all major AC Brands",
+    note: "Brand names and logos are trademarks of their respective owners.",
   },
 };
 
@@ -107,62 +99,151 @@ export const commercialProjects: { id: string; title: string; type: string; imag
   { id: "c4", title: "Commercial Ceiling Installation", type: "Ducted", image: "commercialCeilingWork", detail: "Client, location and scope to be confirmed" },
 ];
 
-/** SAMPLE reviews – placeholder names and suburbs; never present as real customer feedback. */
+/** SAMPLE reviews (client decision 2026-11-15) – "Robot" names until real reviews are supplied. */
 export const sampleReviews = [
   {
     id: "r1",
+    name: "Robot 1",
+    detail: "VEU gas ducted replacement",
     quote:
-      "The team explained the difference between a split system and multi-split clearly, and the written quote listed exactly what was included.",
-    name: "[Customer name]",
-    detail: "[Suburb] · Multi-split installation",
+      "We finally replaced our old gas ducted heater. The team checked our eligibility first, explained how the VEU discount would show on the quote, and the new system was running by the end of the day.",
   },
   {
     id: "r2",
+    name: "Robot 2",
+    detail: "Split system installation",
     quote:
-      "We replaced an old heater and were told up front what extra work might be needed. Installation was tidy and finished on the day agreed.",
-    name: "[Customer name]",
-    detail: "[Suburb] · Replacement",
+      "Quick to respond and easy to deal with. They helped us pick the right size unit for the main bedroom and left everything clean.",
   },
   {
     id: "r3",
-    quote: "Helpful advice on which rooms needed cooling and a straightforward process from enquiry to installation.",
-    name: "[Customer name]",
-    detail: "[Suburb] · Split system",
+    name: "Robot 3",
+    detail: "Multi-split, 3 rooms",
+    quote:
+      "We wanted separate control for three rooms without three outdoor units. The multi-split option was explained clearly and the install was tidy.",
+  },
+  {
+    id: "r4",
+    name: "Robot 4",
+    detail: "Replacement",
+    quote:
+      "Our old air conditioner gave up in the middle of summer. Rainbow Air came out quickly, gave us a clear written quote and had the replacement in within the week.",
+  },
+  {
+    id: "r5",
+    name: "Robot 5",
+    detail: "Repair",
+    quote:
+      "Honest advice – they told us a repair made more sense than a new unit for now. Really appreciated that.",
+  },
+  {
+    id: "r6",
+    name: "Robot 6",
+    detail: "Ducted reverse cycle",
+    quote:
+      "From the site visit to the final handover, we always knew who to call. The ducted system is quiet and heats the whole house well.",
+  },
+  {
+    id: "r7",
+    name: "Robot 7",
+    detail: "VEU upgrade",
+    quote:
+      "The VEU paperwork sounded complicated but they handled it and the discount was already applied in our quote. Would recommend to friends.",
   },
 ];
 
-export const brandPlaceholders = 6;
-export const partnerPlaceholders = 4;
+/** Bottom brand strip (client list). Logos: official files via Wikimedia Commons. */
+export const brandLogos: { name: string; image: ImageKey }[] = [
+  { name: "Midea", image: "logoMidea" },
+  { name: "Daikin", image: "logoDaikin" },
+  { name: "Mitsubishi Heavy Industries", image: "logoMhi" },
+  { name: "Mitsubishi Electric", image: "logoMitsubishiElectric" },
+  { name: "Rinnai", image: "logoRinnai" },
+  { name: "Fujitsu", image: "logoFujitsu" },
+];
 
-/* ─────────────── 2. Air Conditioning Installation ─────────────── */
+/* ───────────────────────── Our Services ───────────────────────── */
 
-export const installationCopy = {
+export const servicesCopy = {
   hero: {
-    eyebrow: "Air Conditioning Installation",
-    title: "Choose the Right Air Conditioning for Your Rooms",
-    body: "Adding air conditioning to one room, or want separate temperature control across several rooms? Tell us how you use each room, your layout and your existing system, and we'll help you compare suitable installation options.",
+    eyebrow: "Our Services",
+    title: "Heating & Cooling Services for Melbourne Homes",
+    body: "From VEU discount upgrades to new installations, replacements and repairs – one team looks after your project from the first assessment to aftercare.",
     image: "splitLivingRoom" as const,
+  },
+  list: {
+    eyebrow: "What We Do",
+    title: "Our Services",
+    subtitle: "Choose the service that fits your home, or talk to us and we'll recommend the right option.",
+  },
+  how: {
+    eyebrow: "How We Work",
+    title: "A Clear Process, Start to Finish",
+    subtitle: "No guesswork – you'll know the equipment, scope and price before any work begins.",
+  },
+  why: {
+    eyebrow: "Why Rainbow Air",
+    title: "Why Homeowners Choose Us",
+    link: "More about Rainbow Air",
   },
   systems: {
     eyebrow: "Systems",
     title: "Which System Suits Your Home?",
-    subtitle: "A quick comparison of the three main types of home heating and cooling.",
-  },
-  products: {
-    eyebrow: "Products",
-    title: "Rainbow Air Air Conditioners",
-    subtitle:
-      "Compare rated cooling and heating capacity, key features and equipment warranty by model. Found one you like? Ask for an installed quote for your home.",
-    demoNotice:
-      "Demo product data: the models below are Midea Australia reference products shown to preview this layout. They are not Rainbow Air models and will be replaced with confirmed Rainbow Air product information before launch.",
-    packagesLink: "View Featured Packages",
+    subtitle: "A quick comparison of the three main types of reverse cycle heating and cooling.",
   },
   help: {
-    title: "Not Sure Which Model Yet? We Can Help You Choose",
-    body: "Tell us which rooms need heating or cooling and what you currently use at home. We'll contact you to recommend a suitable system and model, and let you know whether a site assessment is needed.",
+    title: "Not Sure Which System Yet? We Can Help You Choose",
+    body: "Tell us which rooms need heating or cooling and what you currently use at home. We'll recommend a suitable system and let you know whether a site assessment is needed.",
     cta: "Help Me Choose",
   },
 };
+
+export const services = [
+  {
+    id: "veu",
+    featured: true,
+    title: "VEU Discount Upgrade – One-Stop Service",
+    summary:
+      "Replace your gas ducted heating with an efficient reverse cycle air conditioner and let us handle the Victorian Energy Upgrades (VEU) process. As a VEU Accredited Provider, we assess your eligibility, look after the program paperwork, install your new system and apply the discount directly to your quote.",
+    steps: ["Eligibility check", "VEU paperwork", "Installation", "Discount applied in your quote"],
+    primary: { label: "Check VEU Eligibility", href: `${routes.veu}#eligibility` },
+    quoteItem: "VEU Discount Upgrade",
+  },
+  {
+    id: "new",
+    title: "New Air Conditioning Installation",
+    summary:
+      "Adding heating and cooling to a room or the whole home? We'll recommend split, multi-split or ducted options to suit your layout and budget, then install it properly.",
+    quoteItem: "New Installation",
+  },
+  {
+    id: "replacement",
+    title: "Air Conditioner Replacement",
+    summary:
+      "Old system failing or costly to run? We remove the existing unit and replace it with an efficient modern system sized for your space.",
+    quoteItem: "Replacement",
+  },
+  {
+    id: "repair",
+    title: "Air Conditioning Repairs",
+    summary:
+      "System not heating, cooling or running as it should? Tell us what's happening and we'll arrange an inspection and a clear repair quote.",
+    quoteItem: "Repair",
+  },
+] as const;
+
+export const serviceSteps = [
+  { step: "01", title: "Enquiry", body: "Tell us about your home, your current system and what you'd like to achieve." },
+  { step: "02", title: "Assessment & Quote", body: "We confirm suitability (including VEU eligibility where relevant) and send a written quotation with a defined scope." },
+  { step: "03", title: "Installation", body: "Our team installs and commissions your system, with attention to the details that matter." },
+  { step: "04", title: "Aftercare", body: "One clear point of contact for warranty questions and installation-related support." },
+] as const;
+
+export const serviceWhy = [
+  { title: "VEU Accredited Provider", body: "We handle the VEU process and apply any eligible discount in your quote." },
+  { title: "Clear, written quotes", body: "Equipment, scope and price confirmed before work begins – no surprises." },
+  { title: "One team, start to finish", body: "From assessment and installation to aftercare." },
+] as const;
 
 export const solutions: SystemSolution[] = [
   {
@@ -187,53 +268,81 @@ export const solutions: SystemSolution[] = [
     id: "ducted",
     name: "Ducted Air Conditioning",
     description:
-      "Delivers air to multiple rooms through ductwork. Suitability depends on your roof space, home layout and zoning needs.",
+      "Delivers air to multiple rooms through ductwork – a common replacement for gas ducted heating. Suitability depends on roof space, layout and zoning needs.",
     image: "wholeHomeExterior",
-    bestFor: ["Whole-home comfort", "Discreet ceiling outlets", "Optional zoning"],
+    bestFor: ["Whole-home comfort", "Replaces gas ducted heating", "Optional zoning"],
     enquiryValue: "Ducted Air Conditioning – help me choose",
   },
 ];
 
-/** VEU block – lives on the Installation page (per the copy document). */
-export const veu = {
-  eyebrow: "Victorian Energy Upgrades",
-  title: "Is Your Air Conditioning Upgrade Eligible for a VEU Discount?",
-  body: [
-    "If you're planning to replace an older heating or cooling system, tell us your suburb, your existing equipment and the rooms you'd like the new system installed in, and ask whether a Victorian Energy Upgrades (VEU) discount may apply. For eligible projects, the applicable discount will be listed in your written quotation.",
-    "Eligible equipment and discount amounts depend on a project assessment.",
-  ],
-  /** Roles of Rainbow Air and the accredited provider – published once confirmed. */
-  participation: TBC,
-  cta: "Check Eligibility",
-  officialInfo: {
-    label: "About the VEU program (Victorian Government)",
-    href: "https://www.energy.vic.gov.au/victorian-energy-upgrades",
+/* ───────────────────────── VEU Discount Program ───────────────────────── */
+
+export const veuPage = {
+  hero: {
+    eyebrow: "VEU Discount Program",
+    title: "Government Rebate Program – VEU Discounts",
+    body: "The Victorian Energy Upgrades (VEU) program helps Victorian households save on energy-efficient upgrades. Replacing gas ducted heating with an efficient reverse cycle air conditioner is one of the biggest discounts available.",
+    image: "galleryDuctedOutlet" as const,
   },
+  intro: {
+    eyebrow: "What Is VEU?",
+    title: "VEU in Plain English",
+    points: [
+      {
+        title: "A Victorian Government program",
+        body: "VEU offers discounts on approved energy-efficient products to help Victorians lower their energy bills.",
+      },
+      {
+        title: "Gas heating → reverse cycle",
+        body: "Households can receive a discount when they remove and replace a gas heater – including whole-home gas ducted heating – with an approved high-efficiency reverse cycle air conditioner.",
+      },
+      {
+        title: "Discount applied by an Accredited Provider",
+        body: "You don't apply to the government yourself. An Accredited Provider like Rainbow Air handles the program requirements and applies the discount to your quote.",
+      },
+      {
+        title: "Old gas heater disconnected",
+        body: "For this upgrade, your existing gas ducted heater is decommissioned (disconnected) as part of the installation.",
+      },
+    ],
+    officialCta: "For more details, view the Victorian Government's official VEU program website",
+    officialHref: "https://www.energy.vic.gov.au/households/victorian-energy-upgrades-for-households/heating-and-cooling",
+    imageCredit: "Illustrative image: Unsplash. Program information summarised from energy.vic.gov.au.",
+  },
+  check: {
+    eyebrow: "Eligibility Check",
+    title: "Could Your Home Be Eligible?",
+    subtitle: "Answer a few quick questions. It takes about a minute and helps us understand whether a VEU upgrade may suit your home.",
+  },
+  /** Client copy – shown under the final Submit button. */
+  disclaimerTitle: "VEU Rebate Disclaimer:",
+  disclaimer:
+    "This offer requires your existing gas ducted heater to be disconnected as part of the upgrade. Submitting an enquiry does not guarantee VEU rebate eligibility. Eligibility is subject to assessment and applicable VEU program requirements.",
 };
 
-/* ─────────────── 3. Service Areas & Projects ─────────────── */
+/* ───────────────────────── Service Areas & Projects ───────────────────────── */
 
 export const projectsCopy = {
   hero: {
     eyebrow: "Service Areas & Projects",
-    title: "Check Whether We Service Your Area",
-    body: "Rainbow Air installs and replaces air conditioning for homes across Melbourne. Include your suburb or postcode when you enquire and we'll confirm whether we can visit.",
+    title: "Where We Work",
+    body: "Rainbow Air installs, replaces and repairs air conditioning for homes across Melbourne and surrounding areas. Include your suburb or postcode when you enquire and we'll confirm whether we can visit.",
     image: "galleryOutdoorPaved" as const,
   },
   areas: {
     title: "Service Area",
-    mainAreas: TBC,
-    suburbs: TBC,
-    note: "Not sure if we cover your suburb? Send an enquiry with your suburb or postcode and we'll confirm.",
+    /** ⚠ Interim wording – final service area (suburb list or radius) to be confirmed by the client. */
+    summary: "Servicing Melbourne and surrounding areas, including the south-east.",
+    note: "Not sure if we cover your suburb? Include your suburb or postcode in your enquiry and we'll confirm.",
   },
   gallery: {
     eyebrow: "Projects",
     title: "Melbourne Installation Projects",
     subtitle: "Explore air conditioning installation solutions for Melbourne homes.",
     note:
-      "Images in this gallery are illustrative stock photography used for design preview. They do not show Rainbow Air projects. Real project photos – with suburb, customer needs and the installed system – will replace them once available.",
+      "Images in this gallery are illustrative stock photography used for design preview. They do not show Rainbow Air projects. Real project photos will replace them once available.",
     similarCta: "Enquire About a Similar Installation",
-    modelsCta: "View Our Models",
+    servicesCta: "View Our Services",
   },
 };
 
@@ -249,65 +358,66 @@ export const projects: Project[] = [
 
 export const illustrativeLabel = "Illustrative Installation Image";
 
-/* ─────────────── 4. About & Aftercare ─────────────── */
+/* ───────────────────────── About & Aftercare ───────────────────────── */
 
 export const aboutCopy = {
   hero: {
     eyebrow: "About & Aftercare",
     title: "About Rainbow Air",
-    body: "Rainbow Air provides air conditioning selection, equipment supply, installation and replacement for Melbourne homes. We recommend models based on how you use each room and the conditions of your home, and confirm the installation scope with you before any work begins.",
+    body: "Rainbow Air provides air conditioning selection, equipment supply, installation and replacement for Melbourne homes – and, as a VEU Accredited Provider, helps households upgrade from gas heating with the Victorian Energy Upgrades discount.",
     image: "galleryModernHome" as const,
   },
   company: { title: "Company Information" },
   why: {
     eyebrow: "Why Rainbow Air",
     title: "Why Choose Rainbow Air?",
-    subtitle: "Clear advice, clear quotations and support from start to finish.",
   },
   aftercare: {
     eyebrow: "Aftercare",
     title: "Equipment Warranty & Installation Aftercare",
-    equipment:
-      "Equipment warranty is provided according to each model's warranty terms – details are listed in the specifications for that model.",
-    workmanshipLabel: "Workmanship warranty",
-    workmanship: TBC,
-    howTo:
-      "Need help after your installation? Please provide the installation address or suburb, the installation date, and the equipment model or quotation number so we can find your records.",
     cta: "Contact Aftercare",
   },
 };
 
+/**
+ * Company highlights (client, 2026-11-15) shown as one merged block.
+ * ⚠ The first two need substantiation: the company's ABN became active in Oct 2026, so the wording
+ * refers to the team's experience. Confirm accuracy with the client before public launch.
+ */
+export const companyHighlights = [
+  { stat: "Since 2010", label: "Our team has been installing heating & cooling since 2010" },
+  { stat: "~10,000", label: "VEU air conditioning installations of team experience" },
+  { stat: "Worry-free", label: "We understand customer and VEU program requirements, with aftercare you can rely on" },
+  { stat: "No hidden fees", label: "Fair pricing – your written quote shows what you pay" },
+];
+
+/** Client copy – "Why Choose Rainbow Air?" */
 export const benefits = [
-  {
-    icon: "ruler",
-    title: "Tailored Air Conditioning Solutions",
-    body: "Recommendations based on your rooms, layout and heating and cooling needs.",
-  },
-  {
-    icon: "file",
-    title: "Clear Installation Quotations",
-    body: "Understand the proposed equipment, installation scope and any additional work before proceeding.",
-  },
-  {
-    icon: "route",
-    title: "From Selection to Installation",
-    body: "Support throughout product selection, quotation and installation coordination.",
-  },
-  {
-    icon: "shield",
-    title: "Aftercare Support",
-    body: "Information and assistance for equipment warranties and installation-related enquiries.",
-  },
+  { icon: "fit", title: "The Right Fit", body: "Solutions shaped around your home, not a one-size-fits-all package." },
+  { icon: "quote", title: "No Guesswork", body: "Clear quotes and a defined scope before work begins." },
+  { icon: "care", title: "Done with Care", body: "Thoughtful installation, with attention to the details that matter." },
+  { icon: "contact", title: "One Clear Contact", body: "A straightforward point of contact from planning to aftercare." },
+  { icon: "rebate", title: "Rebate Guidance", body: "Help understanding VEU options and eligibility requirements." },
 ] as const;
 
-/* ─────────────── 5. Contact & Quote ─────────────── */
+/** Client copy – "Equipment Warranty & Installation Aftercare" */
+export const aftercarePoints = [
+  { icon: "shield", title: "Know Your Cover", body: "Understand the manufacturer's warranty for your specific system." },
+  { icon: "alert", title: "Installation Concerns?", body: "Tell us what happened, and we'll help clarify the next steps." },
+  { icon: "compass", title: "Support That Makes Sense", body: "Clear guidance on whether to contact Rainbow Air or the manufacturer." },
+  { icon: "clipboard", title: "Help Us Help You", body: "Have your installation details and a brief description of the issue ready." },
+] as const;
+
+/* ───────────────────────── Contact ───────────────────────── */
 
 export const contactCopy = {
   hero: {
     eyebrow: "Contact Us",
-    title: "Tell Us Where You'd Like Air Conditioning Installed",
-    body: "Fill in your contact details and installation needs. Rainbow Air will contact you to confirm the service area, model and the information needed for a quotation.",
+    title: "Get in Touch",
+    body: "Send an online enquiry below, call us, or message us on social media. We'll confirm the service area, system and the information needed for a quotation.",
   },
   details: { title: "Contact Details" },
-  form: { title: "Online Enquiry" },
+  social: { title: "Follow & message us" },
 };
+
+export const pendingValue = TBC;

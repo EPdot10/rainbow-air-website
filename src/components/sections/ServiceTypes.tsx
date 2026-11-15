@@ -1,23 +1,24 @@
 import { ArrowRight } from "lucide-react";
-import { installationCopy, solutions } from "@/data/content";
+import { servicesCopy, solutions } from "@/data/content";
+import { LocalizedLink } from "@/components/locale/LocaleComponents";
 import { quoteHref } from "@/lib/quote";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function ServiceTypes() {
-  const c = installationCopy.systems;
+  const c = servicesCopy.systems;
 
   return (
-    <section id="systems" aria-labelledby="solutions-title" className="pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pb-28">
+    <section id="systems" aria-labelledby="solutions-title" className="bg-surface py-20 sm:py-24">
       <div className="container-page">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading id="solutions-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />
           <a
-            href="#products"
+            href="#help-me-choose"
             className="inline-flex shrink-0 items-center gap-2 font-semibold text-sky-600 underline-offset-4 hover:text-navy-900 hover:underline"
           >
-            Compare models
+            Not sure? Get help choosing
             <ArrowRight className="size-4" aria-hidden />
           </a>
         </div>
@@ -55,18 +56,18 @@ export function ServiceTypes() {
                   </ul>
                   <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-7">
                     <a
-                      href="#products"
+                      href="#help-me-choose"
                       className="inline-flex items-center gap-1.5 font-semibold text-navy-900 underline-offset-4 hover:underline"
                     >
                       Learn More
                     </a>
-                    <a
+                    <LocalizedLink
                       href={quoteHref({ type: "help", item: s.enquiryValue })}
                       className="group inline-flex items-center gap-1.5 font-semibold text-flame-600 underline-offset-4 hover:text-flame-700 hover:underline"
                     >
                       Enquire Now
                       <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-                    </a>
+                    </LocalizedLink>
                   </div>
                 </div>
               </article>

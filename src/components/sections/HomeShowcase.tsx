@@ -1,18 +1,14 @@
-import { ArrowRight, Building2, Quote, Snowflake, Star } from "lucide-react";
-import {
-  brandPlaceholders,
-  commercialProjects,
-  homeShowcase,
-  illustrativeLabel,
-  partnerPlaceholders,
-  sampleReviews,
-} from "@/data/content";
+import { ArrowRight } from "lucide-react";
+import { brandLogos, commercialProjects, homeShowcase, illustrativeLabel, sampleReviews } from "@/data/content";
 import { quoteHref } from "@/lib/quote";
+import { resolveImage } from "@/lib/images";
+import { avatarDataUri } from "@/lib/avatars";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { ButtonLink } from "@/components/ui/Button";
 import { DemoBadge } from "@/components/ui/DemoBadge";
 import { Reveal } from "@/components/ui/Reveal";
+import { ReviewsCarousel } from "@/components/sections/ReviewsCarousel";
 
 /* ───────────── Commercial projects (illustrative) ───────────── */
 
@@ -65,91 +61,74 @@ export function CommercialProjects() {
   );
 }
 
-/* ───────────── Customer reviews (SAMPLE placeholders) ───────────── */
+/* ───────────── Customer reviews (SAMPLE, carousel) ───────────── */
 
 export function CustomerReviews() {
   const c = homeShowcase.reviews;
+  const reviews = sampleReviews.map((r, i) => ({ ...r, avatar: avatarDataUri(r.name, i) }));
   return (
-    <section id="reviews" aria-labelledby="reviews-title" className="bg-surface py-20 sm:py-24 lg:py-28">
+    <section id="reviews" aria-labelledby="reviews-title" className="overflow-hidden bg-surface py-20 sm:py-24 lg:py-28">
       <div className="container-page">
         <SectionHeading id="reviews-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} align="center" />
-
-        <ul className="mt-12 grid gap-6 md:grid-cols-3">
-          {sampleReviews.map((r, i) => (
-            <Reveal as="li" key={r.id} delay={i * 0.07}>
-              <figure className="relative flex h-full flex-col rounded-2xl border border-line bg-white p-7 shadow-card">
-                <div className="flex items-center justify-between">
-                  <span className="flex gap-0.5 text-rb-yellow" aria-hidden>
-                    {Array.from({ length: 5 }).map((_, k) => (
-                      <Star key={k} className="size-4 fill-current" />
-                    ))}
-                  </span>
-                  <DemoBadge>Sample review</DemoBadge>
-                </div>
-                <Quote className="mt-5 size-7 text-navy-100" aria-hidden />
-                <blockquote className="mt-2 flex-1 text-[1.02rem] leading-relaxed text-ink">“{r.quote}”</blockquote>
-                <figcaption className="mt-6 flex items-center gap-3 border-t border-line pt-5">
-                  <span
-                    aria-hidden
-                    className="inline-flex size-10 items-center justify-center rounded-full bg-navy-50 font-display text-sm font-bold text-navy-800"
-                  >
-                    RA
-                  </span>
-                  <span>
-                    <span className="block font-semibold text-ink italic">{r.name}</span>
-                    <span className="block text-sm text-muted italic">{r.detail}</span>
-                  </span>
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </ul>
-        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted">{c.note}</p>
+        <div className="mt-12">
+          <ReviewsCarousel reviews={reviews} />
+        </div>
+        <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-muted">{c.note}</p>
       </div>
     </section>
   );
 }
 
-/* ───────────── Brands & partner companies (logo placeholders) ───────────── */
+/* ───────────── Brands strip (EA-style band above the footer) ───────────── */
 
-function LogoSlot({ icon: Icon, label, index }: { icon: typeof Snowflake; label: string; index: number }) {
+function BrandLogo({ name, image }: { name: string; image: (typeof brandLogos)[number]["image"] }) {
+  const img = resolveImage(image);
   return (
-    <li className="flex h-24 flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-navy-900/15 bg-white text-muted transition-colors hover:border-navy-900/35">
-      <Icon className="size-5 text-navy-700/50" aria-hidden />
-      <span className="text-xs font-semibold tracking-wide">
-        {label} {index}
-      </span>
+    <li className="flex h-20 w-44 shrink-0 items-center justify-center px-6 sm:w-52">
+      <img
+        src={img.src}
+        alt={`${name} logo`}
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
+        className="max-h-11 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0"
+      />
     </li>
   );
 }
 
-export function BrandsPartners() {
-  const c = homeShowcase.partners;
+export function BrandStrip() {
+  const c = homeShowcase.brands;
   return (
-    <section id="partners" aria-labelledby="partners-title" className="py-20 sm:py-24">
-      <div className="container-page">
-        <SectionHeading id="partners-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} align="center" />
-
-        <Reveal className="mt-12">
-          <h3 className="text-center text-xs font-bold uppercase tracking-[0.16em] text-navy-700">{c.brandsLabel}</h3>
-          <ul className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            {Array.from({ length: brandPlaceholders }).map((_, i) => (
-              <LogoSlot key={i} icon={Snowflake} label="Brand logo" index={i + 1} />
-            ))}
-          </ul>
-        </Reveal>
-
-        <Reveal className="mx-auto mt-10 max-w-4xl" delay={0.06}>
-          <h3 className="text-center text-xs font-bold uppercase tracking-[0.16em] text-navy-700">{c.partnersLabel}</h3>
-          <ul className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {Array.from({ length: partnerPlaceholders }).map((_, i) => (
-              <LogoSlot key={i} icon={Building2} label="Partner logo" index={i + 1} />
-            ))}
-          </ul>
-        </Reveal>
-
-        <p className="mt-8 text-center text-sm text-muted">{c.note}</p>
+    <section id="brands" aria-labelledby="brands-title" className="border-t border-line bg-white py-14 sm:py-16">
+      <div className="container-page text-center">
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-flame-600">{c.eyebrow}</p>
+        <h2 id="brands-title" className="mx-auto mt-3 max-w-3xl text-2xl font-bold text-navy-900 sm:text-3xl">
+          {c.title}
+        </h2>
       </div>
+      <div className="brand-marquee group relative mt-10 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+        <ul className="brand-track flex w-max motion-reduce:mx-auto motion-reduce:w-auto motion-reduce:flex-wrap motion-reduce:justify-center">
+          {brandLogos.map((b) => (
+            <BrandLogo key={b.name} {...b} />
+          ))}
+          {brandLogos.map((b) => (
+            <li key={`${b.name}-dup`} aria-hidden className="contents motion-reduce:hidden">
+              <BrandLogoDup {...b} />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p className="container-page mt-6 text-center text-xs text-muted">{c.note}</p>
     </section>
+  );
+}
+
+function BrandLogoDup({ image }: { name: string; image: (typeof brandLogos)[number]["image"] }) {
+  const img = resolveImage(image);
+  return (
+    <span className="flex h-20 w-44 shrink-0 items-center justify-center px-6 sm:w-52">
+      <img src={img.src} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" className="max-h-11 w-auto max-w-full object-contain opacity-70 grayscale" />
+    </span>
   );
 }

@@ -1,50 +1,33 @@
-import { ArrowRight, MapPin, Navigation } from "lucide-react";
+import { ArrowRight, MapPin, Search } from "lucide-react";
 import { projectsCopy } from "@/data/content";
-import { site } from "@/data/site";
-import { TBC } from "@/data/types";
 import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
-function Pending({ value }: { value: string }) {
-  return value === TBC ? <span className="italic text-muted">[To Be Confirmed]</span> : <span className="font-semibold text-ink">{value}</span>;
-}
-
+/** Interim service area wording (no map, no suburb list until the client confirms coverage). */
 export function ServiceArea() {
   const c = projectsCopy.areas;
   return (
     <section id="service-area" aria-labelledby="area-title" className="bg-surface py-20 sm:py-24">
-      <div className="container-page grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
-        <Reveal>
-          <h2 id="area-title" className="text-[2rem] leading-tight font-bold tracking-[-0.02em] sm:text-[2.4rem]">
-            {c.title}
-          </h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted">{c.note}</p>
-          <ButtonLink href={quoteHref({ type: "general" })} size="lg" className="mt-8">
+      <div className="container-page">
+        <Reveal className="grid gap-8 rounded-3xl border border-line bg-white p-8 shadow-card sm:p-10 md:grid-cols-[auto_1fr] md:items-center lg:grid-cols-[auto_1fr_auto]">
+          <span className="inline-flex size-16 items-center justify-center rounded-2xl bg-navy-50 ring-1 ring-navy-900/5">
+            <MapPin className="size-8 text-flame-600" strokeWidth={1.75} aria-hidden />
+          </span>
+          <div>
+            <h2 id="area-title" className="text-xs font-bold uppercase tracking-[0.16em] text-navy-700">
+              {c.title}
+            </h2>
+            <p className="mt-2 text-[1.6rem] leading-tight font-bold text-navy-900 sm:text-[2rem]">{c.summary}</p>
+            <p className="mt-3 flex items-start gap-2 leading-relaxed text-muted">
+              <Search className="mt-1 size-4 shrink-0" aria-hidden />
+              {c.note}
+            </p>
+          </div>
+          <ButtonLink href={quoteHref({ type: "general", item: "Check my suburb" })} size="lg" className="md:col-span-2 md:justify-self-start lg:col-span-1">
             Check My Suburb
             <ArrowRight className="size-[1.1rem] transition-transform group-hover:translate-x-0.5" aria-hidden />
           </ButtonLink>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <dl className="divide-y divide-line rounded-2xl border border-line bg-white shadow-card">
-            {[
-              { icon: MapPin, label: "Region", value: site.contact.serviceArea },
-              { icon: Navigation, label: "Main areas covered", value: c.mainAreas },
-              { icon: MapPin, label: "Suburbs / postcodes", value: c.suburbs },
-            ].map(({ icon: Icon, label, value }) => (
-              <div key={label} className="flex items-start gap-4 p-5 sm:p-6">
-                <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-navy-50">
-                  <Icon className="size-5 text-navy-800" aria-hidden />
-                </span>
-                <div>
-                  <dt className="text-xs font-semibold uppercase tracking-[0.1em] text-muted">{label}</dt>
-                  <dd className="mt-0.5">
-                    <Pending value={value} />
-                  </dd>
-                </div>
-              </div>
-            ))}
-          </dl>
         </Reveal>
       </div>
     </section>

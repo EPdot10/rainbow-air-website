@@ -18,6 +18,7 @@ const unsplash = (photoId: string) =>
   `https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&q=75`;
 
 const UNSPLASH_LICENCE = "Unsplash Licence (free commercial use, no attribution required)";
+const LOGO_LICENCE = "Public domain (Wikimedia Commons) – trademark of its owner; used to identify brands installed";
 const MIDEA_NOTE = "Midea Australia official product image – demo reference only, permission required for launch";
 
 export const images = {
@@ -239,6 +240,68 @@ export const images = {
     source: "Midea Australia (mdhome.com.au)",
     sourceUrl: "https://mdhome.com.au/product/vesta-ducted/",
     licence: MIDEA_NOTE,
+  },
+
+  // ── Brand logos (official files via Wikimedia Commons; public domain, trademarked) ──
+  logoMidea: {
+    id: "logo-midea",
+    remote: "https://upload.wikimedia.org/wikipedia/commons/b/bf/Midea.svg",
+    alt: "Midea logo",
+    ratio: 2.591,
+    kind: "logo",
+    source: "Wikimedia Commons",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Midea.svg",
+    licence: LOGO_LICENCE,
+  },
+  logoDaikin: {
+    id: "logo-daikin",
+    remote: "https://upload.wikimedia.org/wikipedia/commons/0/05/DAIKIN_logo.svg",
+    alt: "Daikin logo",
+    ratio: 4.644,
+    kind: "logo",
+    source: "Wikimedia Commons",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:DAIKIN_logo.svg",
+    licence: LOGO_LICENCE,
+  },
+  logoMhi: {
+    id: "logo-mitsubishi-heavy-industries",
+    remote: "https://upload.wikimedia.org/wikipedia/commons/0/05/MHI_Logo_en.svg",
+    alt: "Mitsubishi Heavy Industries logo",
+    ratio: 5.403,
+    kind: "logo",
+    source: "Wikimedia Commons",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:MHI_Logo_en.svg",
+    licence: LOGO_LICENCE,
+  },
+  logoMitsubishiElectric: {
+    id: "logo-mitsubishi-electric",
+    remote: "https://upload.wikimedia.org/wikipedia/commons/1/10/Mitsubishi_Electric_logo.svg",
+    alt: "Mitsubishi Electric logo",
+    ratio: 3.281,
+    kind: "logo",
+    source: "Wikimedia Commons",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Mitsubishi_Electric_logo.svg",
+    licence: LOGO_LICENCE,
+  },
+  logoRinnai: {
+    id: "logo-rinnai",
+    remote: "https://upload.wikimedia.org/wikipedia/commons/6/61/Rinnai_logo.svg",
+    alt: "Rinnai logo",
+    ratio: 4.604,
+    kind: "logo",
+    source: "Wikimedia Commons",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Rinnai_logo.svg",
+    licence: LOGO_LICENCE,
+  },
+  logoFujitsu: {
+    id: "logo-fujitsu",
+    remote: "https://upload.wikimedia.org/wikipedia/commons/5/53/Fujitsu-Logo.svg",
+    alt: "Fujitsu logo",
+    ratio: 2.055,
+    kind: "logo",
+    source: "Wikimedia Commons",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Fujitsu-Logo.svg",
+    licence: LOGO_LICENCE,
   },
 } satisfies Record<string, ImageAsset>;
 

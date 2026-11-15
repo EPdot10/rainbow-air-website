@@ -21,6 +21,31 @@ Never force-push `main`.
 
 ---
 
+## v0.4.0 – 2026-11-15 · Client revision round 1 (commit: see `git log`, message "feat: v0.4.0 …")
+**Navigation:** Home → Our Services → VEU Discount Program → Service Areas & Projects → About & Aftercare → Contact Us.
+- **Request a Quote** now always lands on the Online Enquiry form (desktop & mobile); Contact hero made compact and the form
+  comes first on mobile.
+- **Removed** home packages, the product showcase and "Explore / Browse Models" buttons. Help Me Choose and the 3 system
+  cards stay ("Learn More" now goes to Help Me Choose). Backup: branch `backup/packages-products` (= `2f6b423`, the v0.3.0
+  site) and folder `src/archive/packages-products/` (README explains how to restore).
+- **Our Services** page (replaces Air Conditioning Installation; old URL 301-redirects): VEU one-stop service, new installation,
+  replacement, repair – each Quote button pre-fills the service. Process, why us, systems, Help Me Choose.
+- **VEU Discount Program** page: plain-English intro, link to the official Victorian Government site (new tab), eligibility
+  questionnaire (gas ducted → Victoria → agree to disconnect → address, photos, contact). Any "No" stops the flow.
+  Front-end only (Demo Mode, nothing sent). Client disclaimer under Submit (14px).
+- **Home:** VEU card links to the VEU page; reviews become an auto-sliding, draggable carousel of 7 sample reviews
+  ("Robot 1–7", DiceBear cartoon avatars); brand strip above the footer (Midea, Daikin, MHI, Mitsubishi Electric, Rinnai,
+  Fujitsu); partner companies removed.
+- **Floating button:** frosted semi-transparent ball with rainbow ring, staggered spring open/close, icon rotates to ✕.
+  Xiaohongshu opens xhslink.cn/o/68M4U64cBJe in a new tab; phone/email are tap-to-call / tap-to-email; others "coming soon".
+- **Contact Us:** large social icon row in the hero + small row beside the form.
+- **About & Aftercare:** client copy (Why Choose Rainbow Air ×5, Warranty & Aftercare ×4) and a highlights block
+  (team-experience wording – to be substantiated). Company: Rainbow Heating and Cooling Pty Ltd, ACN 703 700 985, ABN 73 703 700 985.
+- **Service Areas:** "Servicing Melbourne and surrounding areas, including the south-east" + suburb prompt; placeholders removed.
+- **Privacy Policy / Terms and Conditions** pages (our own wording, marked DRAFT for legal review); footer links live.
+- **Languages:** EN / 简 / 繁 switcher (top bar + mobile menu), remembered via `/zh-hans/`, `/zh-hant/` URLs and the browser.
+  Content stays English for now with a "中文版即将上线" notice.
+
 ## v0.3.0 – 2026-11-13 · Fuller home page, contact options, changelog (`0585c38`)
 - Home VEU card restyled as a dark frosted-glass card inside the hero (no stark white box); shown in the hero on all screen sizes.
 - Home page gains three new sections: **Commercial & Large-Scale Projects** (illustrative images), **Customer Reviews**

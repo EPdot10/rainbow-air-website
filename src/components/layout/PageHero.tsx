@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocalizedLink } from "@/components/locale/LocaleComponents";
 import { ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import type { ImageKey } from "@/data/images";
@@ -13,10 +13,14 @@ interface PageHeroProps {
   crumb: string;
   image?: ImageKey;
   children?: ReactNode;
+  /** Shorter hero so the content below (e.g. the enquiry form) is visible on the first screen. */
+  compact?: boolean;
+  /** Extra block under the text (e.g. social icon row). */
+  extra?: ReactNode;
 }
 
 /** Compact hero used at the top of every inner page (one H1 per page). */
-export function PageHero({ eyebrow, title, body, crumb, image, children }: PageHeroProps) {
+export function PageHero({ eyebrow, title, body, crumb, image, children, compact, extra }: PageHeroProps) {
   return (
     <section aria-labelledby="page-title" className="relative isolate overflow-hidden bg-navy-950">
       {image && (
@@ -28,13 +32,13 @@ export function PageHero({ eyebrow, title, body, crumb, image, children }: PageH
           />
         </div>
       )}
-      <div className="container-page py-14 sm:py-20 lg:py-24">
-        <nav aria-label="Breadcrumb" className="mb-6 text-sm text-white/65">
+      <div className={compact ? "container-page py-8 sm:py-10 lg:py-12" : "container-page py-14 sm:py-20 lg:py-24"}>
+        <nav aria-label="Breadcrumb" className={compact ? "mb-4 text-sm text-white/65" : "mb-6 text-sm text-white/65"}>
           <ol className="flex items-center gap-1.5">
             <li>
-              <Link href="/" className="hover:text-white">
+              <LocalizedLink href="/" className="hover:text-white">
                 Home
-              </Link>
+              </LocalizedLink>
             </li>
             <li aria-hidden>
               <ChevronRight className="size-3.5" />
@@ -48,12 +52,17 @@ export function PageHero({ eyebrow, title, body, crumb, image, children }: PageH
           <Eyebrow tone="light">{eyebrow}</Eyebrow>
           <h1
             id="page-title"
-            className="mt-4 text-[2.1rem] leading-[1.1] font-bold tracking-[-0.02em] text-white sm:text-[2.7rem] lg:text-[3.1rem]"
+            className={
+              compact
+                ? "mt-3 text-[1.9rem] leading-[1.1] font-bold tracking-[-0.02em] text-white sm:text-[2.3rem]"
+                : "mt-4 text-[2.1rem] leading-[1.1] font-bold tracking-[-0.02em] text-white sm:text-[2.7rem] lg:text-[3.1rem]"
+            }
           >
             {title}
           </h1>
-          <p className="mt-5 max-w-2xl text-[1.05rem] leading-relaxed text-white/80 sm:text-lg">{body}</p>
+          <p className={compact ? "mt-3 max-w-2xl leading-relaxed text-white/80" : "mt-5 max-w-2xl text-[1.05rem] leading-relaxed text-white/80 sm:text-lg"}>{body}</p>
           {children && <div className="mt-8 flex flex-col gap-3 sm:flex-row">{children}</div>}
+          {extra && <div className={compact ? "mt-5" : "mt-8"}>{extra}</div>}
         </div>
       </div>
     </section>

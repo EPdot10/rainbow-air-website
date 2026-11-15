@@ -2,7 +2,7 @@
 
 import { AlertCircle, AlertTriangle, ArrowRight, CheckCircle2, Loader2, Pencil } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useId, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
 import {
   enquiryTypes,
   formConfig,
@@ -11,9 +11,10 @@ import {
   isDemoMode,
   roomOptions,
 } from "@/data/form";
-import { packages } from "@/data/packages";
-import { productQuoteLabel, products } from "@/data/products";
+import { services, solutions } from "@/data/content";
 import { Button } from "@/components/ui/Button";
+import { LocalizedLink } from "@/components/locale/LocaleComponents";
+import { routes } from "@/data/site";
 import { cn } from "@/lib/cn";
 
 type Fields = {
@@ -49,8 +50,8 @@ type Errors = Partial<Record<keyof Fields, string>>;
 const VEU_LABEL = enquiryTypes.find((t) => t.key === "veu")!.label;
 
 const preferredOptions = [
-  ...packages.map((p) => `${p.label}: ${p.name} (${p.systemType})`),
-  ...products.map(productQuoteLabel),
+  ...services.map((s) => s.quoteItem),
+  ...solutions.map((s) => s.name),
   "Not sure yet – please recommend",
 ];
 
@@ -122,6 +123,19 @@ export function QuoteEnquiryForm() {
   const prefilledFrom = prefilled.preferred ?? prefilled.enquiryType ?? null;
 
   const id = (f: keyof Fields) => `${uid}-${f}`;
+
+  // "Request a Quote" links end in #enquiry: make sure the form is brought into view after the page
+  // (and the pre-filled values) have rendered – on both desktop and mobile.
+  useEffect(() => {
+    if (window.location.hash !== "#enquiry") return;
+    const go = () => document.getElementById("enquiry")?.scrollIntoView({ block: "start" });
+    const t1 = window.setTimeout(go, 60);
+    const t2 = window.setTimeout(go, 400);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, [paramKey]);
 
   const set = (f: keyof Fields) => (e: { target: { value: string } }) => {
     const next = { ...values, [f]: e.target.value };
@@ -196,7 +210,7 @@ export function QuoteEnquiryForm() {
                   ["Enquiry type", values.enquiryType],
                   ["Requirement", values.installation],
                   ["Suburb / postcode", values.suburb],
-                  ["Package / model", values.preferred || "—"],
+                  ["Service / system", values.preferred || "—"],
                 ] as const
               ).map(([k, v]) => (
                 <div key={k}>
@@ -342,10 +356,10 @@ export function QuoteEnquiryForm() {
           {(p) => <input {...p} type="text" placeholder="e.g. Living room, 2 bedrooms" value={values.roomNames} onChange={set("roomNames")} />}
         </Field>
 
-        <Field id={id("preferred")} label="Preferred Package / Model" hint="Choose a suggestion or type your own" className="sm:col-span-2">
+        <Field id={id("preferred")} label="Preferred Service / System" hint="Choose a suggestion or type your own" className="sm:col-span-2">
           {(p) => (
             <>
-              <input {...p} type="text" list={`${uid}-preferred-list`} value={values.preferred} onChange={set("preferred")} placeholder="e.g. Package B: Multi-Room Comfort" />
+              <input {...p} type="text" list={`${uid}-preferred-list`} value={values.preferred} onChange={set("preferred")} placeholder="e.g. Ducted Air Conditioning" />
               <datalist id={`${uid}-preferred-list`}>
                 {preferredOptions.map((o) => (
                   <option key={o} value={o} />
@@ -387,7 +401,11 @@ export function QuoteEnquiryForm() {
 
       <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs leading-relaxed text-muted sm:max-w-xs">
-          Fields marked <span className="text-flame-600">*</span> are required. A privacy policy will be published before launch.
+          Fields marked <span className="text-flame-600">*</span> are required. See our{" "}
+          <LocalizedLink href={routes.privacy} className="underline underline-offset-2 hover:text-ink">
+            Privacy Policy
+          </LocalizedLink>
+          .
         </p>
         <Button type="submit" size="lg" disabled={status === "submitting"} className="sm:min-w-[13rem]">
           {status === "submitting" ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}

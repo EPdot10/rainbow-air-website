@@ -1,4 +1,4 @@
-import type { InstallPackage } from "./types";
+import type { InstallPackage } from "@/data/types";
 
 /**
  * DEMO INSTALLATION PACKAGES (structure follows the client's copy document).

@@ -20,7 +20,7 @@ export interface ImageAsset {
   alt: string;
   /** Natural aspect ratio (width / height) – reserves space to avoid layout shift. */
   ratio: number;
-  kind: "stock" | "product";
+  kind: "stock" | "product" | "logo";
   source: string;
   sourceUrl: string;
   licence: string;
