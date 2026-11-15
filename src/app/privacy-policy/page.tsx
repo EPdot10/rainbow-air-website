@@ -119,7 +119,7 @@ export default function PrivacyPage() {
       title="Privacy Policy"
       crumb="Privacy Policy"
       intro="How we collect, use and protect your personal information."
-      updated="15 November 2026 (draft)"
+      updated="15 November 2026"
       sections={sections}
     />
   );

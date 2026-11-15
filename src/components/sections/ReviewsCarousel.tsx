@@ -126,16 +126,11 @@ export function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
               aria-hidden={i < current || i >= current + perView}
             >
               <figure className="flex h-full flex-col rounded-2xl border border-line bg-white p-7 shadow-card">
-                <div className="flex items-center justify-between">
-                  <span className="flex gap-0.5 text-rb-yellow" aria-hidden>
-                    {Array.from({ length: 5 }).map((_, k) => (
-                      <Star key={k} className="size-4 fill-current" />
-                    ))}
-                  </span>
-                  <span className="rounded-full bg-surface px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-muted">
-                    Sample
-                  </span>
-                </div>
+                <span className="flex gap-0.5 text-rb-yellow" aria-hidden>
+                  {Array.from({ length: 5 }).map((_, k) => (
+                    <Star key={k} className="size-4 fill-current" />
+                  ))}
+                </span>
                 <Quote className="mt-5 size-7 text-navy-100" aria-hidden />
                 <blockquote className="mt-2 flex-1 text-[1.02rem] leading-relaxed text-ink">“{r.quote}”</blockquote>
                 <figcaption className="mt-6 flex items-center gap-3 border-t border-line pt-5">

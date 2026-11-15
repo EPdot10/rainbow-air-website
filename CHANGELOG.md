@@ -21,6 +21,22 @@ Never force-push `main`.
 
 ---
 
+## v0.5.0 – 2026-11-15 · Client preview polish + working enquiry email (commit: see below)
+- **Online Enquiry and VEU questionnaire now send real emails** via a Cloudflare Worker (`worker/index.js`, route `/api/enquiry`)
+  → Cloudflare Turnstile anti-bot check + hidden honeypot field → Resend email. VEU photos (max 5, 5 MB each, resized in the
+  browser) and an optional floor plan (image/PDF) are sent as attachments – nothing is stored on a server.
+  Needs 3 secrets in Cloudflare: `TURNSTILE_SECRET`, `RESEND_API_KEY`, `ENQUIRY_TO` (see docs/EMAIL-SETUP.md).
+- Removed all Sample / Demo / illustrative / draft / "To Be Confirmed" labels for the client preview. Licence, insurance and
+  business hours are hidden until supplied. ⚠ Robot reviews must be replaced before public launch.
+- Home: "Commercial Projects" replaced by an **Our Team** introduction (experience, system types with images).
+  Brand logos always in full colour.
+- Floating button & contact icons: Xiaohongshu → **RedNote**, Instagram removed, each platform in its own brand colour,
+  all icons in colour; open/close animation now also plays on desktop.
+- Our Services: VEU service renamed **"Government Rebate Heating Upgrade (VEU)"**. No "Pre-filled with…" notice on the form.
+- VEU page: "What Is the VEU Program?", 5th point (new system installed, rebate applied), heading
+  "Is Your Home Eligible for a VEU Rebate?".
+- Service Areas: Melbourne metro & surrounds copy; buttons → enquiry form / Request a Quote.
+
 ## v0.4.0 – 2026-11-15 · Client revision round 1 (`edf3303`)
 **Navigation:** Home → Our Services → VEU Discount Program → Service Areas & Projects → About & Aftercare → Contact Us.
 - **Request a Quote** now always lands on the Online Enquiry form (desktop & mobile); Contact hero made compact and the form

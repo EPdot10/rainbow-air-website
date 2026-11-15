@@ -1,12 +1,18 @@
 {
-  // Cloudflare Workers (static assets only – free plan, no server code).
-  // `npm run build` writes the static site to ./out; `npx wrangler deploy` uploads it.
+  // Cloudflare Workers (free plan).
+  // `npm run build` writes the static site to ./out; `npx wrangler deploy` uploads it with the Worker.
+  // Pages are served straight from the static assets; only /api/* runs worker/index.js
+  // (online enquiry → Turnstile check → email via Resend). Secrets are set in the dashboard.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "rainbow-air-website",
+  "main": "worker/index.js",
   "compatibility_date": "2026-11-10",
   "assets": {
     "directory": "./out",
+    "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "html_handling": "auto-trailing-slash"
-  }
+    "html_handling": "auto-trailing-slash",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": { "enabled": true }
 }

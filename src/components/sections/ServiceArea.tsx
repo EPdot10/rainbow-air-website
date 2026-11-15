@@ -24,8 +24,8 @@ export function ServiceArea() {
               {c.note}
             </p>
           </div>
-          <ButtonLink href={quoteHref({ type: "general", item: "Check my suburb" })} size="lg" className="md:col-span-2 md:justify-self-start lg:col-span-1">
-            Check My Suburb
+          <ButtonLink href={quoteHref()} size="lg" className="md:col-span-2 md:justify-self-start lg:col-span-1">
+            {c.cta}
             <ArrowRight className="size-[1.1rem] transition-transform group-hover:translate-x-0.5" aria-hidden />
           </ButtonLink>
         </Reveal>

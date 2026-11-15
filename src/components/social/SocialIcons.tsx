@@ -1,7 +1,7 @@
 "use client";
 
 import { Mail, Phone } from "lucide-react";
-import { siFacebook, siInstagram, siWechat, siWhatsapp, siXiaohongshu } from "simple-icons";
+import { siFacebook, siWechat, siWhatsapp, siXiaohongshu } from "simple-icons";
 import { useState, type ReactNode } from "react";
 import { socialChannels, telHref, type SocialChannel } from "@/data/site";
 import { TBC } from "@/data/types";
@@ -18,10 +18,9 @@ function BrandIcon({ path, className }: { path: string; className?: string }) {
 
 export function channelIcon(id: SocialChannel["id"], className = "size-[1.3rem]"): ReactNode {
   switch (id) {
-    case "xiaohongshu":
+    case "rednote":
+      // RedNote (Xiaohongshu) – same platform mark.
       return <BrandIcon path={siXiaohongshu.path} className={className} />;
-    case "instagram":
-      return <BrandIcon path={siInstagram.path} className={className} />;
     case "wechat":
       return <BrandIcon path={siWechat.path} className={className} />;
     case "whatsapp":
@@ -87,17 +86,15 @@ export function SocialRow({ size = "lg", tone = "dark", className }: { size?: "l
                   onClick={() => setNote(note === ch.id ? null : ch.id)}
                   aria-label={`${ch.label} – coming soon`}
                   title={`${ch.label} – coming soon`}
-                  className={cn(
-                    ball,
-                    tone === "dark" ? "bg-navy-50 text-navy-900/35 ring-1 ring-navy-900/10" : "bg-white/10 text-white/45 ring-1 ring-white/20",
-                  )}
+                  className={cn(ball, "shadow-[0_8px_20px_-10px_rgb(0_0_0/0.5)] hover:-translate-y-0.5")}
+                  style={{ backgroundColor: ch.color, color: ch.ink ?? "#fff" }}
                 >
                   {channelIcon(ch.id, big ? "size-6" : "size-[1.1rem]")}
                 </button>
               )}
               {big && (
                 <span className={cn("text-[0.72rem] font-semibold", tone === "dark" ? "text-muted" : "text-white/70")}>
-                  {ch.label.replace(" (RED)", "")}
+                  {ch.label}
                 </span>
               )}
             </li>

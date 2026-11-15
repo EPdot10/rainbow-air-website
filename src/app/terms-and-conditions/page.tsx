@@ -105,7 +105,7 @@ export default function TermsPage() {
       title="Terms and Conditions"
       crumb="Terms and Conditions"
       intro="Terms for using our website and making an enquiry."
-      updated="15 November 2026 (draft)"
+      updated="15 November 2026"
       sections={sections}
     />
   );

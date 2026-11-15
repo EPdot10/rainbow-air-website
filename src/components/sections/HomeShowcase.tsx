@@ -1,37 +1,46 @@
 import { ArrowRight } from "lucide-react";
-import { brandLogos, commercialProjects, homeShowcase, illustrativeLabel, sampleReviews } from "@/data/content";
-import { quoteHref } from "@/lib/quote";
+import { brandLogos, homeShowcase, installTypes, sampleReviews } from "@/data/content";
+import { routes } from "@/data/site";
 import { resolveImage } from "@/lib/images";
 import { avatarDataUri } from "@/lib/avatars";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { ButtonLink } from "@/components/ui/Button";
-import { DemoBadge } from "@/components/ui/DemoBadge";
 import { Reveal } from "@/components/ui/Reveal";
 import { ReviewsCarousel } from "@/components/sections/ReviewsCarousel";
 
-/* ───────────── Commercial projects (illustrative) ───────────── */
+/* ───────────── Our team (replaces Commercial Projects) ───────────── */
 
-export function CommercialProjects() {
-  const c = homeShowcase.commercial;
+export function TeamIntro() {
+  const c = homeShowcase.team;
   return (
-    <section id="commercial" aria-labelledby="commercial-title" className="py-20 sm:py-24 lg:py-28">
+    <section id="team" aria-labelledby="team-title" className="py-20 sm:py-24 lg:py-28">
       <div className="container-page">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading id="commercial-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />
-          <ButtonLink
-            href={quoteHref({ type: "general", item: "Commercial project" })}
-            variant="outline"
-            size="lg"
-            className="shrink-0 self-start lg:self-end"
-          >
-            {c.cta}
-            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-          </ButtonLink>
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-end lg:gap-16">
+          <div>
+            <SectionHeading id="team-title" eyebrow={c.eyebrow} title={c.title} />
+            <p className="mt-5 max-w-2xl text-[1.05rem] leading-relaxed">{c.body}</p>
+            <ButtonLink href={routes.about} variant="outline" size="lg" className="mt-8">
+              {c.cta}
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </ButtonLink>
+          </div>
+          <dl className="grid grid-cols-3 divide-x divide-line rounded-2xl border border-line bg-white shadow-card">
+            {c.stats.map((st) => (
+              <div key={st.label} className="px-3 py-5 text-center sm:px-5 sm:py-6">
+                <dt className="sr-only">{st.label}</dt>
+                <dd>
+                  <span className="block font-display text-[1.15rem] leading-tight font-bold text-navy-900 sm:text-2xl">{st.value}</span>
+                  <span aria-hidden className="rb-full mx-auto mt-2.5 block h-[3px] w-8 rounded-full" />
+                  <span className="mt-2.5 block text-[0.8rem] leading-snug text-muted sm:text-sm">{st.label}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {commercialProjects.map((p, i) => (
+          {installTypes.map((p, i) => (
             <Reveal as="li" key={p.id} delay={i * 0.06}>
               <article className="group/tile relative h-full overflow-hidden rounded-2xl bg-navy-900 shadow-card">
                 <div className="relative aspect-[4/5]">
@@ -41,21 +50,16 @@ export function CommercialProjects() {
                     maxWidth={1080}
                     className="transition-transform duration-700 group-hover/tile:scale-[1.05]"
                   />
-                  <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/25 to-transparent" />
-                  <DemoBadge tone="dark" className="absolute top-3 left-3">
-                    {illustrativeLabel}
-                  </DemoBadge>
+                  <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/20 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-5">
                     <p className="text-xs font-semibold uppercase tracking-[0.14em] text-rb-yellow">{p.type}</p>
                     <h3 className="mt-1.5 text-lg font-bold text-white">{p.title}</h3>
-                    <p className="mt-1 text-sm italic text-white/65">{p.detail}</p>
                   </div>
                 </div>
               </article>
             </Reveal>
           ))}
         </ul>
-        <p className="mt-6 text-sm text-muted">{c.note}</p>
       </div>
     </section>
   );
@@ -73,7 +77,6 @@ export function CustomerReviews() {
         <div className="mt-12">
           <ReviewsCarousel reviews={reviews} />
         </div>
-        <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-muted">{c.note}</p>
       </div>
     </section>
   );
@@ -91,7 +94,7 @@ function BrandLogo({ name, image }: { name: string; image: (typeof brandLogos)[n
         loading="lazy"
         decoding="async"
         referrerPolicy="no-referrer"
-        className="max-h-11 w-auto max-w-full object-contain opacity-70 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0"
+        className="max-h-11 w-auto max-w-full object-contain"
       />
     </li>
   );
@@ -128,7 +131,7 @@ function BrandLogoDup({ image }: { name: string; image: (typeof brandLogos)[numb
   const img = resolveImage(image);
   return (
     <span className="flex h-20 w-44 shrink-0 items-center justify-center px-6 sm:w-52">
-      <img src={img.src} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" className="max-h-11 w-auto max-w-full object-contain opacity-70 grayscale" />
+      <img src={img.src} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" className="max-h-11 w-auto max-w-full object-contain" />
     </span>
   );
 }

@@ -1,10 +1,10 @@
-import { ArrowUpRight, Building2, CheckCircle2, Flame, PlugZap } from "lucide-react";
+import { ArrowUpRight, Building2, CheckCircle2, Flame, PlugZap, Sparkles } from "lucide-react";
 import { veuPage } from "@/data/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Reveal } from "@/components/ui/Reveal";
 
-const icons = [Building2, Flame, CheckCircle2, PlugZap];
+const icons = [Building2, Flame, CheckCircle2, PlugZap, Sparkles];
 
 export function VeuIntro() {
   const c = veuPage.intro;
@@ -17,7 +17,7 @@ export function VeuIntro() {
             {c.points.map((p, i) => {
               const Icon = icons[i];
               return (
-                <Reveal as="li" key={p.title} delay={i * 0.05}>
+                <Reveal as="li" key={p.title} delay={i * 0.05} className={i === c.points.length - 1 && c.points.length % 2 ? "sm:col-span-2" : undefined}>
                   <div className="h-full rounded-2xl border border-line bg-white p-5 shadow-card">
                     <Icon className="size-6 text-flame-600" aria-hidden />
                     <h3 className="mt-3 text-[1.05rem] font-bold">{p.title}</h3>
@@ -43,7 +43,6 @@ export function VeuIntro() {
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-navy-50 shadow-lift">
               <SmartImage image="wholeHomeExterior" sizes="(min-width:1024px) 40vw, 100vw" maxWidth={1440} />
             </div>
-            <figcaption className="mt-3 text-xs text-muted">{c.imageCredit}</figcaption>
           </figure>
         </Reveal>
       </div>

@@ -13,7 +13,7 @@ export function ContactSection() {
     { icon: Mail, label: "Email", value: site.contact.email, href: `mailto:${site.contact.email}` },
     { icon: MapPin, label: "Service area", value: site.contact.serviceArea },
     { icon: Clock, label: "Business hours", value: site.contact.hours },
-  ];
+  ].filter((r) => (r.value as string) !== TBC);
   return (
     <section aria-label="Contact details and online enquiry" className="bg-surface py-8 sm:py-12 lg:py-14">
       <div className="container-page grid gap-10 lg:grid-cols-[0.8fr_1.5fr] lg:gap-14">

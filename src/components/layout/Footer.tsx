@@ -16,12 +16,11 @@ export function Footer() {
     { icon: Mail, label: "Email", value: site.contact.email, href: `mailto:${site.contact.email}` },
     { icon: MapPin, label: "Service Area", value: site.contact.serviceArea },
     { icon: Clock, label: "Business Hours", value: site.contact.hours },
-  ];
+  ].filter((r) => (r.value as string) !== TBC);
   const companyRows = [
     { label: "Legal Business Name", value: site.company.legalName },
     { label: "ACN", value: site.company.acn },
     { label: "ABN", value: site.company.abn },
-    { label: "Licence Details", value: site.company.licence },
   ];
 
   return (
@@ -109,7 +108,6 @@ export function Footer() {
           <p>
             © {site.copyrightYear} {site.company.legalName} (trading as Rainbow Air). All rights reserved.
           </p>
-          <p>Demo website – some content is placeholder pending confirmation.</p>
         </div>
       </div>
     </footer>

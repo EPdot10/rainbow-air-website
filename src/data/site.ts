@@ -92,13 +92,13 @@ export const heroHighlights = [
 
 /**
  * Floating contact button + Contact page social rows.
- * Brand items use official platform icons (simple-icons, CC0); colours follow the logo's rainbow.
+ * Brand items use official platform icons (simple-icons, CC0) in each platform's own brand colour.
  *  - `href: null` → account not confirmed yet; shown as "coming soon".
  *  - phone / email become tap-to-call / tap-to-email links automatically from `value`.
  *  - WeChat has no public profile URL – set `value` to the WeChat ID.
  */
 export interface SocialChannel {
-  id: "xiaohongshu" | "instagram" | "phone" | "wechat" | "whatsapp" | "facebook" | "email";
+  id: "rednote" | "phone" | "wechat" | "whatsapp" | "facebook" | "email";
   label: string;
   href: string | null;
   value?: string;
@@ -108,11 +108,10 @@ export interface SocialChannel {
 }
 
 export const socialChannels: SocialChannel[] = [
-  { id: "xiaohongshu", label: "Xiaohongshu (RED)", href: "https://xhslink.cn/o/68M4U64cBJe", color: "#e8231b" },
-  { id: "instagram", label: "Instagram", href: null, color: "#f7801e" },
+  { id: "rednote", label: "RedNote", href: "https://xhslink.cn/o/68M4U64cBJe", color: "#ff2442" },
   { id: "phone", label: "Phone", href: null, value: site.contact.phone, color: "#fbd40a", ink: "#03224f" },
-  { id: "wechat", label: "WeChat", href: null, value: TBC, color: "#3cb44a" },
-  { id: "whatsapp", label: "WhatsApp", href: null, color: "#12a0dc" },
-  { id: "facebook", label: "Facebook", href: null, color: "#1450b4" },
+  { id: "wechat", label: "WeChat", href: null, value: TBC, color: "#07c160" },
+  { id: "whatsapp", label: "WhatsApp", href: null, color: "#25d366" },
+  { id: "facebook", label: "Facebook", href: null, color: "#0866ff" },
   { id: "email", label: "Email", href: null, value: site.contact.email, color: "#4a3aa8" },
 ];

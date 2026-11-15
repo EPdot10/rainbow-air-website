@@ -18,8 +18,8 @@ export default function ProjectsPage() {
   return (
     <>
       <PageHero eyebrow={h.eyebrow} title={h.title} body={h.body} crumb="Service Areas & Projects" image={h.image}>
-        <ButtonLink href={quoteHref({ type: "general" })} size="lg">
-          Check My Suburb
+        <ButtonLink href={quoteHref()} size="lg">
+          Request a Quote
         </ButtonLink>
         <ButtonLink href="#projects" size="lg" variant="ghost-light">
           View Projects

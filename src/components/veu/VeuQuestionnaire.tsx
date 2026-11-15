@@ -2,19 +2,21 @@
 
 import {
   AlertCircle,
-  AlertTriangle,
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
   HelpCircle,
   ImagePlus,
+  Loader2,
   Info,
   RotateCcw,
   X,
   XCircle,
 } from "lucide-react";
 import { cloneElement, useEffect, useId, useRef, useState, type FormEvent, type ReactElement, type ReactNode } from "react";
-import { isDemoMode } from "@/data/form";
+import { submitEnquiry, submitErrorMessage } from "@/data/form";
+import { compressImage } from "@/lib/compressImage";
+import { Turnstile, type TurnstileHandle } from "@/components/forms/Turnstile";
 import { veuPage } from "@/data/content";
 import { routes, site, telHref } from "@/data/site";
 import { quoteHref } from "@/lib/quote";
@@ -27,7 +29,8 @@ type Step = "gas" | "vic" | "disconnect" | "details" | "done";
 type Stop = "no-gas" | "not-vic" | "no-disconnect" | null;
 
 const MAX_PHOTOS = 5;
-const MAX_MB = 10;
+const MAX_MB = 5;
+const MAX_BYTES = MAX_MB * 1024 * 1024;
 
 const questions: Record<"gas" | "vic" | "disconnect", { title: string; help?: string; unsure: boolean }> = {
   gas: {
@@ -94,7 +97,7 @@ interface Photo {
 }
 
 /**
- * VEU eligibility questionnaire (front-end only, Demo Mode).
+ * VEU eligibility questionnaire – sends answers, photos and floor plan by email via /api/enquiry.
  * Q1 gas ducted → Q2 Victoria → Q3 agree to disconnect → address, photos & contact details.
  * Any "No" stops the flow immediately and hides the remaining questions.
  */
@@ -109,7 +112,12 @@ export function VeuQuestionnaire() {
   const [photoError, setPhotoError] = useState<string | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const firstRender = useRef(true);
-  const demo = isDemoMode();
+  const [floorPlan, setFloorPlan] = useState<File | null>(null);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState("");
+  const turnstile = useRef<TurnstileHandle>(null);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -152,29 +160,50 @@ export function VeuQuestionnaire() {
     setDetails(emptyDetails);
     setErrors({});
     setPhotos([]);
+    setFloorPlan(null);
     setPhotoError(null);
+    setSendError(null);
   };
 
-  const addPhotos = (files: FileList | null) => {
+  const addPhotos = async (files: FileList | null) => {
     if (!files) return;
     setPhotoError(null);
     const next = [...photos];
-    for (const f of Array.from(files)) {
-      if (!f.type.startsWith("image/")) {
+    for (const original of Array.from(files)) {
+      if (!original.type.startsWith("image/") && !/\.(heic|heif)$/i.test(original.name)) {
         setPhotoError("Please choose image files (JPG, PNG or HEIC).");
-        continue;
-      }
-      if (f.size > MAX_MB * 1024 * 1024) {
-        setPhotoError(`Each photo must be under ${MAX_MB} MB.`);
         continue;
       }
       if (next.length >= MAX_PHOTOS) {
         setPhotoError(`You can add up to ${MAX_PHOTOS} photos.`);
         break;
       }
+      // Large phone photos are resized in the browser before upload (keeps emails small and free).
+      const f = await compressImage(original);
+      if (f.size > MAX_BYTES) {
+        setPhotoError(`Each photo must be under ${MAX_MB} MB.`);
+        continue;
+      }
       next.push({ file: f, url: URL.createObjectURL(f) });
     }
     setPhotos(next);
+  };
+
+  const addFloorPlan = async (files: FileList | null) => {
+    const original = files?.[0];
+    if (!original) return;
+    setPhotoError(null);
+    const isPdf = original.type === "application/pdf" || /\.pdf$/i.test(original.name);
+    if (!isPdf && !original.type.startsWith("image/") && !/\.(heic|heif)$/i.test(original.name)) {
+      setPhotoError("The floor plan can be a photo, an image or a PDF.");
+      return;
+    }
+    const f = isPdf ? original : await compressImage(original, 2400);
+    if (f.size > MAX_BYTES) {
+      setPhotoError(`The floor plan must be under ${MAX_MB} MB.`);
+      return;
+    }
+    setFloorPlan(f);
   };
 
   const removePhoto = (i: number) => {
@@ -188,7 +217,7 @@ export function VeuQuestionnaire() {
     if (errors[f]) setErrors((prev) => ({ ...prev, [f]: validate(next)[f] }));
   };
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     const errs = validate(details);
     setErrors(errs);
@@ -197,8 +226,28 @@ export function VeuQuestionnaire() {
       document.getElementById(`${uid}-${first}`)?.focus();
       return;
     }
-    // Front-end only: no backend yet, so never claim the enquiry was sent.
-    setStep("done");
+    if (!token) {
+      setSendError("Please wait a moment for the security check to finish, then try again.");
+      return;
+    }
+    setSending(true);
+    setSendError(null);
+    const data = new FormData();
+    data.set("kind", "veu");
+    data.set("gas", "Yes");
+    data.set("vic", "Yes");
+    data.set("disconnect", "Yes");
+    for (const k of ["address", "suburb", "postcode", "name", "phone", "email", "notes"] as const) data.set(k, details[k]);
+    data.set("consent", details.consent ? "Yes" : "No");
+    photos.forEach((p) => data.append("photos", p.file, p.file.name));
+    if (floorPlan) data.append("floorPlan", floorPlan, floorPlan.name);
+    data.set("website", honeypot);
+    data.set("cf-turnstile-response", token);
+    const result = await submitEnquiry(data);
+    turnstile.current?.reset();
+    setSending(false);
+    if (result.ok) setStep("done");
+    else setSendError(submitErrorMessage(result.error));
   };
 
   const q = step === "gas" || step === "vic" || step === "disconnect" ? step : null;
@@ -207,14 +256,8 @@ export function VeuQuestionnaire() {
     <div className="rounded-3xl border border-line bg-white p-6 shadow-lift sm:p-9">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm font-semibold text-muted">
-          {stop ? "Result" : step === "done" ? "Summary" : step === "details" ? "Step 4 of 4 – Your details" : `Question ${progressIndex + 1} of 3`}
+          {stop ? "Result" : step === "done" ? "Sent" : step === "details" ? "Step 4 of 4 – Your details" : `Question ${progressIndex + 1} of 3`}
         </p>
-        {demo && (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-flame-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-flame-700 ring-1 ring-flame-600/20">
-            <span aria-hidden className="size-1.5 rounded-full bg-flame-600" />
-            Demo Mode
-          </span>
-        )}
       </div>
       <div className="mt-3 flex gap-1.5" aria-hidden>
         {order.map((s, i) => (
@@ -335,7 +378,7 @@ export function VeuQuestionnaire() {
 
             <div className="sm:col-span-6">
               <p className="text-sm font-semibold text-ink">
-                Photos of your heating equipment <span className="ml-1 text-xs font-normal text-muted">Optional – up to {MAX_PHOTOS} photos, {MAX_MB} MB each</span>
+                Photos of your heating equipment <span className="ml-1 text-xs font-normal text-muted">Optional – up to {MAX_PHOTOS} photos, max {MAX_MB} MB each</span>
               </p>
               <p className="mt-1 text-sm text-muted">e.g. the gas heater unit, its compliance label, the wall controller and a floor or ceiling vent.</p>
               <div className="mt-3 flex flex-wrap gap-3">
@@ -356,7 +399,28 @@ export function VeuQuestionnaire() {
                   <label className="flex size-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-navy-900/20 text-sm font-semibold text-navy-800 transition-colors hover:border-navy-900/50 hover:bg-navy-50 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-sky-500">
                     <ImagePlus className="size-6" aria-hidden />
                     Add
-                    <input type="file" accept="image/*" multiple className="sr-only" onChange={(e) => { addPhotos(e.target.files); e.target.value = ""; }} />
+                    <input type="file" accept="image/*,.heic,.heif" multiple className="sr-only" onChange={(e) => { void addPhotos(e.target.files); e.target.value = ""; }} />
+                  </label>
+                )}
+              </div>
+              <div className="mt-5 rounded-xl bg-sky-50 p-4">
+                <p className="text-sm font-semibold text-ink">
+                  Floor plan of your home <span className="ml-1 text-xs font-normal text-muted">Recommended – photo, image or PDF, max {MAX_MB} MB</span>
+                </p>
+                <p className="mt-1 text-sm text-muted">A floor plan (even a phone photo of a sketch or real-estate plan) helps us plan duct and unit locations and quote accurately.</p>
+                {floorPlan ? (
+                  <p className="mt-3 flex items-center gap-2 text-sm">
+                    <CheckCircle2 className="size-4 text-green-600" aria-hidden />
+                    <span className="min-w-0 truncate font-semibold text-ink">{floorPlan.name}</span>
+                    <button type="button" onClick={() => setFloorPlan(null)} className="font-semibold text-muted underline hover:text-ink">
+                      Remove
+                    </button>
+                  </p>
+                ) : (
+                  <label className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-navy-900/20 bg-white px-4 py-2.5 text-sm font-semibold text-navy-800 transition-colors hover:border-navy-900/50 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-sky-500">
+                    <ImagePlus className="size-4" aria-hidden />
+                    Add floor plan
+                    <input type="file" accept="image/*,application/pdf,.heic,.heif" className="sr-only" onChange={(e) => { void addFloorPlan(e.target.files); e.target.value = ""; }} />
                   </label>
                 )}
               </div>
@@ -412,40 +476,50 @@ export function VeuQuestionnaire() {
             </div>
           </div>
 
+          <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+            <label>
+              Website
+              <input type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+            </label>
+          </div>
+          <Turnstile ref={turnstile} onToken={setToken} />
+          {sendError && (
+            <p role="alert" className="mt-5 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">
+              {sendError}
+            </p>
+          )}
+
           <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
             <button type="button" onClick={back} className="inline-flex items-center gap-1.5 self-start text-sm font-semibold text-muted hover:text-ink">
               <ArrowLeft className="size-4" aria-hidden />
               Back
             </button>
-            <Button type="submit" size="lg" className="sm:min-w-[14rem]">
-              Submit Enquiry
-              <ArrowRight className="size-4" aria-hidden />
+            <Button type="submit" size="lg" className="sm:min-w-[14rem]" disabled={sending}>
+              {sending && <Loader2 className="size-4 animate-spin" aria-hidden />}
+              {sending ? "Sending…" : "Submit Enquiry"}
+              {!sending && <ArrowRight className="size-4" aria-hidden />}
             </Button>
           </div>
           <Disclaimer />
         </form>
       )}
 
-      {/* ── Done (Demo Mode – nothing sent) ── */}
+      {/* ── Done (sent) ── */}
       {step === "done" && (
         <div className="mt-8" role="status" aria-live="polite">
-          <span className="inline-flex size-12 items-center justify-center rounded-full bg-flame-50 text-flame-600">
-            <AlertTriangle className="size-6" aria-hidden />
+          <span className="inline-flex size-12 items-center justify-center rounded-full bg-green-50 text-green-700">
+            <CheckCircle2 className="size-6" aria-hidden />
           </span>
           <h3 ref={headingRef} tabIndex={-1} className="mt-4 text-2xl font-bold outline-none">
-            Demo Mode – enquiry not sent
+            Thank you – we’ve received your enquiry
           </h3>
           <p className="mt-3 max-w-2xl leading-relaxed">
-            Your answers passed the check, but this website isn’t connected to email or photo upload yet, so{" "}
-            <strong className="text-ink">nothing has been sent or saved</strong>. Please call{" "}
+            Our team will review your answers and photos and contact you to confirm eligibility and arrange a quote. Questions in the
+            meantime? Call{" "}
             <a className="font-semibold underline" href={telHref(site.contact.phone)}>
               {site.contact.phone}
-            </a>{" "}
-            or email{" "}
-            <a className="font-semibold underline" href={`mailto:${site.contact.email}`}>
-              {site.contact.email}
-            </a>{" "}
-            in the meantime.
+            </a>
+            .
           </p>
           <dl className="mt-5 grid gap-x-6 gap-y-2 rounded-xl bg-surface p-4 text-sm sm:grid-cols-2">
             {(
@@ -455,6 +529,7 @@ export function VeuQuestionnaire() {
                 ["Agrees to disconnection", "Yes"],
                 ["Suburb / postcode", `${details.suburb} ${details.postcode}`],
                 ["Photos attached", String(photos.length)],
+                ["Floor plan", floorPlan ? "Attached" : "Not attached"],
               ] as const
             ).map(([k, v]) => (
               <div key={k}>

@@ -3,7 +3,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import { useCallback, useState } from "react";
-import { illustrativeLabel, projects, projectsCopy } from "@/data/content";
+import { projects, projectsCopy } from "@/data/content";
 import { routes } from "@/data/site";
 import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
@@ -11,7 +11,6 @@ import { LocalizedLink } from "@/components/locale/LocaleComponents";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Reveal } from "@/components/ui/Reveal";
-import { DemoBadge } from "@/components/ui/DemoBadge";
 import { cn } from "@/lib/cn";
 
 export function ProjectGallery() {
@@ -37,7 +36,7 @@ export function ProjectGallery() {
                 type="button"
                 onClick={() => setIndex(i)}
                 className="group/tile relative block h-full w-full overflow-hidden rounded-2xl bg-navy-100 text-left"
-                aria-label={`View larger: ${p.title} (${illustrativeLabel})`}
+                aria-label={`View larger: ${p.title}`}
               >
                 <SmartImage
                   image={p.image}
@@ -46,9 +45,6 @@ export function ProjectGallery() {
                   className="transition-transform duration-700 ease-out group-hover/tile:scale-[1.05]"
                 />
                 <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/10 to-transparent" />
-                <DemoBadge tone="dark" className="absolute top-3 left-3">
-                  {illustrativeLabel}
-                </DemoBadge>
                 <span
                   aria-hidden
                   className="absolute top-3 right-3 inline-flex size-9 items-center justify-center rounded-full bg-white/90 text-navy-900 opacity-0 transition-opacity duration-300 group-hover/tile:opacity-100 group-focus-visible/tile:opacity-100"
@@ -64,10 +60,9 @@ export function ProjectGallery() {
           ))}
         </ul>
 
-        <p className="mt-6 text-sm text-muted">{c.note}</p>
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href={quoteHref({ type: "general", item: "Similar installation to a project on the website" })} size="lg">
+          <ButtonLink href={quoteHref()} size="lg">
             {c.similarCta}
             <ArrowRight className="size-[1.1rem] transition-transform group-hover:translate-x-0.5" aria-hidden />
           </ButtonLink>
@@ -96,7 +91,7 @@ export function ProjectGallery() {
                   <div>
                     <Dialog.Title className="font-display text-lg font-semibold">{current.title}</Dialog.Title>
                     <Dialog.Description className="text-sm text-white/65">
-                      {illustrativeLabel} · {index! + 1} / {projects.length}
+                      {index! + 1} / {projects.length}
                     </Dialog.Description>
                   </div>
                   <Dialog.Close

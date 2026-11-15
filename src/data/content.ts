@@ -71,18 +71,22 @@ export const processSteps = [
  * real, verifiable reviews. Commercial images are illustrative stock photography.
  */
 export const homeShowcase = {
-  commercial: {
-    eyebrow: "Commercial Projects",
-    title: "Commercial & Large-Scale Projects",
-    subtitle: "A showcase space for larger installations – offices, retail and multi-residential buildings.",
-    note: "Illustrative images and placeholder project details. Real commercial projects will be added once confirmed.",
-    cta: "Discuss a Commercial Project",
+  /** Team introduction (replaces Commercial Projects, v0.5.0). ⚠ Experience figures = team experience, to be substantiated. */
+  team: {
+    eyebrow: "Our Team",
+    title: "Experienced Heating & Cooling Specialists",
+    body: "The Rainbow Air team has been working in Melbourne's heating and cooling industry since 2010. Over that time our installers have completed thousands of projects – from single-room split systems to whole-home ducted upgrades and commercial VRF systems – so we know how to choose, install and look after the right system for each property.",
+    stats: [
+      { value: "Since 2010", label: "Team experience in heating & cooling" },
+      { value: "~10,000", label: "VEU air conditioning installations" },
+      { value: "All major brands", label: "Supplied and installed" },
+    ],
+    cta: "About Rainbow Air",
   },
   reviews: {
     eyebrow: "Customer Reviews",
     title: "What Our Customers Say",
     subtitle: "Feedback from Melbourne homeowners.",
-    note: "Sample reviews shown for layout preview – verified customer reviews will replace them.",
   },
   brands: {
     eyebrow: "Brands We Install",
@@ -92,11 +96,12 @@ export const homeShowcase = {
   },
 };
 
-export const commercialProjects: { id: string; title: string; type: string; image: ImageKey; detail: string }[] = [
-  { id: "c1", title: "Office Fit-out", type: "Ducted / VRF", image: "commercialOffice", detail: "Client, location and scope to be confirmed" },
-  { id: "c2", title: "Retail Tenancy", type: "Multi-Split", image: "commercialFacade", detail: "Client, location and scope to be confirmed" },
-  { id: "c3", title: "Multi-Residential Building", type: "Split Systems", image: "commercialOutdoor", detail: "Client, location and scope to be confirmed" },
-  { id: "c4", title: "Commercial Ceiling Installation", type: "Ducted", image: "commercialCeilingWork", detail: "Client, location and scope to be confirmed" },
+/** System types the team installs (home "Our Team" section). */
+export const installTypes: { id: string; title: string; type: string; image: ImageKey }[] = [
+  { id: "t1", title: "Split Systems", type: "Residential", image: "splitLivingRoom" },
+  { id: "t2", title: "Ducted Systems", type: "Residential", image: "galleryDuctedOutlet" },
+  { id: "t3", title: "Multi-Split Systems", type: "Residential", image: "multiOutdoorUnits" },
+  { id: "t4", title: "Commercial & VRF Systems", type: "Commercial", image: "commercialOffice" },
 ];
 
 /** SAMPLE reviews (client decision 2026-11-15) – "Robot" names until real reviews are supplied. */
@@ -202,10 +207,10 @@ export const services = [
   {
     id: "veu",
     featured: true,
-    title: "VEU Discount Upgrade – One-Stop Service",
+    title: "Government Rebate Heating Upgrade (VEU)",
     summary:
       "Replace your gas ducted heating with an efficient reverse cycle air conditioner and let us handle the Victorian Energy Upgrades (VEU) process. As a VEU Accredited Provider, we assess your eligibility, look after the program paperwork, install your new system and apply the discount directly to your quote.",
-    steps: ["Eligibility check", "VEU paperwork", "Installation", "Discount applied in your quote"],
+    steps: ["Eligibility check", "VEU paperwork", "Installation", "Rebate applied in your quote"],
     primary: { label: "Check VEU Eligibility", href: `${routes.veu}#eligibility` },
     quoteItem: "VEU Discount Upgrade",
   },
@@ -285,8 +290,8 @@ export const veuPage = {
     image: "galleryDuctedOutlet" as const,
   },
   intro: {
-    eyebrow: "What Is VEU?",
-    title: "VEU in Plain English",
+    eyebrow: "About the Program",
+    title: "What Is the VEU Program?",
     points: [
       {
         title: "A Victorian Government program",
@@ -304,14 +309,17 @@ export const veuPage = {
         title: "Old gas heater disconnected",
         body: "For this upgrade, your existing gas ducted heater is decommissioned (disconnected) as part of the installation.",
       },
+      {
+        title: "New system installed, rebate applied",
+        body: "We install your new high-efficiency reverse cycle air conditioner and the VEU rebate is applied to your price – no claim forms for you to lodge.",
+      },
     ],
     officialCta: "For more details, view the Victorian Government's official VEU program website",
     officialHref: "https://www.energy.vic.gov.au/households/victorian-energy-upgrades-for-households/heating-and-cooling",
-    imageCredit: "Illustrative image: Unsplash. Program information summarised from energy.vic.gov.au.",
   },
   check: {
-    eyebrow: "Eligibility Check",
-    title: "Could Your Home Be Eligible?",
+    eyebrow: "VEU Eligibility Check",
+    title: "Is Your Home Eligible for a VEU Rebate?",
     subtitle: "Answer a few quick questions. It takes about a minute and helps us understand whether a VEU upgrade may suit your home.",
   },
   /** Client copy – shown under the final Submit button. */
@@ -332,16 +340,15 @@ export const projectsCopy = {
   areas: {
     title: "Service Area",
     /** ⚠ Interim wording – final service area (suburb list or radius) to be confirmed by the client. */
-    summary: "Servicing Melbourne and surrounding areas, including the south-east.",
-    note: "Not sure if we cover your suburb? Include your suburb or postcode in your enquiry and we'll confirm.",
+    summary: "Servicing Melbourne metro and surrounding areas, including the south-east.",
+    note: "Not sure whether we cover your area? Send us an enquiry with your suburb or postcode and our team will confirm with you.",
+    cta: "Send an Enquiry",
   },
   gallery: {
     eyebrow: "Projects",
     title: "Melbourne Installation Projects",
     subtitle: "Explore air conditioning installation solutions for Melbourne homes.",
-    note:
-      "Images in this gallery are illustrative stock photography used for design preview. They do not show Rainbow Air projects. Real project photos will replace them once available.",
-    similarCta: "Enquire About a Similar Installation",
+    similarCta: "Request a Quote",
     servicesCta: "View Our Services",
   },
 };

@@ -83,7 +83,7 @@ export function SocialFab() {
           return (
             <li
               key={ch.id}
-              className="motion-reduce:!transition-none"
+             
               style={{
                 opacity: open ? 1 : 0,
                 transform: open ? "translateY(0) scale(1)" : "translateY(14px) scale(0.55)",
@@ -128,7 +128,7 @@ export function SocialFab() {
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? "Close contact options" : "Contact Rainbow Air or follow us"}
-        className="group relative inline-flex size-14 items-center justify-center rounded-full bg-white/45 shadow-[0_10px_30px_-8px_rgb(3_34_79/0.5)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-90 motion-reduce:transition-none"
+        className="group relative inline-flex size-14 items-center justify-center rounded-full bg-white/45 shadow-[0_10px_30px_-8px_rgb(3_34_79/0.5)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-90"
       >
         {/* Rainbow ring echoing the logo arc */}
         <span

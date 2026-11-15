@@ -1,16 +1,17 @@
 "use client";
 
-import { AlertCircle, AlertTriangle, ArrowRight, CheckCircle2, Loader2, Pencil } from "lucide-react";
+import { AlertCircle, ArrowRight, CheckCircle2, Loader2, Pencil } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import {
   enquiryTypes,
-  formConfig,
   formCopy,
   installationRequirements,
-  isDemoMode,
   roomOptions,
+  submitEnquiry,
+  submitErrorMessage,
 } from "@/data/form";
+import { Turnstile, type TurnstileHandle } from "@/components/forms/Turnstile";
 import { services, solutions } from "@/data/content";
 import { Button } from "@/components/ui/Button";
 import { LocalizedLink } from "@/components/locale/LocaleComponents";
@@ -88,7 +89,7 @@ const order: (keyof Fields)[] = [
   "message",
 ];
 
-type Status = "idle" | "submitting" | "demo" | "sent" | "error";
+type Status = "idle" | "submitting" | "sent" | "error";
 
 /** Values pre-filled from the link that opened the form (?type=&item=&install=). */
 function prefillFrom(params: URLSearchParams): Partial<Fields> {
@@ -111,7 +112,10 @@ export function QuoteEnquiryForm() {
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof Fields, boolean>>>({});
   const [status, setStatus] = useState<Status>("idle");
-  const demo = isDemoMode();
+  const [errorText, setErrorText] = useState("");
+  const [token, setToken] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState("");
+  const turnstile = useRef<TurnstileHandle>(null);
 
   // A new "Get a Quote" link while already on this page → apply its values (fields stay editable).
   if (paramKey !== appliedKey) {
@@ -119,8 +123,6 @@ export function QuoteEnquiryForm() {
     setValues((v) => ({ ...v, ...prefillFrom(new URLSearchParams(paramKey)) }));
     setStatus("idle");
   }
-  const prefilled = prefillFrom(new URLSearchParams(paramKey));
-  const prefilledFrom = prefilled.preferred ?? prefilled.enquiryType ?? null;
 
   const id = (f: keyof Fields) => `${uid}-${f}`;
 
@@ -157,23 +159,25 @@ export function QuoteEnquiryForm() {
       document.getElementById(id(first))?.focus();
       return;
     }
-    if (demo) {
-      // DEMO MODE: nothing is sent or stored, so we must not show a success message.
-      setStatus("demo");
+    if (!token) {
+      setErrorText("Please wait a moment for the security check to finish, then try again.");
+      setStatus("error");
       return;
     }
-    try {
-      setStatus("submitting");
-      const res = await fetch(formConfig.endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, submittedAt: new Date().toISOString(), page: location.href }),
-      });
-      if (!res.ok) throw new Error(String(res.status));
+    setStatus("submitting");
+    const data = new FormData();
+    data.set("kind", "quote");
+    for (const k of order) data.set(k, values[k]);
+    data.set("website", honeypot);
+    data.set("cf-turnstile-response", token);
+    const result = await submitEnquiry(data);
+    turnstile.current?.reset();
+    if (result.ok) {
       setStatus("sent");
       setValues(empty);
       setTouched({});
-    } catch {
+    } else {
+      setErrorText(submitErrorMessage(result.error));
       setStatus("error");
     }
   }
@@ -181,51 +185,17 @@ export function QuoteEnquiryForm() {
   const errorCount = Object.values(errors).filter(Boolean).length;
   const isVeu = values.enquiryType === VEU_LABEL;
 
-  if (status === "demo" || status === "sent") {
-    const isDemo = status === "demo";
+  if (status === "sent") {
     return (
       <div role="status" aria-live="polite" className="rounded-2xl border border-line bg-white p-7 shadow-card sm:p-9">
-        <span
-          className={cn(
-            "inline-flex size-12 items-center justify-center rounded-full",
-            isDemo ? "bg-flame-50 text-flame-600" : "bg-green-50 text-green-700",
-          )}
-        >
-          {isDemo ? <AlertTriangle className="size-6" aria-hidden /> : <CheckCircle2 className="size-6" aria-hidden />}
+        <span className="inline-flex size-12 items-center justify-center rounded-full bg-green-50 text-green-700">
+          <CheckCircle2 className="size-6" aria-hidden />
         </span>
-        <h3 className="mt-4 text-2xl font-bold">{isDemo ? "Demo Mode – enquiry not sent" : "Thank you – enquiry received"}</h3>
-        {isDemo ? (
-          <div className="mt-3 space-y-3 leading-relaxed">
-            <p>
-              Your details passed validation, but this demo website is not yet connected to an email service, so{" "}
-              <strong className="text-ink">nothing has been sent or saved</strong>.
-            </p>
-            <p className="text-muted">
-              Once connected, this enquiry will be emailed to the Rainbow Air team. Please contact Rainbow Air directly in the
-              meantime.
-            </p>
-            <dl className="mt-4 grid gap-x-6 gap-y-2 rounded-xl bg-surface p-4 text-sm sm:grid-cols-2">
-              {(
-                [
-                  ["Enquiry type", values.enquiryType],
-                  ["Requirement", values.installation],
-                  ["Suburb / postcode", values.suburb],
-                  ["Service / system", values.preferred || "—"],
-                ] as const
-              ).map(([k, v]) => (
-                <div key={k}>
-                  <dt className="text-muted">{k}</dt>
-                  <dd className="font-semibold text-ink">{v}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        ) : (
-          <p className="mt-3 leading-relaxed">{formCopy.success}</p>
-        )}
+        <h3 className="mt-4 text-2xl font-bold">Thank you – enquiry received</h3>
+        <p className="mt-3 leading-relaxed">{formCopy.success}</p>
         <Button variant="outline" className="mt-7" onClick={() => setStatus("idle")}>
           <Pencil className="size-4" aria-hidden />
-          {isDemo ? "Back to form" : "Send another enquiry"}
+          Send another enquiry
         </Button>
       </div>
     );
@@ -236,31 +206,14 @@ export function QuoteEnquiryForm() {
       noValidate
       onSubmit={onSubmit}
       aria-labelledby="quote-form-heading"
-      className="rounded-2xl border border-line bg-white p-6 shadow-card sm:p-8"
+      className="relative rounded-2xl border border-line bg-white p-6 shadow-card sm:p-8"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 id="quote-form-heading" tabIndex={-1} className="text-2xl font-bold outline-none">
           Online Enquiry
         </h2>
-        {demo && (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-flame-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-flame-700 ring-1 ring-flame-600/20">
-            <span aria-hidden className="size-1.5 rounded-full bg-flame-600" />
-            Demo Mode
-          </span>
-        )}
       </div>
-      {demo && (
-        <p className="mt-2 text-sm text-muted">Email delivery is not connected yet – enquiries are validated but not sent.</p>
-      )}
 
-      {prefilledFrom && (
-        <p className="mt-4 flex items-start gap-2 rounded-lg bg-sky-50 px-3.5 py-2.5 text-sm text-navy-800" aria-live="polite">
-          <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-sky-600" aria-hidden />
-          <span>
-            Pre-filled with <strong>{prefilledFrom}</strong>. You can change any field below.
-          </span>
-        </p>
-      )}
 
       {errorCount > 0 && (
         <p role="alert" className="mt-4 flex items-start gap-2 rounded-lg bg-red-50 px-3.5 py-2.5 text-sm text-red-800">
@@ -393,9 +346,18 @@ export function QuoteEnquiryForm() {
         </Field>
       </div>
 
+      {/* Honeypot – hidden from people, bots tend to fill it in. */}
+      <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label>
+          Website
+          <input type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+        </label>
+      </div>
+      <Turnstile ref={turnstile} onToken={setToken} />
+
       {status === "error" && (
         <p role="alert" className="mt-5 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">
-          Sorry, your enquiry couldn’t be sent. Please try again in a moment.
+          {errorText}
         </p>
       )}
 

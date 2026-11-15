@@ -39,8 +39,6 @@ export function CompanyInfo() {
     { label: "Trading name", value: site.name },
     { label: "ACN", value: site.company.acn },
     { label: "ABN", value: site.company.abn },
-    { label: "Licences & how to verify", value: site.company.licence },
-    { label: "Insurance", value: site.company.insurance },
   ];
   return (
     <section aria-labelledby="company-title" className="py-20 sm:py-24">
