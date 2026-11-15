@@ -21,7 +21,7 @@ Never force-push `main`.
 
 ---
 
-## v0.6.0 – 2026-11-15 · Full Simplified & Traditional Chinese translation (commit: see below)
+## v0.6.0 – 2026-11-15 · Full Simplified & Traditional Chinese translation (`063af27`)
 - Whole site translated: pages, navigation, buttons, footer, floating button, enquiry form (labels, options, errors),
   VEU questionnaire, Privacy Policy & Terms (with "English version prevails" note), page titles/descriptions.
 - Structure: English text stays in `src/data/content.ts` + `src/i18n/ui.ts` + `src/i18n/legal.ts`; Simplified Chinese in
