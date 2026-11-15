@@ -11,21 +11,21 @@ export const zhHans: Translation = {
       eyebrow: "墨尔本冷暖空调",
       title: "墨尔本家用空调\u200b安装与更换",
       slogan: "Better Air. Better Living.",
-      body: "从 VEU 补贴申请，到新机安装、旧机更换和维修，Rainbow Air 帮助墨尔本家庭换装高效节能的冷暖空调。正在使用燃气风管暖气？看看您是否符合维州能源升级计划（VEU）的补贴条件。",
+      body: "从 VEU 补贴办理，到新机安装、旧机更换和维修，Rainbow Air 帮助墨尔本家庭换装高效节能的冷暖空调。正在使用燃气风管暖气？看看您是否符合维州能源升级计划（VEU）的补贴条件。",
       primaryCta: { label: "我们的服务" },
       secondaryCta: { label: "获取报价" },
     },
     veuStrip: {
       eyebrow: "维州能源升级计划（VEU）",
       title: "要更换燃气风管暖气？您可能符合 VEU 补贴条件。",
-      body: "花一分钟做个资格检查。补贴金额以评估结果为准，并会写在您的书面报价中。",
+      body: "花一分钟完成资格检查。补贴金额以评估结果为准，并会在书面报价中写明。",
       cta: "检查 VEU 资格",
     },
     homeCopy: {
       process: {
         eyebrow: "服务流程",
         title: "从选型到安装",
-        subtitle: "三个简单步骤，从咨询到舒适的家。",
+        subtitle: "三个简单步骤，从首次咨询到舒适入住。",
         projectsLink: "查看项目",
       },
       cta: {
@@ -44,18 +44,18 @@ export const zhHans: Translation = {
       team: {
         eyebrow: "我们的团队",
         title: "经验丰富的\u200b冷暖空调专家",
-        body: "Rainbow Air 团队自 2010 年起扎根墨尔本冷暖空调行业，安装师傅们已完成数千个项目——从单间分体式空调，到全屋风管式升级，再到商用 VRF 多联机系统。我们懂得如何为每一处房产选择、安装并维护合适的系统。",
+        body: "Rainbow Air 团队自 2010 年起深耕墨尔本冷暖空调行业，安装团队已完成数千个项目——从单间分体式空调，到全屋风管式升级，再到商用 VRF 多联机系统。我们懂得如何为每一处房产选择、安装并维护合适的系统。",
         stats: [
-          { value: "2010 年起", label: "团队冷暖行业经验" },
-          { value: "约 10,000", label: "VEU 空调安装经验" },
-          { value: "主流品牌", label: "供货与安装" },
+          { value: "2010年起", label: "团队深耕冷暖空调行业" },
+          { value: "超一万次", label: "VEU 空调上门安装" },
+          { value: "主流品牌", label: "各大品牌均可供货与安装" },
         ],
         cta: "了解 Rainbow Air",
       },
-      reviews: { eyebrow: "客户评价", title: "听听客户怎么说", subtitle: "来自墨尔本家庭的真实反馈。" },
+      reviews: { eyebrow: "客户评价", title: "听听客户怎么说", subtitle: "来自墨尔本家庭的反馈。" },
       brands: {
-        eyebrow: "合作安装品牌",
-        title: "持牌水电安装团队，安装各大主流空调品牌",
+        eyebrow: "我们安装的品牌",
+        title: "持牌水电安装团队，可安装各大主流空调品牌",
         note: "品牌名称及标志归其各自所有者所有。",
       },
     },
@@ -70,7 +70,7 @@ export const zhHans: Translation = {
         detail: "VEU 燃气风管暖气更换",
         quote: "终于把家里的旧燃气风管暖气换掉了。团队先帮我们确认了资格，讲清楚 VEU 补贴会怎样体现在报价里，当天就装好用上了新系统。",
       },
-      { detail: "分体式空调安装", quote: "回复快，沟通顺畅。帮我们给主卧选了合适匹数的机器，装完还把现场收拾得干干净净。" },
+      { detail: "分体式空调安装", quote: "回复快，沟通顺畅。帮我们给主卧选了合适功率的机型，装完还把现场收拾得干干净净。" },
       { detail: "一拖多，3 个房间", quote: "我们想三个房间分开控制，又不想装三台室外机。一拖多方案讲解得很清楚，安装也很整洁。" },
       {
         detail: "空调更换",
@@ -87,11 +87,11 @@ export const zhHans: Translation = {
       hero: {
         eyebrow: "我们的服务",
         title: "为墨尔本家庭\u200b提供冷暖空调服务",
-        body: "从 VEU 补贴升级到新机安装、更换和维修——同一个团队负责您的项目，从首次评估一直到售后。",
+        body: "从 VEU 补贴暖气升级到新机安装、更换和维修——同一个团队负责您的项目，从首次评估一直到售后。",
       },
       list: { eyebrow: "服务项目", title: "我们的服务", subtitle: "选择适合您家的服务，或者直接联系我们，由我们为您推荐合适的方案。" },
-      how: { eyebrow: "合作方式", title: "流程清晰，从头到尾", subtitle: "不用猜——开工前您就清楚设备、施工范围和价格。" },
-      why: { eyebrow: "为什么选择 Rainbow Air", title: "业主为什么\u200b选择我们", link: "进一步了解 Rainbow Air" },
+      how: { eyebrow: "服务流程", title: "流程清晰，\u200b全程透明", subtitle: "心中有数——开工前就为您确认设备、施工范围和价格。" },
+      why: { eyebrow: "为什么选择 Rainbow Air", title: "业主为什么\u200b选择我们", link: "了解更多关于 Rainbow Air" },
       systems: { eyebrow: "系统类型", title: "哪种系统\u200b适合您家？", subtitle: "三种主要冷暖空调类型的快速对比。" },
       help: {
         title: "还没想好选哪种系统？我们帮您选",
@@ -110,12 +110,12 @@ export const zhHans: Translation = {
       },
       {
         title: "空调新装",
-        summary: "要给一个房间或全屋加装冷暖？我们会根据您的户型和预算推荐分体式、一拖多或风管式方案，并规范安装。",
+        summary: "想为单个房间或全屋加装冷暖空调？我们会根据您的户型和预算推荐分体式、一拖多或风管式方案，并按规范完成安装。",
         quoteItem: "空调新装",
       },
       {
         title: "空调更换",
-        summary: "旧机故障或者太费电？我们拆除旧机，换上按您房间大小配置的高效新机。",
+        summary: "旧机故障或耗电太高？我们拆除旧机，按房间面积配置并安装高效新机。",
         quoteItem: "空调更换",
       },
       {
@@ -125,21 +125,21 @@ export const zhHans: Translation = {
       },
     ],
     serviceSteps: [
-      { title: "咨询", body: "告诉我们您的房屋情况、现有系统以及想要达到的效果。" },
-      { title: "评估与报价", body: "我们确认是否适合（如涉及 VEU 也会确认资格），并提供列明施工范围的书面报价。" },
+      { title: "咨询", body: "告诉我们您的房屋情况、现有设备以及期望达到的效果。" },
+      { title: "评估与报价", body: "我们评估方案是否合适（涉及 VEU 时同时确认资格），并提供写明施工范围的书面报价。" },
       { title: "安装", body: "我们的团队负责安装和调试，注重每一个细节。" },
-      { title: "售后", body: "保修问题和安装相关支持，都有一个清楚的联系人。" },
+      { title: "售后", body: "保修咨询和安装相关支持，均有专人对接。" },
     ],
     serviceWhy: [
       { title: "VEU 认证供应商", body: "我们处理 VEU 流程，符合条件的补贴直接抵扣在报价中。" },
-      { title: "清楚的书面报价", body: "开工前确认设备、施工范围和价格——没有意外。" },
-      { title: "一个团队负责到底", body: "从评估、安装到售后，全程同一个团队。" },
+      { title: "清晰的书面报价", body: "开工前确认设备、施工范围和价格，没有意外支出。" },
+      { title: "一个团队负责到底", body: "从评估、安装到售后，全程由同一团队负责。" },
     ],
     solutions: [
       {
         name: "分体式空调 (Split System)",
         description: "一台室内机配一台室外机——适合单个卧室、书房或客厅的制冷和供暖。",
-        bestFor: ["单个房间", "公寓与单元房", "按需精准控温"],
+        bestFor: ["单个房间", "公寓与单元房", "局部精准控温"],
         enquiryValue: "分体式空调——请帮我选择",
       },
       {
@@ -150,7 +150,7 @@ export const zhHans: Translation = {
       },
       {
         name: "风管式空调 (Ducted)",
-        description: "通过风管把冷暖风送到多个房间——常用于替换燃气风管暖气。是否适合取决于天花板空间、户型和分区需求。",
+        description: "通过风管把冷暖风送到多个房间——常用于替换燃气风管暖气。是否适合取决于天花板内空间、户型和分区需求。",
         bestFor: ["全屋舒适", "替换燃气风管暖气", "可选分区控制"],
         enquiryValue: "风管式空调——请帮我选择",
       },
@@ -159,30 +159,30 @@ export const zhHans: Translation = {
       hero: {
         eyebrow: "VEU 补贴计划",
         title: "VEU 政府\u200b补贴计划",
-        body: "维州能源升级计划（Victorian Energy Upgrades，简称 VEU）帮助维州家庭以更低价格完成节能升级。把燃气风管暖气换成高效冷暖空调，是补贴力度最大的项目之一。",
+        body: "维州能源升级计划（Victorian Energy Upgrades，简称 VEU）帮助维州家庭以更低价格完成节能升级。把燃气风管暖气更换为高效冷暖空调，是该计划中补贴力度最大的项目之一。",
       },
       intro: {
         eyebrow: "关于计划",
         title: "什么是 VEU 计划？",
         points: [
-          { title: "维州政府计划", body: "VEU 为经认可的节能产品提供折扣，帮助维州居民降低能源账单。" },
+          { title: "维州政府计划", body: "VEU 为经认可的节能产品提供补贴，帮助维州居民降低能源账单。" },
           {
             title: "燃气暖气 → 冷暖空调",
-            body: "拆除并更换燃气暖气（包括全屋燃气风管暖气），换装经认可的高效冷暖空调，即可获得折扣。",
+            body: "拆除燃气暖气（包括全屋燃气风管暖气）并换装经认可的高效冷暖空调，即可获得补贴。",
           },
           {
             title: "由认证供应商直接抵扣",
-            body: "您不需要自己向政府申请。由 Rainbow Air 这样的认证供应商（Accredited Provider）处理计划要求，并把折扣直接抵扣在报价中。",
+            body: "您无需自行向政府申请。由 Rainbow Air 这样的认证供应商（Accredited Provider）按计划要求办理，并把补贴直接抵扣在报价中。",
           },
-          { title: "旧燃气暖气停用", body: "这项升级需要在安装过程中把您现有的燃气风管暖气停用（断开）。" },
-          { title: "安装新系统，补贴直接抵扣", body: "我们为您安装高效冷暖空调，VEU 补贴直接抵扣在价格中——不需要您自己填表申请。" },
+          { title: "旧燃气暖气停用", body: "这项升级需要在安装过程中停用（断开）您现有的燃气风管暖气。" },
+          { title: "安装新系统，补贴直接抵扣", body: "我们为您安装高效冷暖空调，VEU 补贴直接抵扣在价格中——无需您另行向政府提交申请。" },
         ],
         officialCta: "了解更多详情，请访问维州政府 VEU 计划官方网站（英文）",
       },
       check: {
         eyebrow: "VEU 资格检查",
         title: "您的房子\u200b符合 VEU 补贴条件吗？",
-        subtitle: "回答几个简单问题，大约一分钟，帮助我们初步判断 VEU 升级是否适合您家。",
+        subtitle: "回答几个简单问题，只需约一分钟，帮助我们初步判断 VEU 升级是否适合您家。",
       },
       disclaimerTitle: "VEU 补贴免责声明：",
       disclaimer:
@@ -192,18 +192,18 @@ export const zhHans: Translation = {
       hero: {
         eyebrow: "服务区域与项目",
         title: "我们的服务范围",
-        body: "Rainbow Air 为墨尔本及周边地区的家庭提供空调安装、更换和维修服务。咨询时请注明您的区名或邮编，我们会确认能否上门。",
+        body: "Rainbow Air 为墨尔本及周边地区的家庭提供空调安装、更换和维修服务。咨询时请注明您所在的区或邮编，我们会确认能否上门服务。",
       },
       areas: {
         title: "服务区域",
         summary: "服务墨尔本市区及周边地区，包括东南区。",
-        note: "不确定是否在服务范围内？发送咨询并注明您的区名或邮编，我们会人工跟您确认。",
+        note: "不确定是否在服务范围内？请发送咨询并注明您所在的区或邮编，我们的工作人员会与您确认。",
         cta: "发送咨询",
       },
       gallery: {
         eyebrow: "项目展示",
         title: "墨尔本\u200b安装项目",
-        subtitle: "看看我们为墨尔本家庭提供的空调安装方案。",
+        subtitle: "为墨尔本家庭提供的空调安装方案。",
         similarCta: "获取报价",
         servicesCta: "查看我们的服务",
       },
@@ -220,7 +220,7 @@ export const zhHans: Translation = {
       hero: {
         eyebrow: "关于我们与售后",
         title: "关于 Rainbow Air",
-        body: "Rainbow Air 为墨尔本家庭提供空调选型、设备供应、安装和更换服务。作为 VEU 认证供应商，我们帮助家庭借助维州能源升级计划的补贴，从燃气暖气升级换代。",
+        body: "Rainbow Air 为墨尔本家庭提供空调选型咨询、设备供应、安装、更换和维修服务。作为 VEU 认证供应商，我们帮助家庭借助维州能源升级计划的补贴，把燃气暖气升级为高效冷暖空调。",
       },
       company: { title: "公司信息" },
       why: { eyebrow: "为什么选择 Rainbow Air", title: "为什么选择 Rainbow Air？" },
@@ -228,28 +228,28 @@ export const zhHans: Translation = {
     },
     companyHighlights: [
       { stat: "2010 年起", label: "团队自 2010 年起从事冷暖空调安装" },
-      { stat: "约 10,000", label: "团队累计 VEU 空调安装经验" },
-      { stat: "省心无忧", label: "熟悉客户需求与 VEU 计划要求，售后有保障" },
-      { stat: "无隐藏费用", label: "价格公道——书面报价写明您需要支付的费用" },
+      { stat: "超一万次", label: "团队累计完成 VEU 空调上门安装" },
+      { stat: "省心无忧", label: "熟悉客户需求与 VEU 计划要求，售后服务省心" },
+      { stat: "无隐藏费用", label: "价格公道——书面报价清楚列明您需支付的全部费用" },
     ],
     benefits: [
-      { title: "量身定制", body: "根据您的房屋定制方案，而不是千篇一律的套餐。" },
-      { title: "不用猜", body: "开工前报价清楚、施工范围明确。" },
+      { title: "量身定制", body: "根据您的房屋情况定制方案，而非千篇一律的套餐。" },
+      { title: "心中有数", body: "开工前报价清楚、施工范围明确。" },
       { title: "用心施工", body: "细致安装，注重每一个关键细节。" },
-      { title: "一个联系人", body: "从规划到售后，始终有一个清楚的联系人。" },
-      { title: "补贴指导", body: "帮您了解 VEU 方案和资格要求。" },
+      { title: "专人对接", body: "从规划到售后，始终有专人与您对接。" },
+      { title: "补贴指导", body: "帮您了解 VEU 补贴方案和资格要求。" },
     ],
     aftercarePoints: [
-      { title: "了解您的保修", body: "了解您所装系统的厂家保修内容。" },
-      { title: "安装有问题？", body: "告诉我们发生了什么，我们会帮您理清下一步。" },
-      { title: "清楚的指引", body: "明确告诉您该联系 Rainbow Air 还是厂家。" },
-      { title: "方便我们帮您", body: "请准备好安装信息，并简单描述遇到的问题。" },
+      { title: "了解您的保修", body: "帮您了解所装设备的厂家保修内容。" },
+      { title: "安装有疑问？", body: "告诉我们具体情况，我们会帮您理清下一步该怎么做。" },
+      { title: "清晰的指引", body: "明确告诉您该联系 Rainbow Air 还是设备厂家。" },
+      { title: "协助我们更快帮您", body: "请准备好安装信息，并简要描述遇到的问题。" },
     ],
     contactCopy: {
       hero: {
         eyebrow: "联系我们",
         title: "联系我们",
-        body: "在下方发送在线咨询，或者打电话、通过社交媒体给我们留言。我们会确认服务区域、系统选择以及报价所需的信息。",
+        body: "您可以在下方发送在线咨询，也可以致电或通过社交媒体给我们留言。我们会与您确认服务区域、系统选择以及报价所需的信息。",
       },
       details: { title: "联系方式" },
       social: { title: "关注我们 / 留言" },
@@ -259,8 +259,8 @@ export const zhHans: Translation = {
   ui: {
     meta: {
       siteTitle: "Rainbow Air | 墨尔本空调安装",
-      siteDescription: "为墨尔本家庭提供 VEU 补贴空调升级、新机安装、更换和维修。检查您的 VEU 资格，向 Rainbow Air 获取报价。",
-      services: { title: "我们的服务", description: "VEU 补贴升级、空调新装、更换和维修——Rainbow Air，VEU 认证供应商。" },
+      siteDescription: "为墨尔本家庭提供 VEU 补贴暖气升级、空调新装、更换和维修服务。检查您的 VEU 资格，向 Rainbow Air 获取报价。",
+      services: { title: "我们的服务", description: "VEU 补贴暖气升级、空调新装、更换和维修——Rainbow Air，VEU 认证供应商。" },
       veu: { title: "VEU 补贴计划", description: "在维州更换燃气风管暖气？了解 VEU 补贴如何运作，并检查您的房子是否符合条件。" },
       projects: { title: "服务区域与项目", description: "Rainbow Air 服务墨尔本及周边地区。查看我们的空调安装项目。" },
       about: { title: "关于我们与售后", description: "关于 Rainbow Air，以及设备保修和安装售后服务。" },
@@ -289,9 +289,9 @@ export const zhHans: Translation = {
       breadcrumb: "页面路径",
     },
     site: {
-      intro: "Rainbow Air 帮助墨尔本家庭换装高效冷暖空调——从 VEU 补贴申请，到安装、更换和维修。",
+      intro: "Rainbow Air 帮助墨尔本家庭换装高效冷暖空调——从 VEU 补贴办理，到安装、更换和维修。",
       serviceArea: "维州墨尔本及周边地区",
-      heroHighlights: ["VEU 补贴申请", "新机安装与更换", "服务墨尔本及周边"],
+      heroHighlights: ["VEU 补贴代为办理", "新机安装与更换", "服务墨尔本及周边"],
     },
     footer: {
       heading: "页脚",
@@ -382,8 +382,8 @@ export const zhHans: Translation = {
       preferredHint: "可从建议中选择，也可自行填写",
       preferredPlaceholder: "例如：风管式空调",
       existing: "现有冷暖设备",
-      existingHintVeu: "VEU 资格评估需要",
-      existingHint: "选填——VEU 咨询请填写",
+      existingHintVeu: "VEU 资格评估需填写",
+      existingHint: "选填——咨询 VEU 补贴请填写",
       existingPlaceholder: "例如：使用 15 年的燃气风管暖气，没有制冷",
       message: "房间面积或其他备注",
       optional: "选填",
@@ -397,14 +397,14 @@ export const zhHans: Translation = {
       requiredNote: "带 * 的为必填项。请参阅我们的",
       privacyLink: "隐私政策",
       submit: "发送咨询",
-      checkFields: "请检查下方标出的栏位。",
-      checkFieldsMany: "请检查下方标出的 {n} 个栏位。",
+      checkFields: "请检查下方标红的填写项。",
+      checkFieldsMany: "请检查下方标红的 {n} 个填写项。",
       sentTitle: "谢谢——我们已收到您的咨询",
       sentBody: "我们已收到您的咨询。Rainbow Air 会通过您留下的电话或邮箱与您联系，确认下一步安排。",
-      sendAnother: "再发一条咨询",
+      sendAnother: "再发送一条咨询",
       notSure: "还不确定——请帮我推荐",
       enquiryTypes: {
-        veu: "VEU 补贴升级",
+        veu: "政府补贴暖气升级 (VEU)",
         new: "新装报价",
         replacement: "更换报价",
         repair: "维修咨询",
@@ -451,7 +451,7 @@ export const zhHans: Translation = {
       q: {
         gas: {
           title: "您家目前使用的\u200b是燃气风管暖气吗？",
-          help: "一台燃气暖气机（通常在天花板、地板下或室外），通过多个房间的出风口吹出暖风。",
+          help: "由一台燃气暖气机（通常装在天花板内、地板下或室外）通过多个房间的出风口送出暖风。",
         },
         vic: { title: "房产位于维多利亚州吗？" },
         disconnect: {
@@ -462,25 +462,25 @@ export const zhHans: Translation = {
       stop: {
         noGas: {
           title: "这项 VEU 升级\u200b适用于\u200b使用燃气风管暖气的家庭",
-          body: "本资格检查针对燃气风管暖气的更换。您可能仍符合其他 VEU 冷暖补贴，或者我们可以为您提供新装服务。",
+          body: "本资格检查针对燃气风管暖气的更换。您可能仍符合其他 VEU 冷暖空调补贴；我们也可以为您提供空调新装服务。",
         },
         notVic: { title: "VEU 是维州的计划", body: "维州能源升级计划只适用于维多利亚州的房产，因此您的房产无法享受此补贴。" },
         noDisconnect: {
           title: "此补贴要求停用旧暖气",
-          body: "VEU 燃气暖气更换补贴要求停用现有的燃气风管暖气。不停用则无法享受此补贴——但我们仍可为您提供普通安装报价。",
+          body: "VEU 燃气暖气更换补贴要求停用现有的燃气风管暖气。不停用则无法享受此补贴——但我们仍可为您提供常规安装报价。",
         },
       },
       unsureBox: {
         title: "怎么判断家里\u200b是不是燃气风管暖气",
         points: [
           "多个房间的地板或天花板上有出风口吹出暖风。",
-          "全屋只有一个墙上的温控器。",
-          "天花板内、房屋底下或外墙边有一台燃气暖气机，连着燃气管和排烟管。",
+          "全屋由墙上的一个温控器统一控制。",
+          "天花板内、地板下或外墙边有一台燃气暖气机，连着燃气管和排烟管。",
           "冬天的燃气账单明显更高。",
         ],
         still: "还是不确定？把暖气机和出风口的照片发给我们，我们帮您确认。",
         yesHave: "是的，我家有",
-        askCheck: "请你们帮我确认",
+        askCheck: "请帮我确认",
         askItem: "不确定家里是否有燃气风管暖气——请帮我确认",
       },
       details: {
@@ -491,7 +491,7 @@ export const zhHans: Translation = {
         postcode: "邮编",
         photos: "暖气设备照片",
         photosHint: "选填——最多 {max} 张，每张不超过 {mb} MB",
-        photosExamples: "例如：燃气暖气机、它的合规标签、墙上的温控器，以及地板或天花板上的出风口。",
+        photosExamples: "例如：燃气暖气机、机身铭牌或合规标签、墙上的温控器，以及地板或天花板上的出风口。",
         add: "添加",
         photoAlt: "照片 {n}：{name}",
         removePhoto: "删除照片 {n}",
@@ -527,7 +527,7 @@ export const zhHans: Translation = {
       },
       done: {
         title: "谢谢——\u200b我们已收到您的咨询",
-        body: "我们的团队会查看您的答案和照片，并联系您确认资格、安排报价。有问题可以直接致电",
+        body: "我们的团队会查看您的答案和照片，并联系您确认资格、安排报价。如有疑问，欢迎致电",
         gas: "燃气风管暖气",
         vic: "房产位于维州",
         disconnect: "同意停用旧暖气",

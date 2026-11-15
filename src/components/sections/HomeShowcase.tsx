@@ -32,7 +32,7 @@ export function TeamIntro() {
               <div key={st.label} className="px-3 py-5 text-center sm:px-5 sm:py-6">
                 <dt className="sr-only">{st.label}</dt>
                 <dd>
-                  <span className="block font-display text-[1.15rem] leading-tight font-bold text-navy-900 sm:text-2xl">{st.value}</span>
+                  <span className="block font-display text-[1.05rem] leading-tight font-bold [word-break:keep-all] text-navy-900 sm:text-2xl">{st.value}</span>
                   <span aria-hidden className="rb-full mx-auto mt-2.5 block h-[3px] w-8 rounded-full" />
                   <span className="mt-2.5 block text-[0.8rem] leading-snug text-muted sm:text-sm">{st.label}</span>
                 </dd>

@@ -21,6 +21,13 @@ Never force-push `main`.
 
 ---
 
+## v0.6.1 – 2026-11-16 · Copy review (wording & translation polish)
+- Chinese: "约 10,000" → "超一万次"; fixed "真实反馈" (sample reviews), "合作安装品牌" → "我们安装的品牌",
+  unified 补贴 (no more mixed 折扣/补贴), more natural phrasing across services, VEU, aftercare, contact and form text.
+- English: "~10,000" → "10,000+", tidied client headline capitalisation, VEU quote item renamed to match the service.
+- Stats row no longer splits Chinese numbers across lines on narrow phones.
+- Legal / professional-risk items listed for client review (not changed): see project doc "rainbow-air-text-risk-review".
+
 ## v0.6.0 – 2026-11-15 · Full Simplified & Traditional Chinese translation (`063af27`)
 - Whole site translated: pages, navigation, buttons, footer, floating button, enquiry form (labels, options, errors),
   VEU questionnaire, Privacy Policy & Terms (with "English version prevails" note), page titles/descriptions.

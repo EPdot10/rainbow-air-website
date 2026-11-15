@@ -61,7 +61,7 @@ export const uiEn = {
     intro:
       "Rainbow Air helps Melbourne households upgrade to efficient reverse cycle air conditioning – from VEU discount applications to installation, replacement and repairs.",
     serviceArea: "Melbourne & surrounding areas, Victoria",
-    heroHighlights: ["VEU discount applications", "New installations & replacements", "Serving Melbourne & surrounds"],
+    heroHighlights: ["VEU rebate handled for you", "New installations & replacements", "Serving Melbourne & surrounds"],
   },
 
   footer: {
@@ -191,7 +191,7 @@ export const uiEn = {
     sendAnother: "Send another enquiry",
     notSure: "Not sure yet – please recommend",
     enquiryTypes: {
-      veu: "VEU Discount Upgrade",
+      veu: "Government Rebate Heating Upgrade (VEU)",
       new: "New Installation Quote",
       replacement: "Replacement Quote",
       repair: "Repair Enquiry",

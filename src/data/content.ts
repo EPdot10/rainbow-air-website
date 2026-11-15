@@ -78,7 +78,7 @@ export const homeShowcase = {
     body: "The Rainbow Air team has been working in Melbourne's heating and cooling industry since 2010. Over that time our installers have completed thousands of projects – from single-room split systems to whole-home ducted upgrades and commercial VRF systems – so we know how to choose, install and look after the right system for each property.",
     stats: [
       { value: "Since 2010", label: "Team experience in heating & cooling" },
-      { value: "~10,000", label: "VEU air conditioning installations" },
+      { value: "10,000+", label: "VEU air conditioning installations" },
       { value: "All major brands", label: "Supplied and installed" },
     ],
     cta: "About Rainbow Air",
@@ -91,7 +91,7 @@ export const homeShowcase = {
   brands: {
     eyebrow: "Brands We Install",
     /** Client copy. ⚠ Licences to be confirmed (licence numbers recommended on the About page). */
-    title: "Fully licensed plumbing & Electrical Installers for all major AC Brands",
+    title: "Fully Licensed Plumbing & Electrical Installers for All Major AC Brands",
     note: "Brand names and logos are trademarks of their respective owners.",
   },
 };
@@ -173,7 +173,7 @@ export const servicesCopy = {
   hero: {
     eyebrow: "Our Services",
     title: "Heating & Cooling Services for Melbourne Homes",
-    body: "From VEU discount upgrades to new installations, replacements and repairs – one team looks after your project from the first assessment to aftercare.",
+    body: "From VEU rebate heating upgrades to new installations, replacements and repairs – one team looks after your project from the first assessment to aftercare.",
     image: "splitLivingRoom" as const,
   },
   list: {
@@ -212,7 +212,7 @@ export const services = [
       "Replace your gas ducted heating with an efficient reverse cycle air conditioner and let us handle the Victorian Energy Upgrades (VEU) process. As a VEU Accredited Provider, we assess your eligibility, look after the program paperwork, install your new system and apply the discount directly to your quote.",
     steps: ["Eligibility check", "VEU paperwork", "Installation", "Rebate applied in your quote"],
     primary: { label: "Check VEU Eligibility", href: `${routes.veu}#eligibility` },
-    quoteItem: "VEU Discount Upgrade",
+    quoteItem: "Government Rebate Heating Upgrade (VEU)",
   },
   {
     id: "new",
@@ -347,7 +347,7 @@ export const projectsCopy = {
   gallery: {
     eyebrow: "Projects",
     title: "Melbourne Installation Projects",
-    subtitle: "Explore air conditioning installation solutions for Melbourne homes.",
+    subtitle: "Air conditioning installation solutions for Melbourne homes.",
     similarCta: "Request a Quote",
     servicesCta: "View Our Services",
   },
@@ -371,7 +371,7 @@ export const aboutCopy = {
   hero: {
     eyebrow: "About & Aftercare",
     title: "About Rainbow Air",
-    body: "Rainbow Air provides air conditioning selection, equipment supply, installation and replacement for Melbourne homes – and, as a VEU Accredited Provider, helps households upgrade from gas heating with the Victorian Energy Upgrades discount.",
+    body: "Rainbow Air provides air conditioning advice, equipment supply, installation, replacement and repairs for Melbourne homes – and, as a VEU Accredited Provider, helps households upgrade from gas heating with the Victorian Energy Upgrades discount.",
     image: "galleryModernHome" as const,
   },
   company: { title: "Company Information" },
@@ -393,7 +393,7 @@ export const aboutCopy = {
  */
 export const companyHighlights = [
   { stat: "Since 2010", label: "Our team has been installing heating & cooling since 2010" },
-  { stat: "~10,000", label: "VEU air conditioning installations of team experience" },
+  { stat: "10,000+", label: "VEU air conditioning installations completed by our team" },
   { stat: "Worry-free", label: "We understand customer and VEU program requirements, with aftercare you can rely on" },
   { stat: "No hidden fees", label: "Fair pricing – your written quote shows what you pay" },
 ];
