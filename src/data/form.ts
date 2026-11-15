@@ -11,7 +11,7 @@ export const formConfig = {
  * Cloudflare Turnstile site key (public – safe to commit). Set it from the Turnstile widget in the
  * Cloudflare dashboard. Local/test hosts always use Cloudflare's "always passes" test key.
  */
-const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
+const TURNSTILE_SITE_KEY = "0x4AAAAAAGBlM_oXGE8hEaXf";
 const TURNSTILE_TEST_KEY = "1x00000000000000000000AA";
 
 export function turnstileSiteKey(): string {

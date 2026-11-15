@@ -21,6 +21,9 @@ Never force-push `main`.
 
 ---
 
+## v0.5.1 – 2026-11-15 · Turnstile site key
+- Added the live Cloudflare Turnstile site key so the enquiry forms' security check works on the demo domain.
+
 ## v0.5.0 – 2026-11-15 · Client preview polish + working enquiry email (`227fbc3`)
 - **Online Enquiry and VEU questionnaire now send real emails** via a Cloudflare Worker (`worker/index.js`, route `/api/enquiry`)
   → Cloudflare Turnstile anti-bot check + hidden honeypot field → Resend email. VEU photos (max 5, 5 MB each, resized in the
