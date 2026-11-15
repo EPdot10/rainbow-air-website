@@ -21,7 +21,7 @@ Never force-push `main`.
 
 ---
 
-## v0.4.0 – 2026-11-15 · Client revision round 1 (commit: see `git log`, message "feat: v0.4.0 …")
+## v0.4.0 – 2026-11-15 · Client revision round 1 (`edf3303`)
 **Navigation:** Home → Our Services → VEU Discount Program → Service Areas & Projects → About & Aftercare → Contact Us.
 - **Request a Quote** now always lands on the Online Enquiry form (desktop & mobile); Contact hero made compact and the form
   comes first on mobile.
