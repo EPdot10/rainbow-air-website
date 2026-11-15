@@ -1,6 +1,6 @@
+import { getDict } from "@/i18n/server";
 import { ArrowRight, BadgeCheck, CheckCircle2, ClipboardList, Flame, Hammer, PlusCircle, RefreshCw, Users, Wrench } from "lucide-react";
 import { routes } from "@/data/site";
-import { serviceSteps, serviceWhy, services, servicesCopy } from "@/data/content";
 import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -11,6 +11,8 @@ const serviceIcons = { veu: Flame, new: PlusCircle, replacement: RefreshCw, repa
 
 /** The four services. VEU leads as a wide featured card; each Quote button pre-fills the service. */
 export function ServicesList() {
+  const { services, servicesCopy } = getDict().c;
+  const { ui } = getDict();
   const c = servicesCopy.list;
   const [featured, ...rest] = services;
   const FeaturedIcon = serviceIcons[featured.id];
@@ -32,7 +34,7 @@ export function ServicesList() {
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-rb-yellow ring-1 ring-white/15">
                   <BadgeCheck className="size-3.5" aria-hidden />
-                  VEU Accredited Provider
+                  {ui.services.accredited}
                 </span>
               </div>
               <h3 className="mt-5 text-[1.7rem] leading-tight font-bold text-white sm:text-[2rem]">{featured.title}</h3>
@@ -43,7 +45,7 @@ export function ServicesList() {
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
                 </ButtonLink>
                 <ButtonLink href={quoteHref({ type: "veu", item: featured.quoteItem })} size="lg" variant="ghost-light">
-                  Get a VEU Quote
+                  {ui.services.getVeuQuote}
                 </ButtonLink>
               </div>
             </div>
@@ -72,7 +74,7 @@ export function ServicesList() {
                   <h3 className="mt-5 text-xl font-bold">{s.title}</h3>
                   <p className="mt-3 flex-1 leading-relaxed">{s.summary}</p>
                   <ButtonLink href={quoteHref({ type: s.id, item: s.quoteItem })} variant="outline" className="mt-6 self-start">
-                    Get a Quote
+                    {ui.services.getQuote}
                     <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
                   </ButtonLink>
                 </article>
@@ -88,6 +90,7 @@ export function ServicesList() {
 const stepIcons = [ClipboardList, CheckCircle2, Hammer, Users];
 
 export function ServiceProcess() {
+  const { serviceSteps, servicesCopy } = getDict().c;
   const c = servicesCopy.how;
   return (
     <section id="process" aria-labelledby="process-title" className="bg-surface py-20 sm:py-24">
@@ -116,6 +119,7 @@ export function ServiceProcess() {
 }
 
 export function ServiceWhy() {
+  const { serviceWhy, servicesCopy } = getDict().c;
   const c = servicesCopy.why;
   return (
     <section id="why" aria-labelledby="why-title" className="py-20 sm:py-24">

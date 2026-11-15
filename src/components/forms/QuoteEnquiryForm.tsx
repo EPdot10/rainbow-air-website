@@ -4,18 +4,12 @@ import { AlertCircle, ArrowRight, CheckCircle2, FileText, Film, ImageIcon, Loade
 import { compressImage } from "@/lib/compressImage";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
-import {
-  enquiryTypes,
-  formCopy,
-  installationRequirements,
-  roomOptions,
-  submitEnquiry,
-  submitErrorMessage,
-} from "@/data/form";
+import { enquiryTypes, installationRequirements, submitEnquiry, submitErrorMessage } from "@/data/form";
 import { Turnstile, type TurnstileHandle } from "@/components/forms/Turnstile";
-import { services, solutions } from "@/data/content";
 import { Button } from "@/components/ui/Button";
-import { LocalizedLink } from "@/components/locale/LocaleComponents";
+import { LocalizedLink, useDict, useLocale } from "@/components/locale/LocaleComponents";
+import { fmt } from "@/i18n";
+import type { Ui } from "@/i18n/ui";
 import { routes } from "@/data/site";
 import { cn } from "@/lib/cn";
 
@@ -49,30 +43,20 @@ const empty: Fields = {
 
 type Errors = Partial<Record<keyof Fields, string>>;
 
-const VEU_LABEL = enquiryTypes.find((t) => t.key === "veu")!.label;
-
-const preferredOptions = [
-  ...services.map((s) => s.quoteItem),
-  ...solutions.map((s) => s.name),
-  "Not sure yet – please recommend",
-];
-
-function validate(v: Fields): Errors {
+function validate(v: Fields, ui: Ui): Errors {
+  const m = ui.form.errors;
   const e: Errors = {};
-  if (v.fullName.trim().length < 2) e.fullName = "Please enter your name.";
+  if (v.fullName.trim().length < 2) e.fullName = m.name;
   const digits = v.phone.replace(/[^\d]/g, "");
-  if (!v.phone.trim()) e.phone = "Please enter a contact number.";
-  else if (!/^[\d\s()+-]+$/.test(v.phone) || digits.length < 8 || digits.length > 12)
-    e.phone = "Please enter a valid Australian phone number, e.g. 0412 345 678.";
-  if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) e.email = "Please enter a valid email address.";
-  if (v.suburb.trim().length < 3) e.suburb = "Please enter your suburb or postcode.";
-  else if (/^\d+$/.test(v.suburb.trim()) && !/^3\d{3}$/.test(v.suburb.trim()))
-    e.suburb = "Victorian postcodes are 4 digits starting with 3.";
-  if (!v.enquiryType) e.enquiryType = "Please choose an enquiry type.";
-  if (!v.installation) e.installation = "Please tell us whether this is a new installation or a replacement.";
-  if (v.enquiryType === VEU_LABEL && v.existing.trim().length < 3)
-    e.existing = "For VEU enquiries, please describe your existing heating or cooling system.";
-  if (v.message.length > 2000) e.message = "Please keep additional information under 2,000 characters.";
+  if (!v.phone.trim()) e.phone = m.phone;
+  else if (!/^[\d\s()+-]+$/.test(v.phone) || digits.length < 8 || digits.length > 12) e.phone = m.phoneInvalid;
+  if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) e.email = m.email;
+  if (v.suburb.trim().length < 3) e.suburb = m.suburb;
+  else if (/^\d+$/.test(v.suburb.trim()) && !/^3\d{3}$/.test(v.suburb.trim())) e.suburb = m.postcode;
+  if (!v.enquiryType) e.enquiryType = m.enquiryType;
+  if (!v.installation) e.installation = m.installation;
+  if (v.enquiryType === ui.form.enquiryTypes.veu && v.existing.trim().length < 3) e.existing = m.existing;
+  if (v.message.length > 2000) e.message = m.message;
   return e;
 }
 
@@ -101,13 +85,13 @@ const order: (keyof Fields)[] = [
 type Status = "idle" | "submitting" | "sent" | "error";
 
 /** Values pre-filled from the link that opened the form (?type=&item=&install=). */
-function prefillFrom(params: URLSearchParams): Partial<Fields> {
+function prefillFrom(params: URLSearchParams, ui: Ui): Partial<Fields> {
   const type = enquiryTypes.find((t) => t.key === params.get("type"));
   const install = installationRequirements.find((r) => r.key === params.get("install"));
   const item = params.get("item")?.slice(0, 200);
   const out: Partial<Fields> = {};
-  if (type) out.enquiryType = type.label;
-  if (install) out.installation = install.label;
+  if (type) out.enquiryType = ui.form.enquiryTypes[type.key];
+  if (install) out.installation = ui.form.installTypes[install.key];
   if (item) out.preferred = item;
   return out;
 }
@@ -116,7 +100,11 @@ export function QuoteEnquiryForm() {
   const params = useSearchParams();
   const paramKey = params.toString();
   const uid = useId();
-  const [values, setValues] = useState<Fields>(() => ({ ...empty, ...prefillFrom(new URLSearchParams(paramKey)) }));
+  const { c, ui } = useDict();
+  const locale = useLocale();
+  const F = ui.form;
+  const preferredOptions = [...c.services.map((x) => x.quoteItem), ...c.solutions.map((x) => x.name), F.notSure];
+  const [values, setValues] = useState<Fields>(() => ({ ...empty, ...prefillFrom(new URLSearchParams(paramKey), ui) }));
   const [appliedKey, setAppliedKey] = useState(paramKey);
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof Fields, boolean>>>({});
@@ -137,16 +125,16 @@ export function QuoteEnquiryForm() {
       const kind = fileKind(original);
       const known = original.type.startsWith("image/") || kind !== "image" || /\.(heic|heif)$/i.test(original.name);
       if (!known) {
-        setFileError("Please attach photos, videos (MP4/MOV) or PDF files.");
+        setFileError(F.errors.fileType);
         continue;
       }
       if (next.length >= MAX_FILES) {
-        setFileError(`You can attach up to ${MAX_FILES} files.`);
+        setFileError(fmt(F.errors.tooManyFiles, { max: MAX_FILES }));
         break;
       }
       const f = kind === "image" ? await compressImage(original) : original;
       if (total + f.size > MAX_TOTAL) {
-        setFileError(`Attachments can be up to ${MAX_TOTAL_MB} MB in total. Try a shorter video or fewer files.`);
+        setFileError(fmt(F.errors.filesTooLarge, { mb: MAX_TOTAL_MB }));
         continue;
       }
       total += f.size;
@@ -159,7 +147,7 @@ export function QuoteEnquiryForm() {
   // A new "Get a Quote" link while already on this page → apply its values (fields stay editable).
   if (paramKey !== appliedKey) {
     setAppliedKey(paramKey);
-    setValues((v) => ({ ...v, ...prefillFrom(new URLSearchParams(paramKey)) }));
+    setValues((v) => ({ ...v, ...prefillFrom(new URLSearchParams(paramKey), ui) }));
     setStatus("idle");
   }
 
@@ -181,16 +169,16 @@ export function QuoteEnquiryForm() {
   const set = (f: keyof Fields) => (e: { target: { value: string } }) => {
     const next = { ...values, [f]: e.target.value };
     setValues(next);
-    if (touched[f]) setErrors((prev) => ({ ...prev, [f]: validate(next)[f] }));
+    if (touched[f]) setErrors((prev) => ({ ...prev, [f]: validate(next, ui)[f] }));
   };
   const blur = (f: keyof Fields) => () => {
     setTouched((t) => ({ ...t, [f]: true }));
-    setErrors((prev) => ({ ...prev, [f]: validate(values)[f] }));
+    setErrors((prev) => ({ ...prev, [f]: validate(values, ui)[f] }));
   };
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    const errs = validate(values);
+    const errs = validate(values, ui);
     setErrors(errs);
     setTouched(Object.fromEntries(order.map((k) => [k, true])));
     const first = order.find((k) => errs[k]);
@@ -199,13 +187,14 @@ export function QuoteEnquiryForm() {
       return;
     }
     if (!token) {
-      setErrorText("Please wait a moment for the security check to finish, then try again.");
+      setErrorText(F.errors.securityWait);
       setStatus("error");
       return;
     }
     setStatus("submitting");
     const data = new FormData();
     data.set("kind", "quote");
+    data.set("lang", locale);
     for (const k of order) data.set(k, values[k]);
     files.forEach((f) => data.append("files", f, f.name));
     data.set("website", honeypot);
@@ -218,13 +207,13 @@ export function QuoteEnquiryForm() {
       setTouched({});
       setFiles([]);
     } else {
-      setErrorText(submitErrorMessage(result.error));
+      setErrorText(submitErrorMessage(result.error, ui));
       setStatus("error");
     }
   }
 
   const errorCount = Object.values(errors).filter(Boolean).length;
-  const isVeu = values.enquiryType === VEU_LABEL;
+  const isVeu = values.enquiryType === F.enquiryTypes.veu;
 
   if (status === "sent") {
     return (
@@ -232,11 +221,11 @@ export function QuoteEnquiryForm() {
         <span className="inline-flex size-12 items-center justify-center rounded-full bg-green-50 text-green-700">
           <CheckCircle2 className="size-6" aria-hidden />
         </span>
-        <h3 className="mt-4 text-2xl font-bold">Thank you – enquiry received</h3>
-        <p className="mt-3 leading-relaxed">{formCopy.success}</p>
+        <h3 className="mt-4 text-2xl font-bold">{F.sentTitle}</h3>
+        <p className="mt-3 leading-relaxed">{F.sentBody}</p>
         <Button variant="outline" className="mt-7" onClick={() => setStatus("idle")}>
           <Pencil className="size-4" aria-hidden />
-          Send another enquiry
+          {F.sendAnother}
         </Button>
       </div>
     );
@@ -251,7 +240,7 @@ export function QuoteEnquiryForm() {
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 id="quote-form-heading" tabIndex={-1} className="text-2xl font-bold outline-none">
-          Online Enquiry
+          {F.heading}
         </h2>
       </div>
 
@@ -259,35 +248,35 @@ export function QuoteEnquiryForm() {
       {errorCount > 0 && (
         <p role="alert" className="mt-4 flex items-start gap-2 rounded-lg bg-red-50 px-3.5 py-2.5 text-sm text-red-800">
           <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
-          Please check the {errorCount === 1 ? "highlighted field" : `${errorCount} highlighted fields`} below.
+          {errorCount === 1 ? F.checkFields : fmt(F.checkFieldsMany, { n: errorCount })}
         </p>
       )}
 
       <div className="mt-6 grid gap-x-5 gap-y-5 sm:grid-cols-2">
-        <Field id={id("fullName")} label="Name" required error={touched.fullName ? errors.fullName : undefined}>
+        <Field id={id("fullName")} label={F.name} required error={touched.fullName ? errors.fullName : undefined}>
           {(p) => <input {...p} type="text" autoComplete="name" value={values.fullName} onChange={set("fullName")} onBlur={blur("fullName")} />}
         </Field>
-        <Field id={id("phone")} label="Contact Number" required error={touched.phone ? errors.phone : undefined}>
+        <Field id={id("phone")} label={F.phone} required error={touched.phone ? errors.phone : undefined}>
           {(p) => (
             <input {...p} type="tel" inputMode="tel" autoComplete="tel" placeholder="04xx xxx xxx" value={values.phone} onChange={set("phone")} onBlur={blur("phone")} />
           )}
         </Field>
-        <Field id={id("email")} label="Email" hint="Optional" error={touched.email ? errors.email : undefined}>
+        <Field id={id("email")} label={F.email} hint={F.optional} error={touched.email ? errors.email : undefined}>
           {(p) => <input {...p} type="email" autoComplete="email" value={values.email} onChange={set("email")} onBlur={blur("email")} />}
         </Field>
-        <Field id={id("suburb")} label="Suburb / Postcode" required error={touched.suburb ? errors.suburb : undefined}>
+        <Field id={id("suburb")} label={F.suburb} required error={touched.suburb ? errors.suburb : undefined}>
           {(p) => (
-            <input {...p} type="text" autoComplete="address-level2" placeholder="e.g. Box Hill or 3128" value={values.suburb} onChange={set("suburb")} onBlur={blur("suburb")} />
+            <input {...p} type="text" autoComplete="address-level2" placeholder={F.suburbPlaceholder} value={values.suburb} onChange={set("suburb")} onBlur={blur("suburb")} />
           )}
         </Field>
-        <Field id={id("enquiryType")} label="Enquiry Type" required error={touched.enquiryType ? errors.enquiryType : undefined} className="sm:col-span-2">
+        <Field id={id("enquiryType")} label={F.enquiryType} required error={touched.enquiryType ? errors.enquiryType : undefined} className="sm:col-span-2">
           {(p) => (
             <select {...p} value={values.enquiryType} onChange={set("enquiryType")} onBlur={blur("enquiryType")}>
               <option value="" disabled>
-                Select an option
+                {F.selectOption}
               </option>
               {enquiryTypes.map((o) => (
-                <option key={o.key}>{o.label}</option>
+                <option key={o.key}>{F.enquiryTypes[o.key]}</option>
               ))}
             </select>
           )}
@@ -298,8 +287,8 @@ export function QuoteEnquiryForm() {
           aria-describedby={touched.installation && errors.installation ? `${id("installation")}-error` : undefined}
         >
           <legend className="text-sm font-semibold text-ink">
-            Installation Requirement <span className="text-flame-600" aria-hidden>*</span>
-            <span className="sr-only"> (required)</span>
+            {F.installation} <span className="text-flame-600" aria-hidden>*</span>
+            <span className="sr-only"> {F.required}</span>
           </legend>
           <div className="mt-2 grid gap-2.5 sm:grid-cols-3">
             {installationRequirements.map((opt, i) => (
@@ -307,7 +296,7 @@ export function QuoteEnquiryForm() {
                 key={opt.key}
                 className={cn(
                   "flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 text-[0.95rem] font-medium transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-sky-500",
-                  values.installation === opt.label ? "border-navy-900 bg-navy-50 text-navy-900" : "border-line hover:border-navy-900/40",
+                  values.installation === F.installTypes[opt.key] ? "border-navy-900 bg-navy-50 text-navy-900" : "border-line hover:border-navy-900/40",
                   touched.installation && errors.installation && "border-red-400",
                 )}
               >
@@ -315,8 +304,8 @@ export function QuoteEnquiryForm() {
                   type="radio"
                   name={`${uid}-installation`}
                   id={i === 0 ? id("installation") : undefined}
-                  value={opt.label}
-                  checked={values.installation === opt.label}
+                  value={F.installTypes[opt.key]}
+                  checked={values.installation === F.installTypes[opt.key]}
                   onChange={(e) => {
                     set("installation")(e);
                     setTouched((t) => ({ ...t, installation: true }));
@@ -324,7 +313,7 @@ export function QuoteEnquiryForm() {
                   }}
                   className="size-4 accent-navy-900 focus:outline-none"
                 />
-                {opt.label}
+                {F.installTypes[opt.key]}
               </label>
             ))}
           </div>
@@ -336,24 +325,24 @@ export function QuoteEnquiryForm() {
           )}
         </fieldset>
 
-        <Field id={id("rooms")} label="Number of Rooms" hint="To heat or cool">
+        <Field id={id("rooms")} label={F.rooms} hint={F.roomsHint}>
           {(p) => (
             <select {...p} value={values.rooms} onChange={set("rooms")}>
-              <option value="">Select (optional)</option>
-              {roomOptions.map((o) => (
+              <option value="">{F.selectOptional}</option>
+              {F.roomOptions.map((o) => (
                 <option key={o}>{o}</option>
               ))}
             </select>
           )}
         </Field>
-        <Field id={id("roomNames")} label="Which Rooms?" hint="Optional">
-          {(p) => <input {...p} type="text" placeholder="e.g. Living room, 2 bedrooms" value={values.roomNames} onChange={set("roomNames")} />}
+        <Field id={id("roomNames")} label={F.roomNames} hint={F.optional}>
+          {(p) => <input {...p} type="text" placeholder={F.roomNamesPlaceholder} value={values.roomNames} onChange={set("roomNames")} />}
         </Field>
 
-        <Field id={id("preferred")} label="Preferred Service / System" hint="Choose a suggestion or type your own" className="sm:col-span-2">
+        <Field id={id("preferred")} label={F.preferred} hint={F.preferredHint} className="sm:col-span-2">
           {(p) => (
             <>
-              <input {...p} type="text" list={`${uid}-preferred-list`} value={values.preferred} onChange={set("preferred")} placeholder="e.g. Ducted Air Conditioning" />
+              <input {...p} type="text" list={`${uid}-preferred-list`} value={values.preferred} onChange={set("preferred")} placeholder={F.preferredPlaceholder} />
               <datalist id={`${uid}-preferred-list`}>
                 {preferredOptions.map((o) => (
                   <option key={o} value={o} />
@@ -365,21 +354,21 @@ export function QuoteEnquiryForm() {
 
         <Field
           id={id("existing")}
-          label="Existing Heating / Cooling System"
+          label={F.existing}
           required={isVeu}
-          hint={isVeu ? "Needed for VEU eligibility" : "Optional – please fill in for VEU enquiries"}
+          hint={isVeu ? F.existingHintVeu : F.existingHint}
           className="sm:col-span-2"
           error={touched.existing ? errors.existing : undefined}
         >
           {(p) => (
-            <input {...p} type="text" placeholder="e.g. 15-year-old gas ducted heater, no cooling" value={values.existing} onChange={set("existing")} onBlur={blur("existing")} />
+            <input {...p} type="text" placeholder={F.existingPlaceholder} value={values.existing} onChange={set("existing")} onBlur={blur("existing")} />
           )}
         </Field>
 
         <Field
           id={id("message")}
-          label="Room Sizes or Other Notes"
-          hint="Optional"
+          label={F.message}
+          hint={F.optional}
           className="sm:col-span-2"
           error={touched.message ? errors.message : undefined}
         >
@@ -388,12 +377,10 @@ export function QuoteEnquiryForm() {
 
         <div className="sm:col-span-2">
           <p className="text-sm font-semibold text-ink">
-            Photos, Videos or Files{" "}
-            <span className="ml-1 text-xs font-normal text-muted">
-              Optional – up to {MAX_FILES} files, {MAX_TOTAL_MB} MB in total (photos, short videos, PDF)
-            </span>
+            {F.files}{" "}
+            <span className="ml-1 text-xs font-normal text-muted">{fmt(F.filesHint, { max: MAX_FILES, mb: MAX_TOTAL_MB })}</span>
           </p>
-          <p className="mt-1 text-sm text-muted">e.g. the rooms, your current system, the outdoor area or a floor plan.</p>
+          <p className="mt-1 text-sm text-muted">{F.filesExamples}</p>
           {files.length > 0 && (
             <ul className="mt-3 space-y-2">
               {files.map((f, i) => {
@@ -407,7 +394,7 @@ export function QuoteEnquiryForm() {
                       type="button"
                       onClick={() => setFiles(files.filter((_, k) => k !== i))}
                       className="inline-flex size-7 shrink-0 items-center justify-center rounded-full text-muted hover:bg-white hover:text-ink"
-                      aria-label={`Remove ${f.name}`}
+                      aria-label={fmt(F.remove, { name: f.name })}
                     >
                       <X className="size-4" aria-hidden />
                     </button>
@@ -415,14 +402,14 @@ export function QuoteEnquiryForm() {
                 );
               })}
               <li className="text-xs text-muted">
-                {formatSize(totalSize)} of {MAX_TOTAL_MB} MB used
+                {fmt(F.filesUsed, { used: formatSize(totalSize), mb: MAX_TOTAL_MB })}
               </li>
             </ul>
           )}
           {files.length < MAX_FILES && (
             <label className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-navy-900/25 px-4 py-2.5 text-sm font-semibold text-navy-800 transition-colors hover:border-navy-900/50 hover:bg-navy-50 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-sky-500">
               <Paperclip className="size-4" aria-hidden />
-              Attach files
+              {F.attach}
               <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { void addFiles(e.target.files); e.target.value = ""; }} />
             </label>
           )}
@@ -452,15 +439,15 @@ export function QuoteEnquiryForm() {
 
       <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs leading-relaxed text-muted sm:max-w-xs">
-          Fields marked <span className="text-flame-600">*</span> are required. See our{" "}
+          {F.requiredNote}{" "}
           <LocalizedLink href={routes.privacy} className="underline underline-offset-2 hover:text-ink">
-            Privacy Policy
+            {F.privacyLink}
           </LocalizedLink>
           .
         </p>
         <Button type="submit" size="lg" disabled={status === "submitting"} className="sm:min-w-[13rem]">
           {status === "submitting" ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
-          {formCopy.submit}
+          {F.submit}
           {status !== "submitting" && <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />}
         </Button>
       </div>

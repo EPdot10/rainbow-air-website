@@ -2,6 +2,7 @@
 
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { turnstileSiteKey } from "@/data/form";
+import { useLocale } from "@/components/locale/LocaleComponents";
 
 /** Minimal typing for the Cloudflare Turnstile browser API. */
 interface TurnstileApi {
@@ -49,6 +50,9 @@ export const Turnstile = forwardRef<TurnstileHandle, { onToken: (token: string |
   const box = useRef<HTMLDivElement>(null);
   const widget = useRef<string | null>(null);
   const cb = useRef(onToken);
+  const locale = useLocale();
+  const language = locale === "zh-hans" ? "zh-cn" : locale === "zh-hant" ? "zh-tw" : "en";
+  const lang = useRef(language);
 
   useEffect(() => {
     cb.current = onToken;
@@ -70,6 +74,7 @@ export const Turnstile = forwardRef<TurnstileHandle, { onToken: (token: string |
           sitekey: turnstileSiteKey(),
           appearance: "interaction-only",
           theme: "light",
+          language: lang.current,
           callback: (t: string) => cb.current(t),
           "expired-callback": () => cb.current(null),
           "error-callback": () => cb.current(null),

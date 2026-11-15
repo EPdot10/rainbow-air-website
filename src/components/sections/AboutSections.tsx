@@ -1,5 +1,5 @@
+import { getDict } from "@/i18n/server";
 import { AlertTriangle, ArrowRight, BadgeCheck, ClipboardList, Compass, ShieldCheck } from "lucide-react";
-import { aboutCopy, aftercarePoints, companyHighlights } from "@/data/content";
 import { site } from "@/data/site";
 import { TBC } from "@/data/types";
 import { quoteHref } from "@/lib/quote";
@@ -13,8 +13,10 @@ function Pending({ value }: { value: string }) {
 
 /** Merged highlights block (client, 4 points). ⚠ First two to be substantiated before launch. */
 export function CompanyHighlights() {
+  const { companyHighlights } = getDict().c;
+  const { ui } = getDict();
   return (
-    <section aria-label="Company highlights" className="relative z-10 -mt-10 sm:-mt-12">
+    <section aria-label={ui.about.highlights} className="relative z-10 -mt-10 sm:-mt-12">
       <div className="container-page">
         <Reveal>
           <ul className="grid overflow-hidden rounded-3xl bg-white shadow-lift ring-1 ring-line sm:grid-cols-2 lg:grid-cols-4">
@@ -34,11 +36,13 @@ export function CompanyHighlights() {
 
 /** Company details (legal name, ACN, ABN confirmed; licence/insurance pending). */
 export function CompanyInfo() {
+  const { aboutCopy } = getDict().c;
+  const { ui } = getDict();
   const rows = [
-    { label: "Legal business name", value: site.company.legalName },
-    { label: "Trading name", value: site.name },
-    { label: "ACN", value: site.company.acn },
-    { label: "ABN", value: site.company.abn },
+    { label: ui.about.legalName, value: site.company.legalName },
+    { label: ui.about.tradingName, value: site.name },
+    { label: ui.about.acn, value: site.company.acn },
+    { label: ui.about.abn, value: site.company.abn },
   ];
   return (
     <section aria-labelledby="company-title" className="py-20 sm:py-24">
@@ -47,7 +51,7 @@ export function CompanyInfo() {
           <h2 id="company-title" className="text-[2rem] leading-tight font-bold tracking-[-0.02em] sm:text-[2.4rem]">
             {aboutCopy.company.title}
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted">{site.intro}</p>
+          <p className="mt-4 text-lg leading-relaxed text-muted">{ui.site.intro}</p>
         </Reveal>
         <Reveal delay={0.08}>
           <dl className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line shadow-card sm:grid-cols-2">
@@ -73,6 +77,7 @@ const aftercareIcons = { shield: ShieldCheck, alert: AlertTriangle, compass: Com
 
 /** Client copy – "Equipment Warranty & Installation Aftercare" (4 points). */
 export function Aftercare() {
+  const { aboutCopy, aftercarePoints } = getDict().c;
   const c = aboutCopy.aftercare;
   return (
     <section id="aftercare" aria-labelledby="aftercare-title" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">

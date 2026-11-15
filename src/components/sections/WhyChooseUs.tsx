@@ -1,5 +1,5 @@
+import { getDict } from "@/i18n/server";
 import { BadgePercent, ClipboardCheck, HeartHandshake, Home, UserRound } from "lucide-react";
-import { aboutCopy, benefits } from "@/data/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -8,6 +8,7 @@ const accents = ["text-rb-red", "text-rb-orange", "text-rb-green", "text-rb-sky"
 
 /** Client copy – "Why Choose Rainbow Air?" (5 points). */
 export function WhyChooseUs() {
+  const { aboutCopy, benefits } = getDict().c;
   const c = aboutCopy.why;
   return (
     <section id="why-rainbow-air" aria-labelledby="why-title" className="bg-surface py-20 sm:py-24 lg:py-28">

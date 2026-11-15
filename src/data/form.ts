@@ -1,3 +1,5 @@
+import type { Ui } from "@/i18n/ui";
+
 /**
  * Online enquiry configuration.
  * Both forms (Contact enquiry and VEU questionnaire) POST multipart data to the Cloudflare
@@ -35,15 +37,17 @@ export async function submitEnquiry(data: FormData): Promise<SubmitResult> {
 }
 
 /** Visitor-facing message for a failed submission. */
-export function submitErrorMessage(error: string): string {
-  if (error === "verification") return "The security check didn't complete. Please try again.";
-  if (error === "file_too_large" || error === "too_large") return "The attachments are too large. Please keep them under 25 MB in total.";
-  if (error === "too_many_files") return "Too many files attached.";
-  if (error === "file_type") return "Please attach photos, short videos (MP4/MOV) or PDF files.";
-  return "Sorry, your enquiry couldn't be sent. Please try again, or call us on 0433 600 166.";
+export function submitErrorMessage(error: string, ui: Ui): string {
+  const m = ui.form.errors;
+  if (error === "verification") return m.verification;
+  if (error === "file_too_large" || error === "too_large") return m.sendTooLarge;
+  if (error === "too_many_files") return m.sendTooMany;
+  if (error === "file_type") return m.sendFileType;
+  return m.sendFailed;
 }
 
 /** Enquiry types – `key` is used in links (?type=…), `label` is what the visitor sees. */
+/** Enquiry types – `key` is used in links (?type=…); visible labels are in i18n/ui.ts (form.enquiryTypes). */
 export const enquiryTypes = [
   { key: "veu", label: "VEU Discount Upgrade" },
   { key: "new", label: "New Installation Quote" },

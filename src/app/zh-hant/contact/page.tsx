@@ -1,2 +1,8 @@
-// Chinese URL (zh-hant). Content is English for now (translation pending) – see LocaleBanner.
-export { default, metadata } from "@/app/contact/page";
+import { pageMetadata } from "@/i18n/meta";
+import { ContactView } from "@/views/ContactView";
+
+export const metadata = pageMetadata("contact", "zh-hant");
+
+export default function Page() {
+  return <ContactView locale="zh-hant" />;
+}

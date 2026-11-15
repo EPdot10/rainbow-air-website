@@ -1,6 +1,6 @@
+import { getDict } from "@/i18n/server";
 import { Suspense } from "react";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
-import { contactCopy } from "@/data/content";
 import { site, telHref } from "@/data/site";
 import { TBC } from "@/data/types";
 import { QuoteEnquiryForm } from "@/components/forms/QuoteEnquiryForm";
@@ -8,14 +8,16 @@ import { SocialRow } from "@/components/social/SocialIcons";
 
 /** Contact details + the online enquiry form (#enquiry). On mobile the form comes first. */
 export function ContactSection() {
+  const { contactCopy } = getDict().c;
+  const { ui } = getDict();
   const rows = [
-    { icon: Phone, label: "Phone", value: site.contact.phone, href: telHref(site.contact.phone) },
-    { icon: Mail, label: "Email", value: site.contact.email, href: `mailto:${site.contact.email}` },
-    { icon: MapPin, label: "Service area", value: site.contact.serviceArea },
-    { icon: Clock, label: "Business hours", value: site.contact.hours },
+    { icon: Phone, label: ui.contact.phone, value: site.contact.phone, href: telHref(site.contact.phone) },
+    { icon: Mail, label: ui.contact.email, value: site.contact.email, href: `mailto:${site.contact.email}` },
+    { icon: MapPin, label: ui.contact.serviceArea, value: ui.site.serviceArea },
+    { icon: Clock, label: ui.contact.hours, value: site.contact.hours },
   ].filter((r) => (r.value as string) !== TBC);
   return (
-    <section aria-label="Contact details and online enquiry" className="bg-surface py-8 sm:py-12 lg:py-14">
+    <section aria-label={ui.contact.sectionLabel} className="bg-surface py-8 sm:py-12 lg:py-14">
       <div className="container-page grid gap-10 lg:grid-cols-[0.8fr_1.5fr] lg:gap-14">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <h2 className="text-[1.6rem] font-bold">{contactCopy.details.title}</h2>

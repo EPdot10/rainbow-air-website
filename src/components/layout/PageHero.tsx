@@ -1,4 +1,5 @@
 import { LocalizedLink } from "@/components/locale/LocaleComponents";
+import { getDict } from "@/i18n/server";
 import { ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import type { ImageKey } from "@/data/images";
@@ -21,6 +22,7 @@ interface PageHeroProps {
 
 /** Compact hero used at the top of every inner page (one H1 per page). */
 export function PageHero({ eyebrow, title, body, crumb, image, children, compact, extra }: PageHeroProps) {
+  const { ui } = getDict();
   return (
     <section aria-labelledby="page-title" className="relative isolate overflow-hidden bg-navy-950">
       {image && (
@@ -33,11 +35,11 @@ export function PageHero({ eyebrow, title, body, crumb, image, children, compact
         </div>
       )}
       <div className={compact ? "container-page py-8 sm:py-10 lg:py-12" : "container-page py-14 sm:py-20 lg:py-24"}>
-        <nav aria-label="Breadcrumb" className={compact ? "mb-4 text-sm text-white/65" : "mb-6 text-sm text-white/65"}>
+        <nav aria-label={ui.common.breadcrumb} className={compact ? "mb-4 text-sm text-white/65" : "mb-6 text-sm text-white/65"}>
           <ol className="flex items-center gap-1.5">
             <li>
               <LocalizedLink href="/" className="hover:text-white">
-                Home
+                {ui.common.home}
               </LocalizedLink>
             </li>
             <li aria-hidden>

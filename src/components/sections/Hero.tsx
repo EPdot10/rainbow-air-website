@@ -1,6 +1,5 @@
+import { getDict } from "@/i18n/server";
 import { ArrowRight, Check } from "lucide-react";
-import { hero } from "@/data/content";
-import { heroHighlights } from "@/data/site";
 import { quoteHref } from "@/lib/quote";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { ButtonLink } from "@/components/ui/Button";
@@ -8,6 +7,8 @@ import { Eyebrow } from "@/components/ui/SectionHeading";
 import { VeuCard } from "@/components/sections/VeuStrip";
 
 export function Hero() {
+  const { hero } = getDict().c;
+  const { ui } = getDict();
   return (
     <section id="top" aria-labelledby="hero-title" className="relative isolate overflow-hidden bg-navy-950">
       <div className="absolute inset-0 -z-10">
@@ -45,7 +46,7 @@ export function Hero() {
           </div>
 
           <ul className="mt-10 grid gap-3 border-t border-white/15 pt-7 text-[0.95rem] text-white/85 sm:grid-cols-3 sm:gap-5">
-            {heroHighlights.map((h) => (
+            {ui.site.heroHighlights.map((h) => (
               <li key={h} className="flex items-start gap-2.5">
                 <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-white/12 ring-1 ring-white/25">
                   <Check className="size-3 text-white" strokeWidth={3} aria-hidden />

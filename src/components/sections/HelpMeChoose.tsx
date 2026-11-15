@@ -1,10 +1,11 @@
+import { getDict } from "@/i18n/server";
 import { ArrowRight, Lightbulb } from "lucide-react";
-import { servicesCopy } from "@/data/content";
 import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function HelpMeChoose() {
+  const { servicesCopy } = getDict().c;
   const c = servicesCopy.help;
   return (
     <section id="help-me-choose" aria-labelledby="help-title" className="py-20 sm:py-24">

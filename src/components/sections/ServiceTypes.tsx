@@ -1,5 +1,6 @@
+import { getDict } from "@/i18n/server";
+import { fmt } from "@/i18n";
 import { ArrowRight } from "lucide-react";
-import { servicesCopy, solutions } from "@/data/content";
 import { LocalizedLink } from "@/components/locale/LocaleComponents";
 import { quoteHref } from "@/lib/quote";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -7,6 +8,8 @@ import { SmartImage } from "@/components/ui/SmartImage";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function ServiceTypes() {
+  const { servicesCopy, solutions } = getDict().c;
+  const { ui } = getDict();
   const c = servicesCopy.systems;
 
   return (
@@ -18,7 +21,7 @@ export function ServiceTypes() {
             href="#help-me-choose"
             className="inline-flex shrink-0 items-center gap-2 font-semibold text-sky-600 underline-offset-4 hover:text-navy-900 hover:underline"
           >
-            Not sure? Get help choosing
+            {ui.services.helpChoosing}
             <ArrowRight className="size-4" aria-hidden />
           </a>
         </div>
@@ -47,7 +50,7 @@ export function ServiceTypes() {
                     {s.name}
                   </h3>
                   <p className="mt-3 leading-relaxed">{s.description}</p>
-                  <ul className="mt-5 flex flex-wrap gap-2" aria-label={`${s.name} is well suited to`}>
+                  <ul className="mt-5 flex flex-wrap gap-2" aria-label={fmt(ui.services.suitedTo, { name: s.name })}>
                     {s.bestFor.map((b) => (
                       <li key={b} className="rounded-full bg-navy-50 px-3 py-1 text-[0.8rem] font-semibold text-navy-800">
                         {b}
@@ -59,13 +62,13 @@ export function ServiceTypes() {
                       href="#help-me-choose"
                       className="inline-flex items-center gap-1.5 font-semibold text-navy-900 underline-offset-4 hover:underline"
                     >
-                      Learn More
+                      {ui.services.learnMore}
                     </a>
                     <LocalizedLink
                       href={quoteHref({ type: "help", item: s.enquiryValue })}
                       className="group inline-flex items-center gap-1.5 font-semibold text-flame-600 underline-offset-4 hover:text-flame-700 hover:underline"
                     >
-                      Enquire Now
+                      {ui.services.enquireNow}
                       <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
                     </LocalizedLink>
                   </div>

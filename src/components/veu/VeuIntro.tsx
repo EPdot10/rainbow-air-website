@@ -1,5 +1,5 @@
+import { getDict } from "@/i18n/server";
 import { ArrowUpRight, Building2, CheckCircle2, Flame, PlugZap, Sparkles } from "lucide-react";
-import { veuPage } from "@/data/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Reveal } from "@/components/ui/Reveal";
@@ -7,6 +7,8 @@ import { Reveal } from "@/components/ui/Reveal";
 const icons = [Building2, Flame, CheckCircle2, PlugZap, Sparkles];
 
 export function VeuIntro() {
+  const { veuPage } = getDict().c;
+  const { ui } = getDict();
   const c = veuPage.intro;
   return (
     <section id="about-veu" aria-labelledby="veu-intro-title" className="py-20 sm:py-24">
@@ -35,7 +37,7 @@ export function VeuIntro() {
           >
             <span>{c.officialCta}</span>
             <ArrowUpRight className="mt-0.5 size-5 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
-            <span className="sr-only">(opens in a new tab)</span>
+            <span className="sr-only">{ui.veu.officialNewTab}</span>
           </a>
         </div>
         <Reveal delay={0.08}>

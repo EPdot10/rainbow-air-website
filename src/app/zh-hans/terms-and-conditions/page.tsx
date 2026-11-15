@@ -1,2 +1,8 @@
-// Chinese URL (zh-hans). Content is English for now (translation pending) – see LocaleBanner.
-export { default, metadata } from "@/app/terms-and-conditions/page";
+import { pageMetadata } from "@/i18n/meta";
+import { LegalView } from "@/views/LegalView";
+
+export const metadata = pageMetadata("terms", "zh-hans");
+
+export default function Page() {
+  return <LegalView locale="zh-hans" kind="terms" />;
+}

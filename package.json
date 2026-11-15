@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "check": "npm run typecheck && npm run lint && npm run build",
-    "images:download": "node scripts/download-images.mjs"
+    "images:download": "node scripts/download-images.mjs",
+    "i18n:hant": "python3 scripts/make-hant.py"
   },
   "dependencies": {
     "@dicebear/collection": "^9.4.2",

@@ -1,9 +1,10 @@
 "use client";
 
+import { useDict } from "@/components/locale/LocaleComponents";
+import { fmt } from "@/i18n";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import { useCallback, useState } from "react";
-import { projects, projectsCopy } from "@/data/content";
 import { routes } from "@/data/site";
 import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
@@ -14,6 +15,8 @@ import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 
 export function ProjectGallery() {
+  const { projects, projectsCopy } = useDict().c;
+  const { ui } = useDict();
   const c = projectsCopy.gallery;
   const [index, setIndex] = useState<number | null>(null);
   const open = index !== null;
@@ -21,7 +24,7 @@ export function ProjectGallery() {
 
   const step = useCallback(
     (dir: 1 | -1) => setIndex((i) => (i === null ? i : (i + dir + projects.length) % projects.length)),
-    [],
+    [projects.length],
   );
 
   return (
@@ -36,7 +39,7 @@ export function ProjectGallery() {
                 type="button"
                 onClick={() => setIndex(i)}
                 className="group/tile relative block h-full w-full overflow-hidden rounded-2xl bg-navy-100 text-left"
-                aria-label={`View larger: ${p.title}`}
+                aria-label={fmt(ui.projects.viewLarger, { title: p.title })}
               >
                 <SmartImage
                   image={p.image}
@@ -96,7 +99,7 @@ export function ProjectGallery() {
                   </div>
                   <Dialog.Close
                     className="inline-flex size-11 items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
-                    aria-label="Close image viewer"
+                    aria-label={ui.projects.closeViewer}
                   >
                     <X className="size-5" aria-hidden />
                   </Dialog.Close>
@@ -109,7 +112,7 @@ export function ProjectGallery() {
                     type="button"
                     onClick={() => step(-1)}
                     className="inline-flex size-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
-                    aria-label="Previous image"
+                    aria-label={ui.projects.prevImage}
                   >
                     <ChevronLeft className="size-6" aria-hidden />
                   </button>
@@ -117,7 +120,7 @@ export function ProjectGallery() {
                     type="button"
                     onClick={() => step(1)}
                     className="inline-flex size-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
-                    aria-label="Next image"
+                    aria-label={ui.projects.nextImage}
                   >
                     <ChevronRight className="size-6" aria-hidden />
                   </button>

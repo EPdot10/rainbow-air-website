@@ -13,9 +13,15 @@ import {
   type Locale,
 } from "@/lib/locale";
 import { cn } from "@/lib/cn";
+import { dict } from "@/i18n";
 
 export function useLocale(): Locale {
   return localeFromPath(usePathname());
+}
+
+/** Dictionary for the current page language (client components). */
+export function useDict() {
+  return dict(useLocale());
 }
 
 function readStoredLocale(): Locale | null {
@@ -44,6 +50,7 @@ export function LocalizedLink({ href, ...props }: Omit<ComponentProps<typeof Lin
 /** EN / 简 / 繁 buttons. Remembers the choice and moves to the same page in the new language. */
 export function LanguageSwitcher({ className, tone = "dark" }: { className?: string; tone?: "dark" | "light" }) {
   const locale = useLocale();
+  const { ui } = dict(locale);
   const pathname = usePathname() || "/";
   const router = useRouter();
 
@@ -55,7 +62,7 @@ export function LanguageSwitcher({ className, tone = "dark" }: { className?: str
   };
 
   return (
-    <div role="group" aria-label="Language" className={cn("inline-flex items-center rounded-lg p-0.5", tone === "dark" ? "bg-navy-50" : "bg-white/10", className)}>
+    <div role="group" aria-label={ui.common.language} className={cn("inline-flex items-center rounded-lg p-0.5", tone === "dark" ? "bg-navy-50" : "bg-white/10", className)}>
       {locales.map((l) => {
         const active = l === locale;
         return (
@@ -107,19 +114,4 @@ export function LocaleGuard() {
   }, [locale, pathname, router]);
 
   return null;
-}
-
-/** Notice shown on Chinese pages until the translated copy is ready. */
-export function LocaleBanner() {
-  const locale = useLocale();
-  if (locale === "en") return null;
-  const text =
-    locale === "zh-hans"
-      ? "中文版即将上线，目前页面内容暂以英文显示。"
-      : "中文版即將上線，目前頁面內容暫以英文顯示。";
-  return (
-    <div role="status" lang={localeLabels[locale].htmlLang} className="border-b border-flame-600/15 bg-flame-50">
-      <p className="container-page py-2.5 text-center text-sm font-medium text-flame-700">{text}</p>
-    </div>
-  );
 }

@@ -1,11 +1,12 @@
+import { getDict } from "@/i18n/server";
 import { ArrowRight, MapPin, Search } from "lucide-react";
-import { projectsCopy } from "@/data/content";
 import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
 /** Interim service area wording (no map, no suburb list until the client confirms coverage). */
 export function ServiceArea() {
+  const { projectsCopy } = getDict().c;
   const c = projectsCopy.areas;
   return (
     <section id="service-area" aria-labelledby="area-title" className="bg-surface py-20 sm:py-24">

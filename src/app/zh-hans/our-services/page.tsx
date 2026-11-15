@@ -1,2 +1,8 @@
-// Chinese URL (zh-hans). Content is English for now (translation pending) – see LocaleBanner.
-export { default, metadata } from "@/app/our-services/page";
+import { pageMetadata } from "@/i18n/meta";
+import { ServicesView } from "@/views/ServicesView";
+
+export const metadata = pageMetadata("services", "zh-hans");
+
+export default function Page() {
+  return <ServicesView locale="zh-hans" />;
+}

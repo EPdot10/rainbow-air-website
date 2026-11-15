@@ -1,6 +1,7 @@
+import { getDict } from "@/i18n/server";
 import { ArrowRight } from "lucide-react";
-import { brandLogos, homeShowcase, installTypes, sampleReviews } from "@/data/content";
 import { routes } from "@/data/site";
+import type { ImageKey } from "@/data/images";
 import { resolveImage } from "@/lib/images";
 import { avatarDataUri } from "@/lib/avatars";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -12,6 +13,7 @@ import { ReviewsCarousel } from "@/components/sections/ReviewsCarousel";
 /* ───────────── Our team (replaces Commercial Projects) ───────────── */
 
 export function TeamIntro() {
+  const { homeShowcase, installTypes } = getDict().c;
   const c = homeShowcase.team;
   return (
     <section id="team" aria-labelledby="team-title" className="py-20 sm:py-24 lg:py-28">
@@ -68,6 +70,7 @@ export function TeamIntro() {
 /* ───────────── Customer reviews (SAMPLE, carousel) ───────────── */
 
 export function CustomerReviews() {
+  const { homeShowcase, sampleReviews } = getDict().c;
   const c = homeShowcase.reviews;
   const reviews = sampleReviews.map((r, i) => ({ ...r, avatar: avatarDataUri(r.name, i) }));
   return (
@@ -84,7 +87,7 @@ export function CustomerReviews() {
 
 /* ───────────── Brands strip (EA-style band above the footer) ───────────── */
 
-function BrandLogo({ name, image }: { name: string; image: (typeof brandLogos)[number]["image"] }) {
+function BrandLogo({ name, image }: { name: string; image: ImageKey }) {
   const img = resolveImage(image);
   return (
     <li className="flex h-20 w-44 shrink-0 items-center justify-center px-6 sm:w-52">
@@ -101,6 +104,7 @@ function BrandLogo({ name, image }: { name: string; image: (typeof brandLogos)[n
 }
 
 export function BrandStrip() {
+  const { brandLogos, homeShowcase } = getDict().c;
   const c = homeShowcase.brands;
   return (
     <section id="brands" aria-labelledby="brands-title" className="border-t border-line bg-white py-14 sm:py-16">
@@ -127,7 +131,7 @@ export function BrandStrip() {
   );
 }
 
-function BrandLogoDup({ image }: { name: string; image: (typeof brandLogos)[number]["image"] }) {
+function BrandLogoDup({ image }: { name: string; image: ImageKey }) {
   const img = resolveImage(image);
   return (
     <span className="flex h-20 w-44 shrink-0 items-center justify-center px-6 sm:w-52">

@@ -5,11 +5,12 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ArrowRight, Phone, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import { mainNav, site, telHref } from "@/data/site";
+import type { Ui } from "@/i18n/ui";
 import { quoteHref } from "@/lib/quote";
 import { stripLocale } from "@/lib/locale";
 import { cn } from "@/lib/cn";
 import { ButtonLink } from "@/components/ui/Button";
-import { LanguageSwitcher, LocalizedLink } from "@/components/locale/LocaleComponents";
+import { LanguageSwitcher, LocalizedLink, useDict } from "@/components/locale/LocaleComponents";
 
 const normalise = (p: string) => (p.endsWith("/") ? p : `${p}/`);
 
@@ -34,7 +35,18 @@ function TopBar() {
   );
 }
 
+const navKey = (href: string) => (Object.entries(navKeys).find(([h]) => h === href)?.[1] ?? "home") as keyof Ui["nav"];
+const navKeys: Record<string, keyof Ui["nav"]> = {
+  "/": "home",
+  "/our-services/": "services",
+  "/veu-discount-program/": "veu",
+  "/service-areas-projects/": "projects",
+  "/about-aftercare/": "about",
+  "/contact/": "contact",
+};
+
 export function Header() {
+  const { ui } = useDict();
   const pathname = normalise(stripLocale(usePathname() || "/"));
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -50,6 +62,12 @@ export function Header() {
 
   return (
     <>
+      <a
+        href="#main"
+        className="sr-only z-[100] rounded-lg bg-navy-900 px-4 py-3 font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+      >
+        {ui.common.skipToContent}
+      </a>
       <TopBar />
       <header
         className={cn(
@@ -59,10 +77,10 @@ export function Header() {
       >
         <div aria-hidden className="rb-full h-[3px] w-full" />
         <div className="container-page flex h-[4.5rem] items-center justify-between gap-3 sm:gap-5 lg:h-20">
-          <LocalizedLink href="/" className="shrink-0 rounded-md" aria-label={`${site.name} – home`}>
+          <LocalizedLink href="/" className="shrink-0 rounded-md" aria-label={ui.common.homeAria}>
             <img
               src={site.logo.src}
-              alt={site.logo.alt}
+              alt={ui.common.logoAlt}
               width={site.logo.width}
               height={site.logo.height}
               className="h-10 w-auto sm:h-11 lg:h-[3.1rem]"
@@ -83,7 +101,7 @@ export function Header() {
                         active ? "text-navy-900" : "text-body hover:text-navy-900",
                       )}
                     >
-                      {item.label}
+                      {ui.nav[navKey(item.href)]}
                       <span
                         aria-hidden
                         className={cn(
@@ -100,7 +118,7 @@ export function Header() {
 
           <div className="flex items-center gap-2">
             <ButtonLink href={quoteHref()} size="md" className="h-10 px-3.5 text-sm sm:h-12 sm:px-5 sm:text-[0.95rem]">
-              Request a Quote
+              {ui.common.requestQuote}
               <ArrowRight className="hidden size-4 transition-transform group-hover:translate-x-0.5 sm:block" aria-hidden />
             </ButtonLink>
 
@@ -109,7 +127,7 @@ export function Header() {
                 <button
                   type="button"
                   className="inline-flex size-11 items-center justify-center rounded-lg border border-line text-navy-900 hover:bg-navy-50 xl:hidden"
-                  aria-label="Open menu"
+                  aria-label={ui.common.openMenu}
                 >
                   <Menu className="size-5" aria-hidden />
                 </button>
@@ -122,10 +140,10 @@ export function Header() {
                 >
                   <div aria-hidden className="rb-full h-[3px] w-full" />
                   <div className="flex h-[4.5rem] items-center justify-between border-b border-line px-5">
-                    <Dialog.Title className="font-display text-lg font-bold text-navy-900">Menu</Dialog.Title>
+                    <Dialog.Title className="font-display text-lg font-bold text-navy-900">{ui.common.menu}</Dialog.Title>
                     <Dialog.Close
                       className="inline-flex size-11 items-center justify-center rounded-lg text-navy-900 hover:bg-navy-50"
-                      aria-label="Close menu"
+                      aria-label={ui.common.closeMenu}
                     >
                       <X className="size-5" aria-hidden />
                     </Dialog.Close>
@@ -143,20 +161,20 @@ export function Header() {
                               isActive(item.href) ? "bg-navy-50 text-navy-900" : "text-ink hover:bg-surface",
                             )}
                           >
-                            {item.label}
+                            {ui.nav[navKey(item.href)]}
                             <ArrowRight className="size-4 text-muted" aria-hidden />
                           </LocalizedLink>
                         </li>
                       ))}
                     </ul>
                     <div className="mt-5 flex items-center justify-between rounded-lg bg-surface px-4 py-3">
-                      <span className="text-sm font-semibold text-ink">Language</span>
+                      <span className="text-sm font-semibold text-ink">{ui.common.language}</span>
                       <LanguageSwitcher />
                     </div>
                   </nav>
                   <div className="border-t border-line p-5">
                     <ButtonLink href={quoteHref()} size="lg" className="w-full" onClick={() => setOpen(false)}>
-                      Request a Quote
+                      {ui.common.requestQuote}
                     </ButtonLink>
                     <p className="mt-3 text-center text-sm text-muted">{site.slogan}</p>
                   </div>

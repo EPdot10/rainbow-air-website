@@ -36,6 +36,7 @@ const QUOTE_FIELDS = [
   ["preferred", "Preferred service / system"],
   ["existing", "Existing heating / cooling"],
   ["message", "Notes"],
+  ["lang", "Website language"],
 ];
 
 const VEU_FIELDS = [
@@ -50,6 +51,7 @@ const VEU_FIELDS = [
   ["email", "Email"],
   ["notes", "Notes"],
   ["consent", "Consent to be contacted"],
+  ["lang", "Website language"],
 ];
 
 const json = (body, status = 200) =>

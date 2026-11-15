@@ -6,6 +6,9 @@ import { useState, type ReactNode } from "react";
 import { socialChannels, telHref, type SocialChannel } from "@/data/site";
 import { TBC } from "@/data/types";
 import { cn } from "@/lib/cn";
+import { fmt } from "@/i18n";
+import type { Ui } from "@/i18n/ui";
+import { useDict } from "@/components/locale/LocaleComponents";
 
 /** Official platform glyphs from simple-icons (CC0), rendered single-colour. */
 function BrandIcon({ path, className }: { path: string; className?: string }) {
@@ -44,10 +47,12 @@ export function channelTarget(ch: SocialChannel): string | null {
   return null;
 }
 
-export function channelNote(ch: SocialChannel): string {
-  if (ch.id === "wechat") return ch.value && ch.value !== TBC ? `WeChat ID: ${ch.value}` : "WeChat ID coming soon.";
-  return "Account coming soon.";
+export function channelNote(ch: SocialChannel, ui: Ui): string {
+  if (ch.id === "wechat") return ch.value && ch.value !== TBC ? fmt(ui.social.wechatId, { id: ch.value }) : ui.social.wechatComingSoon;
+  return ui.social.accountComingSoon;
 }
+
+export const channelLabel = (ch: SocialChannel, ui: Ui) => ui.social.labels[ch.id];
 
 /**
  * Row of social / contact icons for the Contact page.
@@ -55,10 +60,11 @@ export function channelNote(ch: SocialChannel): string {
  */
 export function SocialRow({ size = "lg", tone = "dark", className }: { size?: "lg" | "sm"; tone?: "dark" | "light"; className?: string }) {
   const [note, setNote] = useState<string | null>(null);
+  const { ui } = useDict();
   const big = size === "lg";
   return (
     <div className={className}>
-      <ul className={cn("flex flex-wrap", big ? "gap-3" : "gap-1.5")} aria-label="Contact Rainbow Air and follow us">
+      <ul className={cn("flex flex-wrap", big ? "gap-3" : "gap-1.5")} aria-label={ui.social.listLabel}>
         {socialChannels.map((ch) => {
           const href = channelTarget(ch);
           const external = href?.startsWith("http");
@@ -73,8 +79,8 @@ export function SocialRow({ size = "lg", tone = "dark", className }: { size?: "l
                   href={href}
                   target={external ? "_blank" : undefined}
                   rel={external ? "noopener noreferrer" : undefined}
-                  aria-label={external ? `${ch.label} (opens in a new tab)` : ch.label}
-                  title={ch.label}
+                  aria-label={external ? `${channelLabel(ch, ui)} ${ui.social.newTab}` : channelLabel(ch, ui)}
+                  title={channelLabel(ch, ui)}
                   className={cn(ball, "shadow-[0_8px_20px_-10px_rgb(0_0_0/0.5)] hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-10px_rgb(0_0_0/0.55)]")}
                   style={{ backgroundColor: ch.color, color: ch.ink ?? "#fff" }}
                 >
@@ -84,8 +90,8 @@ export function SocialRow({ size = "lg", tone = "dark", className }: { size?: "l
                 <button
                   type="button"
                   onClick={() => setNote(note === ch.id ? null : ch.id)}
-                  aria-label={`${ch.label} – coming soon`}
-                  title={`${ch.label} – coming soon`}
+                  aria-label={`${channelLabel(ch, ui)} – ${ui.social.comingSoon}`}
+                  title={`${channelLabel(ch, ui)} – ${ui.social.comingSoon}`}
                   className={cn(ball, "shadow-[0_8px_20px_-10px_rgb(0_0_0/0.5)] hover:-translate-y-0.5")}
                   style={{ backgroundColor: ch.color, color: ch.ink ?? "#fff" }}
                 >
@@ -94,7 +100,7 @@ export function SocialRow({ size = "lg", tone = "dark", className }: { size?: "l
               )}
               {big && (
                 <span className={cn("text-[0.72rem] font-semibold", tone === "dark" ? "text-muted" : "text-white/70")}>
-                  {ch.label}
+                  {channelLabel(ch, ui)}
                 </span>
               )}
             </li>
@@ -103,7 +109,7 @@ export function SocialRow({ size = "lg", tone = "dark", className }: { size?: "l
       </ul>
       {note && (
         <p role="status" className={cn("mt-3 text-sm", tone === "dark" ? "text-muted" : "text-white/75")}>
-          {socialChannels.find((c) => c.id === note)?.label}: {channelNote(socialChannels.find((c) => c.id === note)!)}
+          {channelLabel(socialChannels.find((c) => c.id === note)!, ui)}: {channelNote(socialChannels.find((c) => c.id === note)!, ui)}
         </p>
       )}
     </div>

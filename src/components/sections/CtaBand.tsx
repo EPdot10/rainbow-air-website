@@ -1,3 +1,4 @@
+import { getDict } from "@/i18n/server";
 import { ArrowRight } from "lucide-react";
 import { routes } from "@/data/site";
 import { quoteHref } from "@/lib/quote";
@@ -12,7 +13,10 @@ interface CtaBandProps {
 }
 
 /** Closing call-to-action used at the bottom of pages. */
-export function CtaBand({ title, body, primary = "Request a Quote", secondary = "Contact Us" }: CtaBandProps) {
+export function CtaBand({ title, body, primary, secondary }: CtaBandProps) {
+  const { ui } = getDict();
+  primary ??= ui.common.requestQuote;
+  secondary ??= ui.common.contactUs;
   return (
     <section aria-labelledby="cta-title" className="py-16 sm:py-20">
       <div className="container-page">

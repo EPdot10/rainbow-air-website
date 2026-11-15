@@ -1,2 +1,8 @@
-// Chinese URL (zh-hant). Content is English for now (translation pending) – see LocaleBanner.
-export { default, metadata } from "@/app/page";
+import { pageMetadata } from "@/i18n/meta";
+import { HomeView } from "@/views/HomeView";
+
+export const metadata = pageMetadata("home", "zh-hant");
+
+export default function Page() {
+  return <HomeView locale="zh-hant" />;
+}

@@ -1,5 +1,5 @@
+import { getDict } from "@/i18n/server";
 import { ArrowRight, Leaf } from "lucide-react";
-import { veuStrip } from "@/data/content";
 import { LocalizedLink } from "@/components/locale/LocaleComponents";
 import { cn } from "@/lib/cn";
 
@@ -10,6 +10,7 @@ import { cn } from "@/lib/cn";
  * No discount amounts or eligibility promises.
  */
 export function VeuCard({ className }: { className?: string }) {
+  const { veuStrip } = getDict().c;
   return (
     <LocalizedLink
       href={veuStrip.href}

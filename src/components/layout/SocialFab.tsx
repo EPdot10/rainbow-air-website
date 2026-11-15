@@ -3,7 +3,8 @@
 import { MessagesSquare, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { socialChannels, type SocialChannel } from "@/data/site";
-import { channelIcon, channelNote, channelTarget } from "@/components/social/SocialIcons";
+import { channelIcon, channelLabel, channelNote, channelTarget } from "@/components/social/SocialIcons";
+import { useDict } from "@/components/locale/LocaleComponents";
 import { cn } from "@/lib/cn";
 
 /** Hex colour → rgba with alpha (balls are slightly translucent, frosted). */
@@ -21,6 +22,7 @@ const SPRING = "cubic-bezier(0.34, 1.56, 0.64, 1)";
  */
 export function SocialFab() {
   const [open, setOpen] = useState(false);
+  const { ui } = useDict();
   const [note, setNote] = useState<SocialChannel | null>(null);
   const panelId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -55,13 +57,13 @@ export function SocialFab() {
       >
         {note && (
           <>
-            <p className="font-semibold text-ink">{note.label}</p>
-            <p className="mt-0.5 text-muted">{channelNote(note)}</p>
+            <p className="font-semibold text-ink">{channelLabel(note, ui)}</p>
+            <p className="mt-0.5 text-muted">{channelNote(note, ui)}</p>
           </>
         )}
       </div>
 
-      <ul id={panelId} aria-label="Contact Rainbow Air and follow us" className={cn("mb-3 flex flex-col items-end gap-2", !open && "pointer-events-none")}>
+      <ul id={panelId} aria-label={ui.social.listLabel} className={cn("mb-3 flex flex-col items-end gap-2", !open && "pointer-events-none")}>
         {socialChannels.map((ch, i) => {
           const href = channelTarget(ch);
           const external = href?.startsWith("http");
@@ -77,7 +79,7 @@ export function SocialFab() {
           );
           const label = (
             <span className="rounded-full bg-navy-950/80 px-3 py-1 text-xs font-semibold whitespace-nowrap text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
-              {ch.label}
+              {channelLabel(ch, ui)}
             </span>
           );
           return (
@@ -97,7 +99,7 @@ export function SocialFab() {
                   rel={external ? "noopener noreferrer" : undefined}
                   tabIndex={open ? 0 : -1}
                   className="group flex items-center gap-2 rounded-full"
-                  aria-label={external ? `${ch.label} (opens in a new tab)` : ch.label}
+                  aria-label={external ? `${channelLabel(ch, ui)} ${ui.social.newTab}` : channelLabel(ch, ui)}
                 >
                   {label}
                   {ball}
@@ -108,7 +110,7 @@ export function SocialFab() {
                   tabIndex={open ? 0 : -1}
                   onClick={() => setNote((v) => (v?.id === ch.id ? null : ch))}
                   className="group flex items-center gap-2 rounded-full"
-                  aria-label={`${ch.label} – details coming soon`}
+                  aria-label={`${channelLabel(ch, ui)} – ${ui.social.detailsComingSoon}`}
                 >
                   {label}
                   {ball}
@@ -127,7 +129,7 @@ export function SocialFab() {
         }}
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label={open ? "Close contact options" : "Contact Rainbow Air or follow us"}
+        aria-label={open ? ui.social.fabClose : ui.social.fabOpen}
         className="group relative inline-flex size-14 items-center justify-center rounded-full bg-white/45 shadow-[0_10px_30px_-8px_rgb(3_34_79/0.5)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-90"
       >
         {/* Rainbow ring echoing the logo arc */}

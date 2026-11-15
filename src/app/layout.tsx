@@ -8,7 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SocialFab } from "@/components/layout/SocialFab";
 import { RevealObserver } from "@/components/ui/RevealObserver";
-import { LocaleBanner, LocaleGuard } from "@/components/locale/LocaleComponents";
+import { LocaleGuard } from "@/components/locale/LocaleComponents";
 
 const ogImage = resolveImage("heroLivingRoom", 1440);
 
@@ -45,16 +45,18 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-AU">
+    <html lang="en-AU" suppressHydrationWarning>
+      <head>
+        {/* Set the page language before first paint (Chinese pages live under /zh-hans/ and /zh-hant/). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var p=location.pathname;document.documentElement.lang=p.indexOf('/zh-hans')===0?'zh-Hans':p.indexOf('/zh-hant')===0?'zh-Hant':'en-AU'})()",
+          }}
+        />
+      </head>
       <body>
-        <a
-          href="#main"
-          className="sr-only z-[100] rounded-lg bg-navy-900 px-4 py-3 font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
-        >
-          Skip to content
-        </a>
         <Header />
-        <LocaleBanner />
         <main id="main">{children}</main>
         <Footer />
         <SocialFab />

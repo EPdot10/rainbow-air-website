@@ -3,6 +3,8 @@
 import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type PointerEvent as RPointerEvent } from "react";
 import { cn } from "@/lib/cn";
+import { fmt } from "@/i18n";
+import { useDict } from "@/components/locale/LocaleComponents";
 
 export interface CarouselReview {
   id: string;
@@ -31,6 +33,7 @@ function usePerView() {
  */
 export function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
   const perView = usePerView();
+  const { ui } = useDict();
   const maxIndex = Math.max(0, reviews.length - perView);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -92,7 +95,7 @@ export function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
     <div
       role="region"
       aria-roledescription="carousel"
-      aria-label="Customer reviews"
+      aria-label={ui.home.reviewsRegion}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
@@ -122,7 +125,7 @@ export function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
               className="shrink-0 px-3"
               style={{ flexBasis: `${slideWidth}%` }}
               aria-roledescription="slide"
-              aria-label={`${i + 1} of ${reviews.length}`}
+              aria-label={fmt(ui.home.slideOf, { n: i + 1, total: reviews.length })}
               aria-hidden={i < current || i >= current + perView}
             >
               <figure className="flex h-full flex-col rounded-2xl border border-line bg-white p-7 shadow-card">
@@ -151,7 +154,7 @@ export function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
           type="button"
           onClick={() => go(current - 1)}
           className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-white text-navy-900 shadow-card transition-colors hover:bg-navy-50"
-          aria-label="Previous reviews"
+          aria-label={ui.home.prevReviews}
         >
           <ChevronLeft className="size-5" aria-hidden />
         </button>
@@ -161,7 +164,7 @@ export function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
               key={i}
               type="button"
               onClick={() => go(i)}
-              aria-label={`Show reviews from ${i + 1}`}
+              aria-label={fmt(ui.home.showReviews, { n: i + 1 })}
               aria-current={i === current}
               className={cn(
                 "h-2.5 rounded-full transition-all duration-300",
@@ -174,7 +177,7 @@ export function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
           type="button"
           onClick={() => go(current + 1)}
           className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-white text-navy-900 shadow-card transition-colors hover:bg-navy-50"
-          aria-label="Next reviews"
+          aria-label={ui.home.nextReviews}
         >
           <ChevronRight className="size-5" aria-hidden />
         </button>
