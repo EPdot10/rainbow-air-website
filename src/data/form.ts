@@ -1,4 +1,5 @@
 import type { Ui } from "@/i18n/ui";
+import launch from "./launch.json";
 
 /**
  * Online enquiry configuration.
@@ -10,10 +11,10 @@ export const formConfig = {
 };
 
 /**
- * Cloudflare Turnstile site key (public – safe to commit). Set it from the Turnstile widget in the
- * Cloudflare dashboard. Local/test hosts always use Cloudflare's "always passes" test key.
+ * Cloudflare Turnstile site key (public – safe to commit), set in src/data/launch.json.
+ * Local/test hosts always use Cloudflare's "always passes" test key.
  */
-const TURNSTILE_SITE_KEY = "0x4AAAAAAGBlM_oXGE8hEaXf";
+const TURNSTILE_SITE_KEY: string = launch.turnstileSiteKey;
 const TURNSTILE_TEST_KEY = "1x00000000000000000000AA";
 
 export function turnstileSiteKey(): string {

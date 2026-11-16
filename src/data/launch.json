@@ -1,6 +1,7 @@
 {
-  "_comment": "ONE switch for going live. Set launched=true when rainbowair.com.au points at this site: switches canonical URLs/sitemap to the real domain, allows search engines (robots.txt + X-Robots-Tag) . Then disable the workers.dev URL in Cloudflare.",
+  "_comment": "Go-live settings in one place. launched=true: canonical URLs/sitemap use productionUrl and search engines are allowed. turnstileSiteKey: the public Site Key of the Cloudflare Turnstile widget (the secret key is NOT stored here – it is a Worker secret).",
   "launched": false,
   "productionUrl": "https://rainbowair.com.au",
-  "stagingUrl": "https://rainbow-air-website.wangxcep.workers.dev"
+  "stagingUrl": "https://rainbow-air-website.wangxcep.workers.dev",
+  "turnstileSiteKey": "0x4AAAAAAGBlM_oXGE8hEaXf"
 }

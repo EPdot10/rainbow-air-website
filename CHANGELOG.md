@@ -3,6 +3,12 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.8.0 – 2026-11-16 · Go-live settings in one file
+
+- Turnstile site key moved from `src/data/form.ts` into `src/data/launch.json` (`turnstileSiteKey`), next to the `launched` switch.
+- Build stops with a clear message if `launched` is true but the site key is empty.
+- Rollback: `git revert` this commit.
+
 ## v0.7.3 – 2026-11-16 · Floating contact button: desktop info card
 
 - Desktop (mouse + hover): clicking a ball now opens a small card with the details as text, an “open” button (call / send email / open RedNote) and a copy button (phone number, email, RedNote ID). Phones/tablets unchanged – balls open the app directly.
