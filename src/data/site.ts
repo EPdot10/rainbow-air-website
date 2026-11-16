@@ -103,13 +103,15 @@ export interface SocialChannel {
   label: string;
   href: string | null;
   value?: string;
+  /** Platform account number shown in the desktop info card (e.g. RedNote ID). */
+  handle?: string;
   color: string;
   /** Icon colour on top of the ball. */
   ink?: string;
 }
 
 const allChannels: SocialChannel[] = [
-  { id: "rednote", label: "RedNote", href: "https://xhslink.cn/o/68M4U64cBJe", color: "#ff2442" },
+  { id: "rednote", label: "RedNote", href: "https://xhslink.cn/o/68M4U64cBJe", value: "Rainbow Air Conditioning", handle: "94521675138", color: "#ff2442" },
   { id: "phone", label: "Phone", href: null, value: site.contact.phone, color: "#fbd40a", ink: "#03224f" },
   { id: "wechat", label: "WeChat", href: null, value: TBC, color: "#07c160" },
   { id: "whatsapp", label: "WhatsApp", href: null, color: "#25d366" },

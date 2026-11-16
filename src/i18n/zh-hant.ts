@@ -344,6 +344,12 @@ export const zhHant: Translation = {
       newTab: "（在新窗口開啟）",
       fabOpen: "聯絡 Rainbow Air / 關注我們",
       fabClose: "關閉聯絡方式",
+      rednoteId: "小紅書號：{id}",
+      actions: { phone: "立即撥打", email: "發送郵件", rednote: "開啟小紅書", wechat: "開啟微信", whatsapp: "開啟 WhatsApp", facebook: "開啟 Facebook" },
+      copy: "複製",
+      copyId: "複製小紅書號",
+      copied: "已複製",
+      closeCard: "關閉",
     },
     home: {
       stepLabel: "第 {n} 步",

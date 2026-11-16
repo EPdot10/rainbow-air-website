@@ -3,6 +3,12 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.7.3 – 2026-11-16 · Floating contact button: desktop info card
+
+- Desktop (mouse + hover): clicking a ball now opens a small card with the details as text, an “open” button (call / send email / open RedNote) and a copy button (phone number, email, RedNote ID). Phones/tablets unchanged – balls open the app directly.
+- RedNote account shown: “Rainbow Air Conditioning”, RedNote ID 94521675138 (`src/data/site.ts`).
+- Rollback: `git revert` this commit.
+
 ## v0.7.2 – 2026-11-16 · Client answers: AP wording, hide unfinished items
 
 - Rainbow Air is not itself a VEU Accredited Provider (works under another AP). All copy now says “working with our VEU Accredited Provider partner” (EN + 简 + 繁); services badge → “VEU Discount Available”.

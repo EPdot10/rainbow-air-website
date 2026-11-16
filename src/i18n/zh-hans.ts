@@ -348,6 +348,12 @@ export const zhHans: Translation = {
       newTab: "（在新窗口打开）",
       fabOpen: "联系 Rainbow Air / 关注我们",
       fabClose: "关闭联系方式",
+      rednoteId: "小红书号：{id}",
+      actions: { phone: "立即拨打", email: "发送邮件", rednote: "打开小红书", wechat: "打开微信", whatsapp: "打开 WhatsApp", facebook: "打开 Facebook" },
+      copy: "复制",
+      copyId: "复制小红书号",
+      copied: "已复制",
+      closeCard: "关闭",
     },
     home: {
       stepLabel: "第 {n} 步",

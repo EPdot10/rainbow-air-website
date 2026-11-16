@@ -98,6 +98,12 @@ export const uiEn = {
     newTab: "(opens in a new tab)",
     fabOpen: "Contact Rainbow Air or follow us",
     fabClose: "Close contact options",
+    rednoteId: "RedNote ID: {id}",
+    actions: { phone: "Call now", email: "Send email", rednote: "Open RedNote", wechat: "Open WeChat", whatsapp: "Open WhatsApp", facebook: "Open Facebook" },
+    copy: "Copy",
+    copyId: "Copy ID",
+    copied: "Copied",
+    closeCard: "Close",
   },
 
   home: {
