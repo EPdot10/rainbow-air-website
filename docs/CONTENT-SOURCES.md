@@ -75,3 +75,19 @@ licence CC0 1.0). Reviews are SAMPLE text ("Robot 1–7") until verified reviews
 ## VEU page imagery
 Images on the VEU page are Unsplash stock (licence above). The energy.vic.gov.au image licence could not be verified,
 so no government images are used; program facts are summarised in our own words with a link to the official site.
+
+## Licence check – 2026-11-16
+Checked every image currently shown on the live site:
+- **11 Unsplash photos** (`heroLivingRoom`, `splitLivingRoom`, `multiOutdoorUnits`, `wholeHomeExterior`, `galleryWallUnit`,
+  `galleryOutdoorPaved`, `galleryOutdoorGarden`, `galleryDuctedOutlet`, `galleryInstallDetail`, `galleryModernHome`,
+  `commercialOffice`): each photo page says "Free Photo – Free to use under the Unsplash License" (none are Unsplash+),
+  and the photo ID matches the file used. Free for commercial use, no attribution required.
+  Unsplash terms: don't sell unaltered copies, don't imply endorsement by people/brands shown, and the photos must
+  not be presented as Rainbow Air's own projects.
+- **6 brand logos** (Wikimedia Commons): copyright status "Public domain", restriction "trademarked" – fine for
+  identifying brands installed, not for implying partnership/endorsement.
+- **Review avatars**: DiceBear "Lorelei" by Lisa Wischofsky – CC0 1.0.
+- **Social icons**: simple-icons package – CC0 1.0 (platform marks remain trademarks of their owners; used to link to accounts).
+- **Rainbow Air logo / favicon**: supplied by the client.
+- Not used on the site: Midea product images (Midea copyright) and 3 unused commercial stock entries remain only in
+  the image registry / archive for reference.
