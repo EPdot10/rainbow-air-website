@@ -108,7 +108,7 @@ export interface SocialChannel {
   ink?: string;
 }
 
-export const socialChannels: SocialChannel[] = [
+const allChannels: SocialChannel[] = [
   { id: "rednote", label: "RedNote", href: "https://xhslink.cn/o/68M4U64cBJe", color: "#ff2442" },
   { id: "phone", label: "Phone", href: null, value: site.contact.phone, color: "#fbd40a", ink: "#03224f" },
   { id: "wechat", label: "WeChat", href: null, value: TBC, color: "#07c160" },
@@ -116,3 +116,9 @@ export const socialChannels: SocialChannel[] = [
   { id: "facebook", label: "Facebook", href: null, color: "#0866ff" },
   { id: "email", label: "Email", href: null, value: site.contact.email, color: "#4a3aa8" },
 ];
+
+/**
+ * Only channels with a real link or value are shown (WeChat / WhatsApp / Facebook are hidden until the client
+ * supplies them – add the href or value above and they reappear everywhere automatically).
+ */
+export const socialChannels: SocialChannel[] = allChannels.filter((c) => c.href || (c.value && c.value !== TBC));

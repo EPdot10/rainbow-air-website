@@ -3,6 +3,13 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.7.2 – 2026-11-16 · Client answers: AP wording, hide unfinished items
+
+- Rainbow Air is not itself a VEU Accredited Provider (works under another AP). All copy now says “working with our VEU Accredited Provider partner” (EN + 简 + 繁); services badge → “VEU Discount Available”.
+- WeChat / WhatsApp / Facebook hidden until supplied (shown automatically once an href/value is added in `src/data/site.ts`). Business hours stay hidden (TBC).
+- Home customer-review carousel hidden (`SHOW_REVIEWS = false` in `src/views/HomeView.tsx`) until real reviews are supplied.
+- Rollback: `git revert` this commit.
+
 ## v0.7.1 – 2026-11-16 · SEO: VEU / Victoria / discount focus
 
 - Titles & descriptions (EN + 简 + 繁) now lead with VEU, “discount/rebate” and Victoria/VIC (home, services, VEU, service areas, about).

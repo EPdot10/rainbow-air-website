@@ -99,7 +99,7 @@ export const zhHant: Translation = {
       {
         title: "政府補貼\u200b暖氣升級 (VEU)",
         summary:
-          "把燃氣風管暖氣換成高效冷暖空調，VEU（維州能源升級計劃）的流程交給我們。作為 VEU 認證供應商（Accredited Provider），我們會評估您的資格、處理計劃所需文書、完成安裝，並把補貼直接抵扣在您的報價中。",
+          "把燃氣風管暖氣換成高效冷暖空調，VEU（維州能源升級計劃）的流程交給我們。我們與 VEU 認證供應商（Accredited Provider）合作，評估您的資格、處理計劃所需文書、完成安裝，並確保補貼直接抵扣在您的報價中。",
         steps: ["資格檢查", "VEU 文書", "安裝", "補貼直接抵扣報價"],
         primary: { label: "檢查 VEU 資格" },
         quoteItem: "政府補貼暖氣升級 (VEU)",
@@ -127,7 +127,7 @@ export const zhHant: Translation = {
       { title: "售後", body: "保修諮詢和安裝相關支持，均有專人對接。" },
     ],
     serviceWhy: [
-      { title: "VEU 認證供應商", body: "我們處理 VEU 流程，符合條件的補貼直接抵扣在報價中。" },
+      { title: "VEU 升級省心辦", body: "我們與 VEU 認證供應商合作，替您處理 VEU 流程，符合條件的補貼直接抵扣在報價中。" },
       { title: "清晰的書面報價", body: "開工前確認設備、施工範圍和價格，沒有意外支出。" },
       { title: "一個團隊負責到底", body: "從評估、安裝到售後，全程由同一團隊負責。" },
     ],
@@ -167,8 +167,8 @@ export const zhHant: Translation = {
             body: "拆除燃氣暖氣（包括全屋燃氣風管暖氣）並換裝經認可的高效冷暖空調，即可獲得補貼。",
           },
           {
-            title: "由認證供應商直接抵扣",
-            body: "您無需自行向政府申請。由 Rainbow Air 這樣的認證供應商（Accredited Provider）按計劃要求辦理，並把補貼直接抵扣在報價中。",
+            title: "通過認證供應商抵扣",
+            body: "您無需自行向政府申請。VEU 補貼由認證供應商（Accredited Provider）辦理——Rainbow Air 與合作的認證供應商一起按計劃要求辦理，並把補貼直接抵扣在報價中。",
           },
           { title: "舊燃氣暖氣停用", body: "這項升級需要在安裝過程中停用（斷開）您現有的燃氣風管暖氣。" },
           { title: "安裝新系統，補貼直接抵扣", body: "我們為您安裝高效冷暖空調，VEU 補貼直接抵扣在價格中——無需您另行向政府提交申請。" },
@@ -185,9 +185,9 @@ export const zhHant: Translation = {
         title: "VEU 補貼\u200b常見問題",
         items: [
           { q: "什麼是 VEU 補貼？", a: "這是維州政府「維州能源升級計劃」（VEU）提供的折扣，用來降低經認可的節能產品的前期費用，其中包括能製冷又能製熱的高效冷暖空調。" },
-          { q: "誰可以享受 VEU 冷暖空調補貼？", a: "維州家庭由認證供應商安裝經認可的高效冷暖空調，即可申請這項補貼。補貼需符合計劃條件，例如租客通常需要房東同意。我們的資格檢查可以幫助確認您的情況。" },
+          { q: "誰可以享受 VEU 冷暖空調補貼？", a: "維州家庭通過認證供應商安裝經認可的高效冷暖空調，即可申請這項補貼。補貼需符合計劃條件，例如租客通常需要房東同意。我們的資格檢查可以幫助確認您的情況。" },
           { q: "VEU 補貼能補多少錢？", a: "金額取決於您現有的暖氣、新系統的大小和型號，以及當前的計劃規定。我們會在評估後確認金額，並在書面報價中寫清楚。" },
-          { q: "需要我自己向政府申請嗎？", a: "不需要。Rainbow Air 作為 VEU 認證供應商，會代您辦理計劃所需的資料，並把補貼直接抵扣在報價中。" },
+          { q: "需要我自己向政府申請嗎？", a: "不需要。Rainbow Air 會和合作的 VEU 認證供應商一起代您辦理計劃所需的資料，補貼直接抵扣在報價中。" },
           { q: "舊的燃氣暖氣必須拆除嗎？", a: "如果是燃氣暖氣更換項目，現有燃氣暖氣會在安裝過程中停用（斷開）。開工前我們會向您說明具體安排。" },
         ],
       },
@@ -227,7 +227,7 @@ export const zhHant: Translation = {
       hero: {
         eyebrow: "關於我們與售後",
         title: "關於 Rainbow Air",
-        body: "Rainbow Air 為墨爾本家庭提供空調選型諮詢、設備供應、安裝、更換和維修服務。作為 VEU 認證供應商，我們幫助家庭藉助維州能源升級計劃的補貼，把燃氣暖氣升級為高效冷暖空調。",
+        body: "Rainbow Air 為墨爾本家庭提供空調選型諮詢、設備供應、安裝、更換和維修服務。我們與 VEU 認證供應商合作，幫助家庭藉助維州能源升級計劃的補貼，把燃氣暖氣升級為高效冷暖空調。",
       },
       company: { title: "公司資訊" },
       why: { eyebrow: "為什麼選擇 Rainbow Air", title: "為什麼選擇 Rainbow Air？" },
@@ -270,7 +270,7 @@ export const zhHant: Translation = {
         "維州能源升級計劃（VEU）冷暖空調補貼：幫助墨爾本家庭把燃氣暖氣換成高效冷暖空調，並提供分體式、風管式空調安裝、更換與維修。線上檢查 VEU 補貼資格。",
       services: {
         title: "墨爾本空調安裝、更換與維修（含 VEU 補貼）",
-        description: "墨爾本分體式、一拖多、風管式空調安裝、更換和維修，以及由 VEU 認證供應商辦理的政府補貼暖氣升級。",
+        description: "墨爾本分體式、一拖多、風管式空調安裝、更換和維修，以及 VEU 政府補貼暖氣升級。",
       },
       veu: {
         title: "維州 VEU 空調補貼｜燃氣暖氣換冷暖空調",
@@ -282,7 +282,7 @@ export const zhHant: Translation = {
       },
       about: {
         title: "關於我們、保修與售後",
-        description: "瞭解 Rainbow Air——墨爾本冷暖空調團隊、VEU 認證供應商。清晰的書面報價、用心安裝，並提供設備保修與售後支持。",
+        description: "瞭解 Rainbow Air——墨爾本冷暖空調團隊，提供 VEU 補貼升級。清晰的書面報價、用心安裝，並提供設備保修與售後支持。",
       },
       contact: {
         title: "聯絡我們與索取報價",
@@ -357,7 +357,7 @@ export const zhHant: Translation = {
     services: {
       viewServices: "查看服務",
       helpMeChoose: "幫我選擇",
-      accredited: "VEU 認證供應商",
+      accredited: "可享 VEU 補貼",
       getVeuQuote: "索取 VEU 報價",
       getQuote: "索取報價",
       helpChoosing: "不確定？我們幫您選",

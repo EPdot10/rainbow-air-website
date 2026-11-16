@@ -11,7 +11,7 @@ export const uiEn = {
     services: {
       title: "Air Conditioning Services Melbourne, VIC",
       description:
-        "Split system, multi-split and ducted air conditioning installation, replacement and repair in Melbourne, plus VEU discount gas heating upgrades by an Accredited Provider.",
+        "Split system, multi-split and ducted air conditioning installation, replacement and repair in Melbourne, plus VEU discount gas heating upgrades.",
     },
     veu: {
       title: "VEU Rebate Victoria – Air Conditioning Discount",
@@ -26,7 +26,7 @@ export const uiEn = {
     about: {
       title: "About Us, Warranty & Aftercare",
       description:
-        "Rainbow Air – Melbourne heating and cooling specialists and VEU Accredited Provider. Clear written quotes, careful installation, warranty help and aftercare.",
+        "Rainbow Air – Melbourne heating and cooling specialists for VEU discount upgrades. Clear written quotes, careful installation, warranty help and aftercare.",
     },
     contact: {
       title: "Contact Us & Request a Quote",
@@ -113,7 +113,7 @@ export const uiEn = {
   services: {
     viewServices: "View Services",
     helpMeChoose: "Help Me Choose",
-    accredited: "VEU Accredited Provider",
+    accredited: "VEU Discount Available",
     getVeuQuote: "Get a VEU Quote",
     getQuote: "Get a Quote",
     helpChoosing: "Not sure? Get help choosing",

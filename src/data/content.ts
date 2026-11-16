@@ -209,7 +209,7 @@ export const services = [
     featured: true,
     title: "Government Rebate Heating Upgrade (VEU)",
     summary:
-      "Replace your gas ducted heating with an efficient reverse cycle air conditioner and let us handle the Victorian Energy Upgrades (VEU) process. As a VEU Accredited Provider, we assess your eligibility, look after the program paperwork, install your new system and apply the discount directly to your quote.",
+      "Replace your gas ducted heating with an efficient reverse cycle air conditioner and let us handle the Victorian Energy Upgrades (VEU) process. Working with our VEU Accredited Provider partner, we assess your eligibility, look after the program paperwork, install your new system and make sure the discount is applied directly to your quote.",
     steps: ["Eligibility check", "VEU paperwork", "Installation", "Rebate applied in your quote"],
     primary: { label: "Check VEU Eligibility", href: `${routes.veu}#eligibility` },
     quoteItem: "Government Rebate Heating Upgrade (VEU)",
@@ -245,7 +245,7 @@ export const serviceSteps = [
 ] as const;
 
 export const serviceWhy = [
-  { title: "VEU Accredited Provider", body: "We handle the VEU process and apply any eligible discount in your quote." },
+  { title: "VEU upgrades made easy", body: "We work with a VEU Accredited Provider and handle the process for you – any eligible discount is shown in your quote." },
   { title: "Clear, written quotes", body: "Equipment, scope and price confirmed before work begins – no surprises." },
   { title: "One team, start to finish", body: "From assessment and installation to aftercare." },
 ] as const;
@@ -302,8 +302,8 @@ export const veuPage = {
         body: "Households can receive a discount when they remove and replace a gas heater – including whole-home gas ducted heating – with an approved high-efficiency reverse cycle air conditioner.",
       },
       {
-        title: "Discount applied by an Accredited Provider",
-        body: "You don't apply to the government yourself. An Accredited Provider like Rainbow Air handles the program requirements and applies the discount to your quote.",
+        title: "Discount applied through an Accredited Provider",
+        body: "You don't apply to the government yourself. VEU discounts are applied by an Accredited Provider – Rainbow Air works with our Accredited Provider partner to handle the program requirements and apply the discount to your quote.",
       },
       {
         title: "Old gas heater disconnected",
@@ -333,7 +333,7 @@ export const veuPage = {
       },
       {
         q: "Who can get the VEU heating and cooling discount?",
-        a: "Victorian households can access the discount when an approved high-efficiency reverse cycle air conditioner is installed by an Accredited Provider. Program conditions apply – for example, renters usually need their landlord's approval. Our eligibility check helps us confirm your situation.",
+        a: "Victorian households can access the discount when an approved high-efficiency reverse cycle air conditioner is installed through an Accredited Provider. Program conditions apply – for example, renters usually need their landlord's approval. Our eligibility check helps us confirm your situation.",
       },
       {
         q: "How much is the VEU discount?",
@@ -341,7 +341,7 @@ export const veuPage = {
       },
       {
         q: "Do I need to apply to the government myself?",
-        a: "No. As a VEU Accredited Provider, Rainbow Air handles the program paperwork and applies the discount directly to your quote.",
+        a: "No. Rainbow Air and our VEU Accredited Provider partner handle the program paperwork, and the discount is applied directly to your quote.",
       },
       {
         q: "Does my old gas heater have to be removed?",
@@ -398,7 +398,7 @@ export const aboutCopy = {
   hero: {
     eyebrow: "About & Aftercare",
     title: "About Rainbow Air",
-    body: "Rainbow Air provides air conditioning advice, equipment supply, installation, replacement and repairs for Melbourne homes – and, as a VEU Accredited Provider, helps households upgrade from gas heating with the Victorian Energy Upgrades discount.",
+    body: "Rainbow Air provides air conditioning advice, equipment supply, installation, replacement and repairs for Melbourne homes – and, working with a VEU Accredited Provider, helps households upgrade from gas heating with the Victorian Energy Upgrades discount.",
     image: "galleryModernHome" as const,
   },
   company: { title: "Company Information" },
