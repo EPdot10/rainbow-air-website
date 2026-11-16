@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import type { Locale } from "@/lib/locale";
-import { BreadcrumbJsonLd } from "@/components/seo/StructuredData";
+import { BreadcrumbJsonLd, VeuJsonLd } from "@/components/seo/StructuredData";
 import { routes } from "@/data/site";
 
 import { getDict, setRequestLocale } from "@/i18n/server";
@@ -9,6 +9,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { VeuIntro } from "@/components/veu/VeuIntro";
 import { VeuQuestionnaire } from "@/components/veu/VeuQuestionnaire";
+import { VeuFaq } from "@/components/veu/VeuFaq";
 
 /** 3. VEU Discount Program – intro, official link, eligibility questionnaire. */
 export function VeuView({ locale }: { locale: Locale }) {
@@ -19,6 +20,7 @@ export function VeuView({ locale }: { locale: Locale }) {
   return (
     <>
       <BreadcrumbJsonLd locale={locale} path={routes.veu} name={ui.nav.veu} />
+      <VeuJsonLd locale={locale} />
       <PageHero eyebrow={h.eyebrow} title={h.title} body={h.body} crumb={ui.nav.veu} image={h.image}>
         <ButtonLink href="#eligibility" size="lg">
           {ui.veu.checkEligibility}
@@ -37,6 +39,7 @@ export function VeuView({ locale }: { locale: Locale }) {
           </div>
         </div>
       </section>
+      <VeuFaq />
     </>
   );
 }

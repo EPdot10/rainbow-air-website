@@ -4,29 +4,29 @@
  */
 export const uiEn = {
   meta: {
-    siteTitle: "Air Conditioning Installation Melbourne | Rainbow Air",
+    siteTitle: "Air Conditioning & VEU Discounts Melbourne, VIC | Rainbow Air",
     siteDescription:
-      "Reverse cycle air conditioning for Melbourne homes – VEU gas ducted heating upgrades, split and ducted system installation, replacement and repairs. Request a quote.",
+      "Victorian Energy Upgrades (VEU) discounts on reverse cycle air conditioning for Melbourne homes. Replace gas heating, install split or ducted systems, and check VEU eligibility online.",
     home: { title: "", description: "" },
     services: {
-      title: "Air Conditioning Services Melbourne",
+      title: "Air Conditioning Services Melbourne, VIC",
       description:
-        "Split system, multi-split and ducted air conditioning installation, replacement and repair in Melbourne, plus VEU gas heating upgrades by an Accredited Provider.",
+        "Split system, multi-split and ducted air conditioning installation, replacement and repair in Melbourne, plus VEU discount gas heating upgrades by an Accredited Provider.",
     },
     veu: {
-      title: "VEU Gas Heater Replacement Discount",
+      title: "VEU Rebate Victoria – Air Conditioning Discount",
       description:
-        "Replace gas ducted heating with efficient reverse cycle air conditioning and save with the Victorian Energy Upgrades (VEU) discount. Check eligibility in about a minute.",
+        "Get the Victorian Energy Upgrades (VEU) discount when you replace gas heating with an efficient reverse cycle air conditioner in Melbourne, VIC. Check eligibility online in about a minute.",
     },
     projects: {
-      title: "Service Areas – Melbourne & South-East",
+      title: "Service Areas – Melbourne, VIC & South-East",
       description:
-        "Rainbow Air installs air conditioning across Melbourne metro and surrounding areas, including the south-east. See system types and request a quote.",
+        "Rainbow Air installs air conditioning and VEU discount upgrades across Melbourne metro and surrounding areas in Victoria, including the south-east. Request a quote.",
     },
     about: {
       title: "About Us, Warranty & Aftercare",
       description:
-        "Rainbow Air – Melbourne heating and cooling specialists. Clear written quotes, careful installation, and help with equipment warranty and aftercare.",
+        "Rainbow Air – Melbourne heating and cooling specialists and VEU Accredited Provider. Clear written quotes, careful installation, warranty help and aftercare.",
     },
     contact: {
       title: "Contact Us & Request a Quote",
@@ -62,9 +62,9 @@ export const uiEn = {
 
   site: {
     intro:
-      "Rainbow Air helps Melbourne households upgrade to efficient reverse cycle air conditioning – from VEU discount applications to installation, replacement and repairs.",
+      "Rainbow Air helps Melbourne and Victorian households upgrade to efficient reverse cycle air conditioning – from Victorian Energy Upgrades (VEU) discounts to installation, replacement and repairs.",
     serviceArea: "Melbourne & surrounding areas, Victoria",
-    heroHighlights: ["VEU rebate handled for you", "New installations & replacements", "Serving Melbourne & surrounds"],
+    heroHighlights: ["VEU discount handled for you", "New installations & replacements", "Serving Melbourne & surrounds"],
   },
 
   footer: {

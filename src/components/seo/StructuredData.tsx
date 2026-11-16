@@ -43,6 +43,13 @@ export function BusinessJsonLd() {
               { "@type": "State", name: "Victoria" },
             ],
             knowsLanguage: ["en", "zh-Hans", "zh-Hant"],
+            knowsAbout: [
+              "Victorian Energy Upgrades (VEU) program",
+              "VEU heating and cooling discount",
+              "Reverse cycle air conditioning",
+              "Gas heater replacement",
+              "Split system and ducted air conditioning",
+            ],
             ...(sameAs.length ? { sameAs } : {}),
           },
           {
@@ -79,7 +86,10 @@ export function ServicesJsonLd({ locale }: { locale: Locale }) {
             serviceType: "Air conditioning",
             url: `${pageUrl}#service-${s.id}`,
             provider: { "@id": businessId },
-            areaServed: { "@type": "City", name: "Melbourne" },
+            areaServed: [
+              { "@type": "City", name: "Melbourne" },
+              { "@type": "State", name: "Victoria" },
+            ],
           },
         })),
       }}
@@ -98,6 +108,44 @@ export function BreadcrumbJsonLd({ locale, path, name }: { locale: Locale; path:
         itemListElement: [
           { "@type": "ListItem", position: 1, name: ui.common.home, item: abs(localizeHref(routes.home, locale)) },
           { "@type": "ListItem", position: 2, name, item: abs(localizeHref(path, locale)) },
+        ],
+      }}
+    />
+  );
+}
+
+/** VEU page: the VEU upgrade as a service (Victoria) + the FAQ, in the page's language. */
+export function VeuJsonLd({ locale }: { locale: Locale }) {
+  const { c, ui } = dict(locale);
+  const pageUrl = abs(localizeHref(routes.veu, locale));
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": `${pageUrl}#service`,
+            name: c.veuPage.hero.title,
+            alternateName: ["VEU rebate", "VEU discount", "Victorian Energy Upgrades air conditioning discount"],
+            description: ui.meta.veu.description,
+            serviceType: "Reverse cycle air conditioning upgrade – Victorian Energy Upgrades (VEU)",
+            url: pageUrl,
+            provider: { "@id": businessId },
+            areaServed: [
+              { "@type": "State", name: "Victoria" },
+              { "@type": "City", name: "Melbourne" },
+            ],
+          },
+          {
+            "@type": "FAQPage",
+            "@id": `${pageUrl}#faq`,
+            mainEntity: c.veuPage.faq.items.map((it) => ({
+              "@type": "Question",
+              name: it.q,
+              acceptedAnswer: { "@type": "Answer", text: it.a },
+            })),
+          },
         ],
       }}
     />

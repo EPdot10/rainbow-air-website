@@ -8,8 +8,8 @@ import type { Translation } from "./index";
 export const zhHans: Translation = {
   content: {
     hero: {
-      eyebrow: "墨尔本冷暖空调",
-      title: "墨尔本家用空调\u200b安装与更换",
+      eyebrow: "维州墨尔本 · 冷暖空调",
+      title: "墨尔本空调安装\u200b与 VEU 补贴升级",
       slogan: "Better Air. Better Living.",
       body: "从 VEU 补贴办理，到新机安装、旧机更换和维修，Rainbow Air 帮助墨尔本家庭换装高效节能的冷暖空调。正在使用燃气风管暖气？看看您是否符合维州能源升级计划（VEU）的补贴条件。",
       primaryCta: { label: "我们的服务" },
@@ -157,9 +157,9 @@ export const zhHans: Translation = {
     ],
     veuPage: {
       hero: {
-        eyebrow: "VEU 补贴计划",
-        title: "VEU 政府\u200b补贴计划",
-        body: "维州能源升级计划（Victorian Energy Upgrades，简称 VEU）帮助维州家庭以更低价格完成节能升级。把燃气风管暖气更换为高效冷暖空调，是该计划中补贴力度最大的项目之一。",
+        eyebrow: "维州能源升级计划（VEU）",
+        title: "维州 VEU 空调补贴",
+        body: "维州能源升级计划（Victorian Energy Upgrades，简称 VEU）为维州家庭提供节能产品折扣。把燃气暖气更换为高效冷暖空调，是 VEU 补贴力度最大的项目之一——我们为墨尔本各区的家庭直接办理这项补贴。",
       },
       intro: {
         eyebrow: "关于计划",
@@ -183,6 +183,17 @@ export const zhHans: Translation = {
         eyebrow: "VEU 资格检查",
         title: "您的房子\u200b符合 VEU 补贴条件吗？",
         subtitle: "回答几个简单问题，只需约一分钟，帮助我们初步判断 VEU 升级是否适合您家。",
+      },
+      faq: {
+        eyebrow: "VEU 常见问题",
+        title: "VEU 补贴\u200b常见问题",
+        items: [
+          { q: "什么是 VEU 补贴？", a: "这是维州政府“维州能源升级计划”（VEU）提供的折扣，用来降低经认可的节能产品的前期费用，其中包括能制冷又能制热的高效冷暖空调。" },
+          { q: "谁可以享受 VEU 冷暖空调补贴？", a: "维州家庭由认证供应商安装经认可的高效冷暖空调，即可申请这项补贴。补贴需符合计划条件，例如租客通常需要房东同意。我们的资格检查可以帮助确认您的情况。" },
+          { q: "VEU 补贴能补多少钱？", a: "金额取决于您现有的暖气、新系统的大小和型号，以及当前的计划规定。我们会在评估后确认金额，并在书面报价中写清楚。" },
+          { q: "需要我自己向政府申请吗？", a: "不需要。Rainbow Air 作为 VEU 认证供应商，会代您办理计划所需的资料，并把补贴直接抵扣在报价中。" },
+          { q: "旧的燃气暖气必须拆除吗？", a: "如果是燃气暖气更换项目，现有燃气暖气会在安装过程中停用（断开）。开工前我们会向您说明具体安排。" },
+        ],
       },
       disclaimerTitle: "VEU 补贴免责声明：",
       disclaimer:
@@ -258,24 +269,24 @@ export const zhHans: Translation = {
 
   ui: {
     meta: {
-      siteTitle: "墨尔本空调安装 | VEU 燃气暖气更换补贴 | Rainbow Air",
+      siteTitle: "墨尔本空调安装 | 维州 VEU 空调补贴 | Rainbow Air",
       siteDescription:
-        "为墨尔本家庭安装高效冷暖空调：VEU 政府补贴燃气风管暖气升级，分体式、风管式空调新装、更换与维修。在线检查 VEU 资格，获取报价。",
+        "维州能源升级计划（VEU）冷暖空调补贴：帮助墨尔本家庭把燃气暖气换成高效冷暖空调，并提供分体式、风管式空调安装、更换与维修。在线检查 VEU 补贴资格。",
       services: {
-        title: "墨尔本空调安装、更换与维修",
+        title: "墨尔本空调安装、更换与维修（含 VEU 补贴）",
         description: "墨尔本分体式、一拖多、风管式空调安装、更换和维修，以及由 VEU 认证供应商办理的政府补贴暖气升级。",
       },
       veu: {
-        title: "VEU 燃气暖气更换补贴",
-        description: "把燃气风管暖气换成高效冷暖空调，享受维州能源升级计划（VEU）政府补贴。约一分钟在线检查资格。",
+        title: "维州 VEU 空调补贴｜燃气暖气换冷暖空调",
+        description: "在维州墨尔本把燃气暖气换成高效冷暖空调，享受维州能源升级计划（VEU）政府折扣补贴。约一分钟在线检查资格。",
       },
       projects: {
-        title: "服务区域：墨尔本及东南区",
-        description: "Rainbow Air 为墨尔本市区及周边地区（包括东南区）提供空调安装服务。查看安装方案并获取报价。",
+        title: "服务区域：维州墨尔本及东南区",
+        description: "Rainbow Air 为维州墨尔本市区及周边地区（包括东南区）提供空调安装和 VEU 补贴升级服务。欢迎获取报价。",
       },
       about: {
         title: "关于我们、保修与售后",
-        description: "了解 Rainbow Air——墨尔本冷暖空调团队。清晰的书面报价、用心安装，并提供设备保修与售后支持。",
+        description: "了解 Rainbow Air——墨尔本冷暖空调团队、VEU 认证供应商。清晰的书面报价、用心安装，并提供设备保修与售后支持。",
       },
       contact: {
         title: "联系我们与获取报价",
@@ -305,7 +316,7 @@ export const zhHans: Translation = {
       breadcrumb: "页面路径",
     },
     site: {
-      intro: "Rainbow Air 帮助墨尔本家庭换装高效冷暖空调——从 VEU 补贴办理，到安装、更换和维修。",
+      intro: "Rainbow Air 帮助维州墨尔本家庭换装高效冷暖空调——从维州能源升级计划（VEU）补贴办理，到安装、更换和维修。",
       serviceArea: "维州墨尔本及周边地区",
       heroHighlights: ["VEU 补贴代为办理", "新机安装与更换", "服务墨尔本及周边"],
     },

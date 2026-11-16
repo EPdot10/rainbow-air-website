@@ -3,6 +3,15 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.7.1 – 2026-11-16 · SEO: VEU / Victoria / discount focus
+
+- Titles & descriptions (EN + 简 + 繁) now lead with VEU, “discount/rebate” and Victoria/VIC (home, services, VEU, service areas, about).
+- Home H1 → “Air Conditioning Installation & VEU Discount Upgrades in Melbourne”; eyebrow adds “VIC”. VEU page H1 → “VEU Air Conditioning Discount in Victoria”.
+- New collapsed 5-question VEU FAQ at the bottom of the VEU page (no dollar figures – amounts confirmed in the quote).
+- JSON-LD: VEU Service + FAQPage on the VEU page; business `knowsAbout` VEU; services list `areaServed` adds Victoria.
+- Footer intro mentions Victorian Energy Upgrades (VEU).
+- Rollback: `git revert` this commit (no data / config changes).
+
 ## How to roll back
 
 **Fastest (no code change):** Cloudflare dashboard → Workers & Pages → `rainbow-air-website` →

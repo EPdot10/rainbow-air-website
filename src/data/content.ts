@@ -11,8 +11,8 @@ import { routes } from "./site";
 /* ───────────────────────── Home ───────────────────────── */
 
 export const hero = {
-  eyebrow: "Melbourne Heating & Cooling",
-  title: "Home Air Conditioning Installation & Replacement in Melbourne",
+  eyebrow: "Melbourne, VIC · Heating & Cooling",
+  title: "Air Conditioning Installation & VEU Discount Upgrades in Melbourne",
   slogan: "Better Air. Better Living.",
   body: "From VEU discount applications to new installations, replacements and repairs, Rainbow Air helps Melbourne homes switch to efficient reverse cycle heating and cooling. Replacing gas ducted heating? Check whether you may be eligible for a Victorian Energy Upgrades (VEU) discount.",
   primaryCta: { label: "Our Services", href: routes.services },
@@ -284,9 +284,9 @@ export const solutions: SystemSolution[] = [
 
 export const veuPage = {
   hero: {
-    eyebrow: "VEU Discount Program",
-    title: "Government Rebate Program – VEU Discounts",
-    body: "The Victorian Energy Upgrades (VEU) program helps Victorian households save on energy-efficient upgrades. Replacing gas ducted heating with an efficient reverse cycle air conditioner is one of the biggest discounts available.",
+    eyebrow: "Victorian Energy Upgrades (VEU)",
+    title: "VEU Air Conditioning Discount in Victoria",
+    body: "The Victorian Energy Upgrades (VEU) program offers Victorian households discounts on approved energy-efficient products. Replacing gas heating with a high-efficiency reverse cycle air conditioner is one of the biggest VEU discounts available – and we apply it for homes across Melbourne.",
     image: "galleryDuctedOutlet" as const,
   },
   intro: {
@@ -321,6 +321,33 @@ export const veuPage = {
     eyebrow: "VEU Eligibility Check",
     title: "Is Your Home Eligible for a VEU Rebate?",
     subtitle: "Answer a few quick questions. It takes about a minute and helps us understand whether a VEU upgrade may suit your home.",
+  },
+  /** Short FAQ under the questionnaire (also marked up as FAQPage for search engines). */
+  faq: {
+    eyebrow: "VEU FAQ",
+    title: "VEU Discount – Common Questions",
+    items: [
+      {
+        q: "What is the VEU discount?",
+        a: "It is a Victorian Government incentive under the Victorian Energy Upgrades (VEU) program. It lowers the upfront cost of approved energy-efficient products, including high-efficiency reverse cycle air conditioners that both heat and cool.",
+      },
+      {
+        q: "Who can get the VEU heating and cooling discount?",
+        a: "Victorian households can access the discount when an approved high-efficiency reverse cycle air conditioner is installed by an Accredited Provider. Program conditions apply – for example, renters usually need their landlord's approval. Our eligibility check helps us confirm your situation.",
+      },
+      {
+        q: "How much is the VEU discount?",
+        a: "It depends on your existing heater, the size and model of the new system, and current program settings. We confirm the amount after assessment and show it clearly in your written quotation.",
+      },
+      {
+        q: "Do I need to apply to the government myself?",
+        a: "No. As a VEU Accredited Provider, Rainbow Air handles the program paperwork and applies the discount directly to your quote.",
+      },
+      {
+        q: "Does my old gas heater have to be removed?",
+        a: "For a gas heating replacement, your existing gas heater is decommissioned (disconnected) as part of the installation. We explain what this involves before any work starts.",
+      },
+    ],
   },
   /** Client copy – shown under the final Submit button. */
   disclaimerTitle: "VEU Rebate Disclaimer:",
