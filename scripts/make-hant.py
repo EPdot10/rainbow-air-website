@@ -8,6 +8,7 @@ out = OpenCC("s2tw").convert(src)
 out = out.replace("export const zhHans", "export const zhHant")
 out = re.sub(r"/\*\*.*?\*/\n", "/** 繁體中文 – generated from zh-hans.ts by scripts/make-hant.py (OpenCC s2tw + fixes). Do not edit by hand. */\n", out, count=1, flags=re.S)
 FIXES = {
+    "伙伴": "夥伴",
     # characters OpenCC leaves in mainland form / more natural HK-TW usage
     "臺": "台",
     "制熱": "製熱",

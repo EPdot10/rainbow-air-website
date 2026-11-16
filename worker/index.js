@@ -36,6 +36,7 @@ const QUOTE_FIELDS = [
   ["preferred", "Preferred service / system"],
   ["existing", "Existing heating / cooling"],
   ["message", "Notes"],
+  ["consent", "Consent to be contacted"],
   ["lang", "Website language"],
 ];
 
@@ -92,6 +93,7 @@ function validate(kind, v) {
     if (v.email && !isEmail(v.email)) return "email";
     if (v.suburb.length < 3) return "suburb";
     if (!v.enquiryType || !v.installation) return "enquiryType";
+    if (v.consent !== "Yes") return "consent";
     return null;
   }
   if (v.gas !== "Yes" || v.vic !== "Yes" || v.disconnect !== "Yes") return "eligibility";

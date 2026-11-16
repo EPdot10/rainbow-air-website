@@ -190,8 +190,12 @@ export const uiEn = {
     filesUsed: "{used} of {mb} MB used",
     attach: "Attach files",
     remove: "Remove {name}",
-    requiredNote: "Fields marked * are required. See our",
+    requiredNote: "Fields marked * are required.",
     privacyLink: "Privacy Policy",
+    collectionNotice:
+      "We collect these details to reply to your enquiry and prepare a quote. If your job involves a VEU discount, we share them with our VEU Accredited Provider partner. Our website and email providers may store data overseas (including in the USA). Please avoid including people in photos.",
+    consent: "I agree to Rainbow Air contacting me about this enquiry and handling my details as described in the",
+    consentEnd: ".",
     submit: "Send Enquiry",
     checkFields: "Please check the highlighted field below.",
     checkFieldsMany: "Please check the {n} highlighted fields below.",
@@ -211,6 +215,7 @@ export const uiEn = {
     installTypes: { new: "New Installation", replacement: "Replacing an Old System", unsure: "Not Sure Yet" },
     roomOptions: ["1", "2", "3", "4", "5+", "Whole home", "Not sure"],
     errors: {
+      consent: "Please tick the box so we can contact you about this enquiry.",
       name: "Please enter your name.",
       phone: "Please enter a contact number.",
       phoneInvalid: "Please enter a valid Australian phone number, e.g. 0412 345 678.",
@@ -305,7 +310,10 @@ export const uiEn = {
       email: "Email",
       notes: "Anything else we should know?",
       optional: "Optional",
-      consent: "I agree to Rainbow Air contacting me about this enquiry and using my details as described in the",
+      notice:
+        "We use these details and photos to check your VEU eligibility and prepare a quote, and we share them with our VEU Accredited Provider partner, who applies the VEU discount. Our website and email providers may store data overseas (including in the USA). Please avoid including people in photos.",
+      consent: "I agree to Rainbow Air contacting me about this enquiry and handling my details as described in the",
+      consentEnd: ".",
       privacy: "Privacy Policy",
       submit: "Submit Enquiry",
       sending: "Sending…",
@@ -343,7 +351,7 @@ export const uiEn = {
   legal: {
     eyebrow: "Legal",
     updated: "Last updated: {date}",
-    date: "15 November 2026",
+    date: "17 November 2026",
     onThisPage: "On this page",
     note: "",
   },

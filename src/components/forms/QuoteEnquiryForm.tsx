@@ -112,6 +112,8 @@ export function QuoteEnquiryForm() {
   const [errorText, setErrorText] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [honeypot, setHoneypot] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [consentError, setConsentError] = useState<string | undefined>();
   const [files, setFiles] = useState<File[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
   const totalSize = files.reduce((n, f) => n + f.size, 0);
@@ -186,6 +188,11 @@ export function QuoteEnquiryForm() {
       document.getElementById(id(first))?.focus();
       return;
     }
+    if (!consent) {
+      setConsentError(F.errors.consent);
+      document.getElementById("quote-consent")?.focus();
+      return;
+    }
     if (!token) {
       setErrorText(F.errors.securityWait);
       setStatus("error");
@@ -196,6 +203,7 @@ export function QuoteEnquiryForm() {
     data.set("kind", "quote");
     data.set("lang", locale);
     for (const k of order) data.set(k, values[k]);
+    data.set("consent", "Yes");
     files.forEach((f) => data.append("files", f, f.name));
     data.set("website", honeypot);
     data.set("cf-turnstile-response", token);
@@ -206,6 +214,7 @@ export function QuoteEnquiryForm() {
       setValues(empty);
       setTouched({});
       setFiles([]);
+      setConsent(false);
     } else {
       setErrorText(submitErrorMessage(result.error, ui));
       setStatus("error");
@@ -437,14 +446,38 @@ export function QuoteEnquiryForm() {
         </p>
       )}
 
-      <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs leading-relaxed text-muted sm:max-w-xs">
-          {F.requiredNote}{" "}
-          <LocalizedLink href={routes.privacy} className="underline underline-offset-2 hover:text-ink">
-            {F.privacyLink}
-          </LocalizedLink>
-          .
-        </p>
+      <div className="mt-7 space-y-3 rounded-xl bg-surface px-4 py-4 text-sm leading-relaxed">
+        <p className="text-muted">{F.collectionNotice}</p>
+        <label className="flex cursor-pointer items-start gap-3 text-ink">
+          <input
+            id="quote-consent"
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => {
+              setConsent(e.target.checked);
+              if (e.target.checked) setConsentError(undefined);
+            }}
+            aria-invalid={consentError ? true : undefined}
+            className="mt-0.5 size-4 shrink-0 accent-navy-900"
+          />
+          <span>
+            {F.consent}{" "}
+            <LocalizedLink href={routes.privacy} className="font-semibold underline underline-offset-2 hover:text-navy-700">
+              {F.privacyLink}
+            </LocalizedLink>
+            {F.consentEnd}
+          </span>
+        </label>
+        {consentError && (
+          <p className="flex items-center gap-1.5 text-red-700">
+            <AlertCircle className="size-3.5" aria-hidden />
+            {consentError}
+          </p>
+        )}
+      </div>
+
+      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-xs leading-relaxed text-muted sm:max-w-xs">{F.requiredNote}</p>
         <Button type="submit" size="lg" disabled={status === "submitting"} className="sm:min-w-[13rem]">
           {status === "submitting" ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
           {F.submit}

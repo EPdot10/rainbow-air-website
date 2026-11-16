@@ -3,6 +3,14 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.9.0 – 2026-11-17 · Privacy Policy & Terms update (pre-launch legal review)
+
+- Privacy Policy rewritten (EN + 简 + 繁), structure informed by the client's reference site: states Rainbow is not a VEU Accredited Provider and discloses sharing with the AP partner; names overseas providers (Cloudflare, Resend, Microsoft 365); retention (24 months for enquiries that don't proceed, job/VEU records up to 7 years); accurate cookie wording (no analytics/ads); marketing opt-out; automated decisions; data breaches; 30-day responses; links; changes. Removed "where they apply to us".
+- Terms: no "by using you agree" wording; VEU discounts provided by the AP partner; explicit Australian Consumer Law carve-outs; dispute resolution (21 days, then mediation in Melbourne); severability.
+- Quote form: collection notice + required consent checkbox (Worker also checks it). VEU questionnaire: collection notice above the consent box.
+- "Last updated" → 17 November 2026. Traditional Chinese: 夥伴 fix.
+- Rollback: `git revert` this commit.
+
 ## v0.8.0 – 2026-11-16 · Go-live settings in one file
 
 - Turnstile site key moved from `src/data/form.ts` into `src/data/launch.json` (`turnstileSiteKey`), next to the `launched` switch.

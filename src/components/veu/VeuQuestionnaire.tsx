@@ -426,6 +426,7 @@ export function VeuQuestionnaire() {
             </TextField>
 
             <div className="sm:col-span-6">
+              <p className="mb-3 rounded-xl bg-surface px-4 py-3 text-sm leading-relaxed text-muted">{D.notice}</p>
               <label className="flex cursor-pointer items-start gap-3 text-[0.95rem]">
                 <input
                   id={`${uid}-consent`}
@@ -444,7 +445,7 @@ export function VeuQuestionnaire() {
                   <LocalizedLink href={routes.privacy} className="font-semibold underline underline-offset-2">
                     {D.privacy}
                   </LocalizedLink>
-                  .
+                  {D.consentEnd}
                 </span>
               </label>
               {errors.consent && (
