@@ -1,5 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import type { Locale } from "@/lib/locale";
+import { BreadcrumbJsonLd, ServicesJsonLd } from "@/components/seo/StructuredData";
+import { routes } from "@/data/site";
+
 import { getDict, setRequestLocale } from "@/i18n/server";
 import { quoteHref } from "@/lib/quote";
 import { PageHero } from "@/components/layout/PageHero";
@@ -15,6 +18,8 @@ export function ServicesView({ locale }: { locale: Locale }) {
   const h = c.servicesCopy.hero;
   return (
     <>
+      <BreadcrumbJsonLd locale={locale} path={routes.services} name={ui.nav.services} />
+      <ServicesJsonLd locale={locale} />
       <PageHero eyebrow={h.eyebrow} title={h.title} body={h.body} crumb={ui.nav.services} image={h.image}>
         <ButtonLink href="#services" size="lg">
           {ui.services.viewServices}

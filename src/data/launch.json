@@ -1,0 +1,6 @@
+{
+  "_comment": "ONE switch for going live. Set launched=true when rainbowair.com.au points at this site: switches canonical URLs/sitemap to the real domain, allows search engines (robots.txt + X-Robots-Tag) . Then disable the workers.dev URL in Cloudflare.",
+  "launched": false,
+  "productionUrl": "https://rainbowair.com.au",
+  "stagingUrl": "https://rainbow-air-website.wangxcep.workers.dev"
+}

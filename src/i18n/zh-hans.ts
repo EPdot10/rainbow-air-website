@@ -258,13 +258,29 @@ export const zhHans: Translation = {
 
   ui: {
     meta: {
-      siteTitle: "Rainbow Air | 墨尔本空调安装",
-      siteDescription: "为墨尔本家庭提供 VEU 补贴暖气升级、空调新装、更换和维修服务。检查您的 VEU 资格，向 Rainbow Air 获取报价。",
-      services: { title: "我们的服务", description: "VEU 补贴暖气升级、空调新装、更换和维修——Rainbow Air，VEU 认证供应商。" },
-      veu: { title: "VEU 补贴计划", description: "在维州更换燃气风管暖气？了解 VEU 补贴如何运作，并检查您的房子是否符合条件。" },
-      projects: { title: "服务区域与项目", description: "Rainbow Air 服务墨尔本及周边地区。查看我们的空调安装项目。" },
-      about: { title: "关于我们与售后", description: "关于 Rainbow Air，以及设备保修和安装售后服务。" },
-      contact: { title: "联系我们与获取报价", description: "联系 Rainbow Air，或在线咨询墨尔本空调安装。" },
+      siteTitle: "墨尔本空调安装 | VEU 燃气暖气更换补贴 | Rainbow Air",
+      siteDescription:
+        "为墨尔本家庭安装高效冷暖空调：VEU 政府补贴燃气风管暖气升级，分体式、风管式空调新装、更换与维修。在线检查 VEU 资格，获取报价。",
+      services: {
+        title: "墨尔本空调安装、更换与维修",
+        description: "墨尔本分体式、一拖多、风管式空调安装、更换和维修，以及由 VEU 认证供应商办理的政府补贴暖气升级。",
+      },
+      veu: {
+        title: "VEU 燃气暖气更换补贴",
+        description: "把燃气风管暖气换成高效冷暖空调，享受维州能源升级计划（VEU）政府补贴。约一分钟在线检查资格。",
+      },
+      projects: {
+        title: "服务区域：墨尔本及东南区",
+        description: "Rainbow Air 为墨尔本市区及周边地区（包括东南区）提供空调安装服务。查看安装方案并获取报价。",
+      },
+      about: {
+        title: "关于我们、保修与售后",
+        description: "了解 Rainbow Air——墨尔本冷暖空调团队。清晰的书面报价、用心安装，并提供设备保修与售后支持。",
+      },
+      contact: {
+        title: "联系我们与获取报价",
+        description: "致电 0433 600 166、发邮件至 info@rainbowair.com.au，或在线提交咨询（可附照片），获取墨尔本空调安装报价。",
+      },
       privacy: { title: "隐私政策", description: "Rainbow Air 如何收集、使用和保护您的个人信息。" },
       terms: { title: "条款与条件", description: "使用 Rainbow Air 网站及提交咨询的条款。" },
     },

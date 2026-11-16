@@ -21,6 +21,16 @@ Never force-push `main`.
 
 ---
 
+## v0.7.0 – 2026-11-16 · On-page SEO
+- Page titles & descriptions rewritten around real search phrases (EN + 简 + 繁), e.g. "Air Conditioning Installation
+  Melbourne", "VEU Gas Heater Replacement Discount".
+- Per-page share previews (Open Graph / Twitter) in each language; hreflang alternates now include x-default.
+- `sitemap.xml` (24 URLs, all 3 languages with alternates) and generated `robots.txt`.
+- Structured data (JSON-LD): HVACBusiness + WebSite site-wide, Services list on Our Services, breadcrumbs on inner
+  pages. No review/rating markup (sample reviews).
+- ONE launch switch: `src/data/launch.json` → `"launched": true` moves canonical URLs/sitemap to rainbowair.com.au and
+  allows indexing (robots.txt + removes the X-Robots-Tag noindex header via `scripts/postbuild.mjs`).
+
 ## v0.6.1 – 2026-11-16 · Copy review (wording & translation polish)
 - Chinese: "约 10,000" → "超一万次"; fixed "真实反馈" (sample reviews), "合作安装品牌" → "我们安装的品牌",
   unified 补贴 (no more mixed 折扣/补贴), more natural phrasing across services, VEU, aftercare, contact and form text.

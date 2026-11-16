@@ -5,7 +5,7 @@
   "description": "Rainbow Air – Melbourne air conditioning website (Phase 1 homepage demo)",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/postbuild.mjs",
     "start": "npx serve@latest out",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

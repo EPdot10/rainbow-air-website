@@ -254,13 +254,29 @@ export const zhHant: Translation = {
 
   ui: {
     meta: {
-      siteTitle: "Rainbow Air | 墨爾本空調安裝",
-      siteDescription: "為墨爾本家庭提供 VEU 補貼暖氣升級、空調新裝、更換和維修服務。檢查您的 VEU 資格，向 Rainbow Air 索取報價。",
-      services: { title: "我們的服務", description: "VEU 補貼暖氣升級、空調新裝、更換和維修——Rainbow Air，VEU 認證供應商。" },
-      veu: { title: "VEU 補貼計劃", description: "在維州更換燃氣風管暖氣？瞭解 VEU 補貼如何運作，並檢查您的房子是否符合條件。" },
-      projects: { title: "服務區域與項目", description: "Rainbow Air 服務墨爾本及周邊地區。查看我們的空調安裝項目。" },
-      about: { title: "關於我們與售後", description: "關於 Rainbow Air，以及設備保修和安裝售後服務。" },
-      contact: { title: "聯絡我們與索取報價", description: "聯絡 Rainbow Air，或線上諮詢墨爾本空調安裝。" },
+      siteTitle: "墨爾本空調安裝 | VEU 燃氣暖氣更換補貼 | Rainbow Air",
+      siteDescription:
+        "為墨爾本家庭安裝高效冷暖空調：VEU 政府補貼燃氣風管暖氣升級，分體式、風管式空調新裝、更換與維修。線上檢查 VEU 資格，索取報價。",
+      services: {
+        title: "墨爾本空調安裝、更換與維修",
+        description: "墨爾本分體式、一拖多、風管式空調安裝、更換和維修，以及由 VEU 認證供應商辦理的政府補貼暖氣升級。",
+      },
+      veu: {
+        title: "VEU 燃氣暖氣更換補貼",
+        description: "把燃氣風管暖氣換成高效冷暖空調，享受維州能源升級計劃（VEU）政府補貼。約一分鐘線上檢查資格。",
+      },
+      projects: {
+        title: "服務區域：墨爾本及東南區",
+        description: "Rainbow Air 為墨爾本市區及周邊地區（包括東南區）提供空調安裝服務。查看安裝方案並索取報價。",
+      },
+      about: {
+        title: "關於我們、保修與售後",
+        description: "瞭解 Rainbow Air——墨爾本冷暖空調團隊。清晰的書面報價、用心安裝，並提供設備保修與售後支持。",
+      },
+      contact: {
+        title: "聯絡我們與索取報價",
+        description: "致電 0433 600 166、發郵件至 info@rainbowair.com.au，或線上提交諮詢（可附照片），索取墨爾本空調安裝報價。",
+      },
       privacy: { title: "隱私政策", description: "Rainbow Air 如何收集、使用和保護您的個人資訊。" },
       terms: { title: "條款與條件", description: "使用 Rainbow Air 網站及提交諮詢的條款。" },
     },

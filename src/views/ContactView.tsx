@@ -1,4 +1,7 @@
 import type { Locale } from "@/lib/locale";
+import { BreadcrumbJsonLd } from "@/components/seo/StructuredData";
+import { routes } from "@/data/site";
+
 import { getDict, setRequestLocale } from "@/i18n/server";
 import { PageHero } from "@/components/layout/PageHero";
 import { ContactSection } from "@/components/sections/ContactSection";
@@ -11,6 +14,7 @@ export function ContactView({ locale }: { locale: Locale }) {
   const h = c.contactCopy.hero;
   return (
     <>
+      <BreadcrumbJsonLd locale={locale} path={routes.contact} name={ui.nav.contact} />
       <PageHero compact eyebrow={h.eyebrow} title={h.title} body={h.body} crumb={ui.nav.contact} extra={<SocialRow tone="light" />} />
       <ContactSection />
     </>

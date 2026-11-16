@@ -1,4 +1,7 @@
 import type { Locale } from "@/lib/locale";
+import { BreadcrumbJsonLd } from "@/components/seo/StructuredData";
+import { routes } from "@/data/site";
+
 import { getDict, setRequestLocale } from "@/i18n/server";
 import { quoteHref } from "@/lib/quote";
 import { PageHero } from "@/components/layout/PageHero";
@@ -13,6 +16,7 @@ export function AboutView({ locale }: { locale: Locale }) {
   const h = c.aboutCopy.hero;
   return (
     <>
+      <BreadcrumbJsonLd locale={locale} path={routes.about} name={ui.nav.about} />
       <PageHero eyebrow={h.eyebrow} title={h.title} body={h.body} crumb={ui.nav.about} image={h.image}>
         <ButtonLink href="#aftercare" size="lg">
           {ui.about.warrantyAftercare}

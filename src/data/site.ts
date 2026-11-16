@@ -1,3 +1,4 @@
+import launch from "./launch.json";
 import { TBC, type NavItem } from "./types";
 
 /**
@@ -20,15 +21,15 @@ export const site = {
   name: "Rainbow Air",
   slogan: "Better Air. Better Living.",
   descriptor: "Heating & Cooling",
-  /** Update to the production domain at launch (used for Open Graph URLs). */
-  url: "https://rainbow-air-website.wangxcep.workers.dev",
+  /** Canonical site address – switches to rainbowair.com.au when launch.json says launched. */
+  url: launch.launched ? launch.productionUrl : launch.stagingUrl,
   locale: "en_AU",
   seo: {
     title: "Rainbow Air | Air Conditioning Installation Melbourne",
     description:
       "VEU-discounted air conditioning, new installations, replacements and repairs for Melbourne homes. Check your VEU eligibility and request a quote from Rainbow Air.",
-    /** Keep false until public launch so demo content is not indexed. */
-    indexable: false,
+    /** Search engines allowed only after launch (src/data/launch.json). */
+    indexable: launch.launched,
   },
   intro:
     "Rainbow Air helps Melbourne households upgrade to efficient reverse cycle air conditioning – from VEU discount applications to installation, replacement and repairs.",

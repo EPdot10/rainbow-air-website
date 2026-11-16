@@ -1,5 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import type { Locale } from "@/lib/locale";
+import { BreadcrumbJsonLd } from "@/components/seo/StructuredData";
+import { routes } from "@/data/site";
+
 import { getDict, setRequestLocale } from "@/i18n/server";
 import { PageHero } from "@/components/layout/PageHero";
 import { ButtonLink } from "@/components/ui/Button";
@@ -15,6 +18,7 @@ export function VeuView({ locale }: { locale: Locale }) {
   const c = content.veuPage.check;
   return (
     <>
+      <BreadcrumbJsonLd locale={locale} path={routes.veu} name={ui.nav.veu} />
       <PageHero eyebrow={h.eyebrow} title={h.title} body={h.body} crumb={ui.nav.veu} image={h.image}>
         <ButtonLink href="#eligibility" size="lg">
           {ui.veu.checkEligibility}

@@ -4,31 +4,34 @@
  */
 export const uiEn = {
   meta: {
-    siteTitle: "Rainbow Air | Air Conditioning Installation Melbourne",
+    siteTitle: "Air Conditioning Installation Melbourne | Rainbow Air",
     siteDescription:
-      "VEU-discounted air conditioning, new installations, replacements and repairs for Melbourne homes. Check your VEU eligibility and request a quote from Rainbow Air.",
+      "Reverse cycle air conditioning for Melbourne homes – VEU gas ducted heating upgrades, split and ducted system installation, replacement and repairs. Request a quote.",
     home: { title: "", description: "" },
     services: {
-      title: "Our Services",
+      title: "Air Conditioning Services Melbourne",
       description:
-        "VEU discount upgrades, new air conditioning installations, replacements and repairs for Melbourne homes – from Rainbow Air, a VEU Accredited Provider.",
+        "Split system, multi-split and ducted air conditioning installation, replacement and repair in Melbourne, plus VEU gas heating upgrades by an Accredited Provider.",
     },
     veu: {
-      title: "VEU Discount Program",
+      title: "VEU Gas Heater Replacement Discount",
       description:
-        "Replacing gas ducted heating in Victoria? Learn how the Victorian Energy Upgrades (VEU) discount works and check whether your home may be eligible.",
+        "Replace gas ducted heating with efficient reverse cycle air conditioning and save with the Victorian Energy Upgrades (VEU) discount. Check eligibility in about a minute.",
     },
     projects: {
-      title: "Service Areas & Projects",
-      description: "Rainbow Air services Melbourne and surrounding areas. Explore air conditioning installation projects.",
+      title: "Service Areas – Melbourne & South-East",
+      description:
+        "Rainbow Air installs air conditioning across Melbourne metro and surrounding areas, including the south-east. See system types and request a quote.",
     },
     about: {
-      title: "About & Aftercare",
-      description: "About Rainbow Air, equipment warranty and installation aftercare for Melbourne homes.",
+      title: "About Us, Warranty & Aftercare",
+      description:
+        "Rainbow Air – Melbourne heating and cooling specialists. Clear written quotes, careful installation, and help with equipment warranty and aftercare.",
     },
     contact: {
       title: "Contact Us & Request a Quote",
-      description: "Contact Rainbow Air or send an online enquiry for air conditioning installation in Melbourne.",
+      description:
+        "Call 0433 600 166, email info@rainbowair.com.au or send an online enquiry with photos for air conditioning installation in Melbourne.",
     },
     privacy: { title: "Privacy Policy", description: "How Rainbow Air collects, uses and protects your personal information." },
     terms: { title: "Terms and Conditions", description: "Terms for using the Rainbow Air website and making an enquiry." },

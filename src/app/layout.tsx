@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { SocialFab } from "@/components/layout/SocialFab";
 import { RevealObserver } from "@/components/ui/RevealObserver";
 import { LocaleGuard } from "@/components/locale/LocaleComponents";
+import { BusinessJsonLd } from "@/components/seo/StructuredData";
 
 const ogImage = resolveImage("heroLivingRoom", 1440);
 
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               "(function(){var p=location.pathname;document.documentElement.lang=p.indexOf('/zh-hans')===0?'zh-Hans':p.indexOf('/zh-hant')===0?'zh-Hant':'en-AU'})()",
           }}
         />
+        <BusinessJsonLd />
       </head>
       <body>
         <Header />
