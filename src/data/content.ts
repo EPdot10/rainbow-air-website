@@ -418,7 +418,7 @@ export const aboutCopy = {
     eyebrow: "Aftercare",
     title: "Equipment Warranty & Installation Aftercare",
     cta: "Contact Aftercare",
-    note: "Need help after your installation? Email us at {email} – we reply within 24 hours on business days.",
+    note: "Need help after your installation? Email us at {email} – we reply within 2 business days.",
   },
 };
 

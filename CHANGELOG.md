@@ -3,6 +3,12 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.9.5 – 2026-11-17 · Older Safari support + aftercare wording
+
+- Buttons not responding on some Macs: Next.js 16 compiles for Safari 16.4+ by default, and its core script uses syntax older Safari can't run, which stops all interactivity. Added a `browserslist` (Safari/iOS 14+, Chrome 87+, Firefox 78+) so the build is transpiled for older browsers, plus tiny inline polyfills (Object.hasOwn, Array/String .at).
+- About & Aftercare note: “we reply within 2 business days” (EN + 简 + 繁).
+- Rollback: `git revert` this commit.
+
 ## v0.9.4 – 2026-11-17 · Fix: sections staying blank (Safari)
 
 - Scroll-reveal animation hardened: content that appears or is re-rendered after page load is now picked up (MutationObserver), and a safety check reveals anything on or above the screen after 1.2 s / 3 s and on scroll. Nothing can stay invisible any more if the animation script misses it.

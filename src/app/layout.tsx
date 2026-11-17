@@ -48,7 +48,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en-AU" suppressHydrationWarning>
       <head>
-        {/* Set the page language before first paint (Chinese pages live under /zh-hans/ and /zh-hant/). */}
+        {/* Small polyfills for older Safari (< 15.4), then set the page language before first paint. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var d=function(o,k,f){if(!o[k])Object.defineProperty(o,k,{value:f,writable:true,configurable:true})};d(Object,'hasOwn',function(o,k){return Object.prototype.hasOwnProperty.call(o,k)});var at=function(i){i=Math.trunc(i)||0;if(i<0)i+=this.length;return i<0||i>=this.length?undefined:this[i]};d(Array.prototype,'at',at);d(String.prototype,'at',at)})()",
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html:

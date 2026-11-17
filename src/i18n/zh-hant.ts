@@ -237,7 +237,7 @@ export const zhHant: Translation = {
         eyebrow: "售後服務",
         title: "設備保修\u200b與安裝售後",
         cta: "聯絡售後",
-        note: "如遇售後問題，請發郵件至 {email}，我們會在工作日 24 小時內回覆。",
+        note: "如遇售後問題，請發郵件至 {email}，我們會在 2 個工作日內回覆。",
       },
     },
     companyHighlights: [
