@@ -1,7 +1,7 @@
 {
   "_comment": "Go-live settings in one place. launched=true: canonical URLs/sitemap use productionUrl and search engines are allowed. turnstileSiteKey: the public Site Key of the Cloudflare Turnstile widget (the secret key is NOT stored here – it is a Worker secret).",
-  "launched": false,
+  "launched": true,
   "productionUrl": "https://rainbowair.com.au",
   "stagingUrl": "https://rainbow-air-website.wangxcep.workers.dev",
-  "turnstileSiteKey": "0x4AAAAAAGBlM_oXGE8hEaXf"
+  "turnstileSiteKey": "0x4AAAAAAGFFyWsZy9_0Bc5s"
 }
