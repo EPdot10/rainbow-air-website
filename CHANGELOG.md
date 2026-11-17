@@ -3,6 +3,12 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.9.1 – 2026-11-17 · Fix: blank enquiry form on Safari
+
+- The quote form was wrapped in a Suspense boundary (because it reads ?type= from the URL), so the static HTML only contained an empty placeholder card until JavaScript finished. On Safari it could stay blank.
+- The form is now part of the static HTML; only a tiny invisible reader for the URL parameters is deferred. Prefill from "Request a Quote" links still works.
+- Rollback: `git revert` this commit.
+
 ## v0.9.0 – 2026-11-17 · Privacy Policy & Terms update (pre-launch legal review)
 
 - Privacy Policy rewritten (EN + 简 + 繁), structure informed by the client's reference site: states Rainbow is not a VEU Accredited Provider and discloses sharing with the AP partner; names overseas providers (Cloudflare, Resend, Microsoft 365); retention (24 months for enquiries that don't proceed, job/VEU records up to 7 years); accurate cookie wording (no analytics/ads); marketing opt-out; automated decisions; data breaches; 30-day responses; links; changes. Removed "where they apply to us".

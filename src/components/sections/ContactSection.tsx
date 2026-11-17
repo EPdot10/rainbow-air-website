@@ -1,5 +1,4 @@
 import { getDict } from "@/i18n/server";
-import { Suspense } from "react";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { site, telHref } from "@/data/site";
 import { TBC } from "@/data/types";
@@ -55,9 +54,7 @@ export function ContactSection() {
         </div>
 
         <div id="enquiry" className="order-first scroll-mt-6 lg:order-none">
-          <Suspense fallback={<div className="h-[52rem] rounded-2xl border border-line bg-white shadow-card" aria-hidden />}>
-            <QuoteEnquiryForm />
-          </Suspense>
+          <QuoteEnquiryForm />
         </div>
       </div>
     </section>

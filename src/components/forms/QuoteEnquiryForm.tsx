@@ -3,7 +3,7 @@
 import { AlertCircle, ArrowRight, CheckCircle2, FileText, Film, ImageIcon, Loader2, Paperclip, Pencil, X } from "lucide-react";
 import { compressImage } from "@/lib/compressImage";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { Suspense, useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { enquiryTypes, installationRequirements, submitEnquiry, submitErrorMessage } from "@/data/form";
 import { Turnstile, type TurnstileHandle } from "@/components/forms/Turnstile";
 import { Button } from "@/components/ui/Button";
@@ -96,9 +96,18 @@ function prefillFrom(params: URLSearchParams, ui: Ui): Partial<Fields> {
   return out;
 }
 
+/**
+ * Reads ?type=&item=&install= from the address bar. Kept in its own tiny Suspense boundary so the form
+ * itself is part of the static HTML (visible immediately, even before or without JavaScript).
+ */
+function SearchParamsReader({ onChange }: { onChange: (key: string) => void }) {
+  const key = useSearchParams().toString();
+  useEffect(() => onChange(key), [key, onChange]);
+  return null;
+}
+
 export function QuoteEnquiryForm() {
-  const params = useSearchParams();
-  const paramKey = params.toString();
+  const [paramKey, setParamKey] = useState("");
   const uid = useId();
   const { c, ui } = useDict();
   const locale = useLocale();
@@ -226,6 +235,10 @@ export function QuoteEnquiryForm() {
 
   if (status === "sent") {
     return (
+      <>
+      <Suspense fallback={null}>
+        <SearchParamsReader onChange={setParamKey} />
+      </Suspense>
       <div role="status" aria-live="polite" className="rounded-2xl border border-line bg-white p-7 shadow-card sm:p-9">
         <span className="inline-flex size-12 items-center justify-center rounded-full bg-green-50 text-green-700">
           <CheckCircle2 className="size-6" aria-hidden />
@@ -237,10 +250,15 @@ export function QuoteEnquiryForm() {
           {F.sendAnother}
         </Button>
       </div>
+      </>
     );
   }
 
   return (
+    <>
+      <Suspense fallback={null}>
+        <SearchParamsReader onChange={setParamKey} />
+      </Suspense>
     <form
       noValidate
       onSubmit={onSubmit}
@@ -485,6 +503,7 @@ export function QuoteEnquiryForm() {
         </Button>
       </div>
     </form>
+    </>
   );
 }
 
