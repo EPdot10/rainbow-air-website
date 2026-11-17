@@ -20,7 +20,9 @@ export async function compressImage(file: File, maxSide = 2000, quality = 0.82):
     bitmap.close();
     const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
     if (!blob || blob.size >= file.size) return file;
-    return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".jpg", { type: "image/jpeg", lastModified: Date.now() });
+    // Keep the original name; only a non-JPEG photo (e.g. .png, .heic) gets a .jpg extension so it still opens correctly.
+    const name = /\.jpe?g$/i.test(file.name) ? file.name : file.name.replace(/\.[^.]+$/, "") + ".jpg";
+    return new File([blob], name, { type: "image/jpeg", lastModified: file.lastModified });
   } catch {
     return file;
   }

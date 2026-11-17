@@ -74,6 +74,12 @@ const clean = (v, max = 2000) => (typeof v === "string" ? v.trim().slice(0, max)
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 const isPhone = (v) => /^[\d\s()+-]+$/.test(v) && v.replace(/\D/g, "").length >= 8 && v.replace(/\D/g, "").length <= 12;
 
+// Keep the visitor's own file name (any language); only strip characters that are invalid in file names.
+function fileName(name, i) {
+  const n = String(name || "").replace(/[\u0000-\u001f\u007f"\\/:*?<>|]+/g, "_").trim().slice(0, 150);
+  return n || `attachment-${i + 1}`;
+}
+
 // Native base64 (node:buffer) – much faster than a JS loop, keeps large uploads within the free plan's CPU limit.
 const toBase64 = (buffer) => Buffer.from(buffer).toString("base64");
 
@@ -139,6 +145,16 @@ async function handleEnquiry(request, env) {
 
   // Attachments: VEU photos + floor plan, or files attached to a quote enquiry.
   const attachments = [];
+  // Two files with the same name (e.g. "image.jpg" from a phone) get " (2)", " (3)"… so none is lost.
+  const seen = new Map();
+  const uniqueName = (n) => {
+    const key = n.toLowerCase();
+    const c = (seen.get(key) || 0) + 1;
+    seen.set(key, c);
+    if (c === 1) return n;
+    const dot = n.lastIndexOf(".");
+    return dot > 0 ? `${n.slice(0, dot)} (${c})${n.slice(dot)}` : `${n} (${c})`;
+  };
   {
     const names = kind === "veu" ? ["photos", "floorPlan"] : ["files"];
     const files = names.flatMap((n) => form.getAll(n)).filter((f) => typeof f === "object" && f && f.size > 0);
@@ -149,29 +165,34 @@ async function handleEnquiry(request, env) {
       if (!allowedFile(f)) return json({ ok: false, error: "file_type" }, 400);
       total += f.size;
       if (total > MAX_TOTAL_BYTES) return json({ ok: false, error: "too_large" }, 413);
-      const isPlan = form.getAll("floorPlan").includes(f);
-      const safeName = (f.name || `file-${i + 1}`).replace(/[^\w.\- ]+/g, "_").slice(0, 80);
-      const prefix = isPlan ? "floor-plan" : kind === "veu" ? `photo-${i + 1}` : `file-${i + 1}`;
-      attachments.push({ filename: `${prefix}-${safeName}`, content: toBase64(await f.arrayBuffer()) });
+      const filename = uniqueName(fileName(f.name, i));
+      const group = form.getAll("floorPlan").includes(f) ? "plan" : "main";
+      attachments.push({ filename, content: toBase64(await f.arrayBuffer()), group });
     }
   }
+  const listOf = (g) => attachments.filter((a) => a.group === g).map((a) => a.filename).join(", ");
+  // Which attachment is what – the files themselves keep the visitor's own names.
+  const fileRows =
+    kind === "veu"
+      ? [["Photos", listOf("main")], ["Floor plan", listOf("plan")]].filter(([, v]) => v)
+      : [["Attachments", listOf("main")]].filter(([, v]) => v);
 
   const page = clean(form.get("page"), 300);
   const title = kind === "veu" ? "VEU rebate eligibility enquiry" : "Website enquiry";
   const who = kind === "veu" ? values.name : values.fullName;
   const where = kind === "veu" ? `${values.suburb} ${values.postcode}` : values.suburb;
   const subject = `${title} – ${who} (${where})`.slice(0, 180);
-  const rows = fields.filter(([k]) => values[k]);
+  const rows = [...fields.filter(([k]) => values[k]).map(([k, label]) => [label, values[k]]), ...fileRows];
   const sent = new Date().toLocaleString("en-AU", { timeZone: "Australia/Melbourne" });
 
   const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;color:#152034">
 <h2 style="color:#03224f;margin:0 0 12px">${esc(title)}</h2>
 <table cellpadding="8" cellspacing="0" style="border-collapse:collapse;font-size:14px">
-${rows.map(([k, label]) => `<tr><td style="border:1px solid #e2e7ef;background:#f6f8fb;font-weight:bold;vertical-align:top">${esc(label)}</td><td style="border:1px solid #e2e7ef;white-space:pre-wrap">${esc(values[k])}</td></tr>`).join("\n")}
+${rows.map(([label, value]) => `<tr><td style="border:1px solid #e2e7ef;background:#f6f8fb;font-weight:bold;vertical-align:top">${esc(label)}</td><td style="border:1px solid #e2e7ef;white-space:pre-wrap">${esc(value)}</td></tr>`).join("\n")}
 </table>
 <p style="font-size:12px;color:#637085;margin-top:16px">Sent ${esc(sent)} (Melbourne time)${page ? ` from ${esc(page)}` : ""}${attachments.length ? ` · ${attachments.length} attachment(s)` : ""}</p>
 </body></html>`;
-  const text = `${title}\n\n${rows.map(([k, label]) => `${label}: ${values[k]}`).join("\n")}\n\nSent ${sent}${page ? ` from ${page}` : ""}`;
+  const text = `${title}\n\n${rows.map(([label, value]) => `${label}: ${value}`).join("\n")}\n\nSent ${sent}${page ? ` from ${page}` : ""}`;
 
   const replyTo = isEmail(values.email) ? values.email : undefined;
   const res = await fetch("https://api.resend.com/emails", {
@@ -184,7 +205,7 @@ ${rows.map(([k, label]) => `<tr><td style="border:1px solid #e2e7ef;background:#
       subject,
       html,
       text,
-      attachments: attachments.length ? attachments : undefined,
+      attachments: attachments.length ? attachments.map(({ filename, content }) => ({ filename, content })) : undefined,
     }),
   });
   if (!res.ok) {

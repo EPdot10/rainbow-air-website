@@ -3,6 +3,13 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.10.1 – 2026-11-18 · Attachments keep their original file names
+
+- Worker no longer adds "photo-1-" / "file-2-" / "floor-plan-" prefixes or replaces non-English characters; only characters invalid in file names are replaced. Duplicate names get " (2)", " (3)".
+- The email body now lists "Photos", "Floor plan" (VEU) or "Attachments" (quote) by file name.
+- Browser photo compression keeps the original name (only non-JPEG photos change extension to .jpg so they still open).
+- Rollback: `git revert` this commit.
+
 ## v0.10.0 – 2026-11-18 · More flexible attachments
 
 - Quote form: up to 10 files, 20 MB in total – photos (incl. iPhone HEIC/HEIF, WebP, AVIF…), videos (MP4/MOV/M4V/WebM/AVI/3GP), PDF, ZIP, 7z.
