@@ -3,6 +3,12 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.9.2 – 2026-11-17 · Service area list + aftercare email note
+
+- Service Areas & Projects: summary now “Servicing Melbourne metro and surrounding areas.” (removed “including the south-east”); new “Main service areas” panel listing 20 suburbs (interim list, names kept in English in all languages). Meta title/description updated to match.
+- About & Aftercare: small centred note under the aftercare cards – email info@ for after-sales help, reply within 24 hours on business days.
+- Rollback: `git revert` this commit.
+
 ## v0.9.1 – 2026-11-17 · Fix: blank enquiry form on Safari
 
 - The quote form was wrapped in a Suspense boundary (because it reads ?type= from the URL), so the static HTML only contained an empty placeholder card until JavaScript finished. On Safari it could stay blank.

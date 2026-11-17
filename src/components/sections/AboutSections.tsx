@@ -79,6 +79,7 @@ const aftercareIcons = { shield: ShieldCheck, alert: AlertTriangle, compass: Com
 export function Aftercare() {
   const { aboutCopy, aftercarePoints } = getDict().c;
   const c = aboutCopy.aftercare;
+  const [before, after] = c.note.split("{email}");
   return (
     <section id="aftercare" aria-labelledby="aftercare-title" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
       <div className="container-page">
@@ -101,6 +102,13 @@ export function Aftercare() {
             );
           })}
         </ul>
+        <p className="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-muted">
+          {before}
+          <a href={`mailto:${site.contact.email}`} className="font-semibold text-navy-800 underline underline-offset-2 hover:text-flame-700">
+            {site.contact.email}
+          </a>
+          {after}
+        </p>
       </div>
     </section>
   );

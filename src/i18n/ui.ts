@@ -19,9 +19,9 @@ export const uiEn = {
         "Get the Victorian Energy Upgrades (VEU) discount when you replace gas heating with an efficient reverse cycle air conditioner in Melbourne, VIC. Check eligibility online in about a minute.",
     },
     projects: {
-      title: "Service Areas – Melbourne, VIC & South-East",
+      title: "Service Areas – Melbourne, VIC & Surrounds",
       description:
-        "Rainbow Air installs air conditioning and VEU discount upgrades across Melbourne metro and surrounding areas in Victoria, including the south-east. Request a quote.",
+        "Rainbow Air installs air conditioning and VEU discount upgrades across Melbourne metro and surrounding areas in Victoria. Request a quote.",
     },
     about: {
       title: "About Us, Warranty & Aftercare",

@@ -4,7 +4,7 @@ import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
-/** Interim service area wording (no map, no suburb list until the client confirms coverage). */
+/** Service area: summary, main suburbs (names always in English) and a "not sure?" note. */
 export function ServiceArea() {
   const { projectsCopy } = getDict().c;
   const c = projectsCopy.areas;
@@ -19,8 +19,19 @@ export function ServiceArea() {
             <h2 id="area-title" className="text-xs font-bold uppercase tracking-[0.16em] text-navy-700">
               {c.title}
             </h2>
-            <p className="mt-2 text-[1.6rem] leading-tight font-bold text-navy-900 sm:text-[2rem]">{c.summary}</p>
-            <p className="mt-3 flex items-start gap-2 leading-relaxed text-muted">
+            <p className="mt-2 text-[1.6rem] leading-tight font-bold [word-break:keep-all] text-navy-900 sm:text-[2rem]">{c.summary}</p>
+            <div className="mt-5 rounded-2xl border border-line bg-surface px-3.5 py-4 sm:p-5">
+              <h3 className="text-sm font-bold text-navy-900">{c.mainTitle}</h3>
+              <ul className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 sm:gap-x-4 sm:grid-cols-3 xl:grid-cols-4" lang="en">
+                {c.suburbs.map((s) => (
+                  <li key={s} className="flex items-center gap-2 leading-snug text-muted">
+                    <span className="size-1.5 shrink-0 rounded-full bg-flame-600" aria-hidden />
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <p className="mt-4 flex items-start gap-2 leading-relaxed text-muted">
               <Search className="mt-1 size-4 shrink-0" aria-hidden />
               {c.note}
             </p>

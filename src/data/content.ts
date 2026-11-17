@@ -366,8 +366,15 @@ export const projectsCopy = {
   },
   areas: {
     title: "Service Area",
-    /** ⚠ Interim wording – final service area (suburb list or radius) to be confirmed by the client. */
-    summary: "Servicing Melbourne metro and surrounding areas, including the south-east.",
+    summary: "Servicing Melbourne metro and surrounding areas.",
+    mainTitle: "Main service areas",
+    /** ⚠ Interim list – to be confirmed by the client. Suburb names stay in English in every language. */
+    suburbs: [
+      "Melbourne CBD", "Box Hill", "Burwood", "Camberwell", "Hawthorn",
+      "Kew", "Doncaster", "Ringwood", "Glen Waverley", "Mount Waverley",
+      "Oakleigh", "Clayton", "Springvale", "Dandenong", "Narre Warren",
+      "Berwick", "Caulfield", "Bentleigh", "Brighton", "Point Cook",
+    ],
     note: "Not sure whether we cover your area? Send us an enquiry with your suburb or postcode and our team will confirm with you.",
     cta: "Send an Enquiry",
   },
@@ -410,6 +417,7 @@ export const aboutCopy = {
     eyebrow: "Aftercare",
     title: "Equipment Warranty & Installation Aftercare",
     cta: "Contact Aftercare",
+    note: "Need help after your installation? Email us at {email} – we reply within 24 hours on business days.",
   },
 };
 

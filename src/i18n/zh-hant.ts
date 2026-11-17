@@ -203,7 +203,8 @@ export const zhHant: Translation = {
       },
       areas: {
         title: "服務區域",
-        summary: "服務墨爾本市區及周邊地區，包括東南區。",
+        summary: "服務墨爾本市區\u200b及周邊地區。",
+        mainTitle: "主要服務區域",
         note: "不確定是否在服務範圍內？請發送諮詢並註明您所在的區或郵編，我們的工作人員會與您確認。",
         cta: "發送諮詢",
       },
@@ -231,7 +232,12 @@ export const zhHant: Translation = {
       },
       company: { title: "公司資訊" },
       why: { eyebrow: "為什麼選擇 Rainbow Air", title: "為什麼選擇 Rainbow Air？" },
-      aftercare: { eyebrow: "售後服務", title: "設備保修\u200b與安裝售後", cta: "聯絡售後" },
+      aftercare: {
+        eyebrow: "售後服務",
+        title: "設備保修\u200b與安裝售後",
+        cta: "聯絡售後",
+        note: "如遇售後問題，請發郵件至 {email}，我們會在工作日 24 小時內回覆。",
+      },
     },
     companyHighlights: [
       { stat: "2010 年起", label: "團隊自 2010 年起從事冷暖空調安裝" },
@@ -277,8 +283,8 @@ export const zhHant: Translation = {
         description: "在維州墨爾本把燃氣暖氣換成高效冷暖空調，享受維州能源升級計劃（VEU）政府折扣補貼。約一分鐘線上檢查資格。",
       },
       projects: {
-        title: "服務區域：維州墨爾本及東南區",
-        description: "Rainbow Air 為維州墨爾本市區及周邊地區（包括東南區）提供空調安裝和 VEU 補貼升級服務。歡迎索取報價。",
+        title: "服務區域：維州墨爾本及周邊",
+        description: "Rainbow Air 為維州墨爾本市區及周邊地區提供空調安裝和 VEU 補貼升級服務。歡迎索取報價。",
       },
       about: {
         title: "關於我們、保修與售後",
