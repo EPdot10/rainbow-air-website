@@ -147,6 +147,7 @@ export const uiEn = {
     highlights: "Company highlights",
     legalName: "Legal business name",
     tradingName: "Trading name",
+    contactNumber: "Contact number",
     acn: "ACN",
     abn: "ABN",
   },

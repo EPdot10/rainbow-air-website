@@ -30,6 +30,7 @@ export function ServiceArea() {
                   </li>
                 ))}
               </ul>
+              <p className="mt-3 border-t border-line pt-3 leading-snug text-muted">{c.more}</p>
             </div>
             <p className="mt-4 flex items-start gap-2 leading-relaxed text-muted">
               <Search className="mt-1 size-4 shrink-0" aria-hidden />

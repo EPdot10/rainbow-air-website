@@ -368,6 +368,7 @@ export const projectsCopy = {
     title: "Service Area",
     summary: "Servicing Melbourne metro and surrounding areas.",
     mainTitle: "Main service areas",
+    more: "…and many more suburbs across Melbourne.",
     /** ⚠ Interim list – to be confirmed by the client. Suburb names stay in English in every language. */
     suburbs: [
       "Melbourne CBD", "Box Hill", "Burwood", "Camberwell", "Hawthorn",

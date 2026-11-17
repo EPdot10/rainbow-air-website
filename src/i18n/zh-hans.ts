@@ -209,6 +209,7 @@ export const zhHans: Translation = {
         title: "服务区域",
         summary: "服务墨尔本市区\u200b及周边地区。",
         mainTitle: "主要服务区域",
+        more: "……以及墨尔本更多其他地区。",
         note: "不确定是否在服务范围内？请发送咨询并注明您所在的区或邮编，我们的工作人员会与您确认。",
         cta: "发送咨询",
       },
@@ -394,6 +395,7 @@ export const zhHans: Translation = {
       highlights: "公司亮点",
       legalName: "公司法定名称",
       tradingName: "经营名称",
+      contactNumber: "联系电话",
     },
     contact: {
       phone: "电话",

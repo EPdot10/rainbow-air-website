@@ -3,6 +3,12 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.9.3 – 2026-11-17 · Small content tweaks
+
+- Service area panel: added “…and many more suburbs across Melbourne.” under the suburb list (EN + 简 + 繁).
+- About & Aftercare → Company Information: “Trading name” replaced by “Contact number” (tap-to-call 0433 600 166).
+- Rollback: `git revert` this commit.
+
 ## v0.9.2 – 2026-11-17 · Service area list + aftercare email note
 
 - Service Areas & Projects: summary now “Servicing Melbourne metro and surrounding areas.” (removed “including the south-east”); new “Main service areas” panel listing 20 suburbs (interim list, names kept in English in all languages). Meta title/description updated to match.

@@ -1,6 +1,6 @@
 import { getDict } from "@/i18n/server";
 import { AlertTriangle, ArrowRight, BadgeCheck, ClipboardList, Compass, ShieldCheck } from "lucide-react";
-import { site } from "@/data/site";
+import { site, telHref } from "@/data/site";
 import { TBC } from "@/data/types";
 import { quoteHref } from "@/lib/quote";
 import { ButtonLink } from "@/components/ui/Button";
@@ -38,9 +38,9 @@ export function CompanyHighlights() {
 export function CompanyInfo() {
   const { aboutCopy } = getDict().c;
   const { ui } = getDict();
-  const rows = [
+  const rows: { label: string; value: string; href?: string }[] = [
     { label: ui.about.legalName, value: site.company.legalName },
-    { label: ui.about.tradingName, value: site.name },
+    { label: ui.about.contactNumber, value: site.contact.phone, href: telHref(site.contact.phone) },
     { label: ui.about.acn, value: site.company.acn },
     { label: ui.about.abn, value: site.company.abn },
   ];
@@ -62,7 +62,13 @@ export function CompanyInfo() {
                   {r.label}
                 </dt>
                 <dd className="mt-1.5">
-                  <Pending value={r.value} />
+                  {r.href ? (
+                    <a href={r.href} className="font-semibold text-ink underline-offset-2 hover:text-flame-700 hover:underline">
+                      {r.value}
+                    </a>
+                  ) : (
+                    <Pending value={r.value} />
+                  )}
                 </dd>
               </div>
             ))}

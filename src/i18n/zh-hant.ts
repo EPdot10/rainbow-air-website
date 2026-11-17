@@ -205,6 +205,7 @@ export const zhHant: Translation = {
         title: "服務區域",
         summary: "服務墨爾本市區\u200b及周邊地區。",
         mainTitle: "主要服務區域",
+        more: "……以及墨爾本更多其他地區。",
         note: "不確定是否在服務範圍內？請發送諮詢並註明您所在的區或郵編，我們的工作人員會與您確認。",
         cta: "發送諮詢",
       },
@@ -390,6 +391,7 @@ export const zhHant: Translation = {
       highlights: "公司亮點",
       legalName: "公司法定名稱",
       tradingName: "經營名稱",
+      contactNumber: "聯絡電話",
     },
     contact: {
       phone: "電話",
