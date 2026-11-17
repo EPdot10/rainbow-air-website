@@ -3,6 +3,11 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.9.4 – 2026-11-17 · Fix: sections staying blank (Safari)
+
+- Scroll-reveal animation hardened: content that appears or is re-rendered after page load is now picked up (MutationObserver), and a safety check reveals anything on or above the screen after 1.2 s / 3 s and on scroll. Nothing can stay invisible any more if the animation script misses it.
+- Rollback: `git revert` this commit.
+
 ## v0.9.3 – 2026-11-17 · Small content tweaks
 
 - Service area panel: added “…and many more suburbs across Melbourne.” under the suburb list (EN + 简 + 繁).
