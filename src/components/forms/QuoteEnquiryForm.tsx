@@ -1,6 +1,7 @@
 "use client";
 
-import { AlertCircle, ArrowRight, CheckCircle2, FileText, Film, ImageIcon, Loader2, Paperclip, Pencil, X } from "lucide-react";
+import { AlertCircle, ArrowRight, CheckCircle2, FileArchive, FileText, Film, ImageIcon, Loader2, Paperclip, Pencil, X } from "lucide-react";
+import { ACCEPT_ANY, MAX_QUOTE_FILES as MAX_FILES, MAX_TOTAL_BYTES as MAX_TOTAL, MAX_TOTAL_MB, formatSize, uploadKind } from "@/lib/uploads";
 import { compressImage } from "@/lib/compressImage";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
@@ -60,13 +61,7 @@ function validate(v: Fields, ui: Ui): Errors {
   return e;
 }
 
-const MAX_FILES = 5;
-const MAX_TOTAL_MB = 25;
-const MAX_TOTAL = MAX_TOTAL_MB * 1024 * 1024;
-const ACCEPT = "image/*,video/mp4,video/quicktime,video/webm,application/pdf,.heic,.heif,.mov,.mp4,.pdf";
-
-const fileKind = (f: File) => (f.type.startsWith("video/") || /\.(mov|mp4|webm)$/i.test(f.name) ? "video" : f.type === "application/pdf" || /\.pdf$/i.test(f.name) ? "pdf" : "image");
-const formatSize = (b: number) => (b >= 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
+const kindIcon = { image: ImageIcon, video: Film, pdf: FileText, archive: FileArchive } as const;
 
 const order: (keyof Fields)[] = [
   "fullName",
@@ -133,9 +128,8 @@ export function QuoteEnquiryForm() {
     const next = [...files];
     let total = totalSize;
     for (const original of Array.from(list)) {
-      const kind = fileKind(original);
-      const known = original.type.startsWith("image/") || kind !== "image" || /\.(heic|heif)$/i.test(original.name);
-      if (!known) {
+      const kind = uploadKind(original);
+      if (!kind) {
         setFileError(F.errors.fileType);
         continue;
       }
@@ -411,7 +405,7 @@ export function QuoteEnquiryForm() {
           {files.length > 0 && (
             <ul className="mt-3 space-y-2">
               {files.map((f, i) => {
-                const Icon = fileKind(f) === "video" ? Film : fileKind(f) === "pdf" ? FileText : ImageIcon;
+                const Icon = kindIcon[uploadKind(f) ?? "pdf"];
                 return (
                   <li key={`${f.name}-${i}`} className="flex items-center gap-3 rounded-lg border border-line bg-surface px-3 py-2 text-sm">
                     <Icon className="size-4 shrink-0 text-navy-700" aria-hidden />
@@ -437,7 +431,7 @@ export function QuoteEnquiryForm() {
             <label className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-navy-900/25 px-4 py-2.5 text-sm font-semibold text-navy-800 transition-colors hover:border-navy-900/50 hover:bg-navy-50 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-sky-500">
               <Paperclip className="size-4" aria-hidden />
               {F.attach}
-              <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { void addFiles(e.target.files); e.target.value = ""; }} />
+              <input type="file" multiple accept={ACCEPT_ANY} className="sr-only" onChange={(e) => { void addFiles(e.target.files); e.target.value = ""; }} />
             </label>
           )}
           {fileError && (

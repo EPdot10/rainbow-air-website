@@ -16,6 +16,7 @@ import {
 import { cloneElement, useEffect, useId, useRef, useState, type FormEvent, type ReactElement, type ReactNode } from "react";
 import { submitEnquiry, submitErrorMessage } from "@/data/form";
 import { compressImage } from "@/lib/compressImage";
+import { ACCEPT_ANY, ACCEPT_IMAGES, MAX_TOTAL_BYTES, MAX_TOTAL_MB, MAX_VEU_PHOTOS, uploadKind } from "@/lib/uploads";
 import { Turnstile, type TurnstileHandle } from "@/components/forms/Turnstile";
 import { veuPage } from "@/data/content";
 import { routes, site, telHref } from "@/data/site";
@@ -30,9 +31,9 @@ type Answer = "yes" | "no" | "unsure";
 type Step = "gas" | "vic" | "disconnect" | "details" | "done";
 type Stop = "no-gas" | "not-vic" | "no-disconnect" | null;
 
-const MAX_PHOTOS = 5;
-const MAX_MB = 5;
-const MAX_BYTES = MAX_MB * 1024 * 1024;
+const MAX_PHOTOS = MAX_VEU_PHOTOS;
+/** Photos + floor plan together (attachments travel inside the enquiry email). */
+const MAX_MB = MAX_TOTAL_MB;
 
 const hasUnsure: Record<"gas" | "vic" | "disconnect", boolean> = { gas: true, vic: false, disconnect: false };
 const stopKey = { "no-gas": "noGas", "not-vic": "notVic", "no-disconnect": "noDisconnect" } as const;
@@ -70,6 +71,19 @@ const fieldOrder: (keyof Details)[] = ["address", "suburb", "postcode", "name", 
 interface Photo {
   file: File;
   url: string;
+}
+
+/** Photo preview; formats the browser can't display (e.g. iPhone HEIC on Windows) show the file name instead. */
+function PhotoThumb({ url, name, alt }: { url: string; name: string; alt: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed)
+    return (
+      <span className="flex size-full flex-col items-center justify-center gap-1 bg-navy-50 p-1.5 text-center text-[0.68rem] leading-tight break-all text-navy-800" title={name}>
+        <ImagePlus className="size-5 shrink-0" aria-hidden />
+        <span className="line-clamp-2">{name}</span>
+      </span>
+    );
+  return <img src={url} alt={alt} onError={() => setFailed(true)} className="size-full object-cover" />;
 }
 
 /**
@@ -149,8 +163,9 @@ export function VeuQuestionnaire() {
     if (!files) return;
     setPhotoError(null);
     const next = [...photos];
+    let total = next.reduce((n, p) => n + p.file.size, 0) + (floorPlan?.size ?? 0);
     for (const original of Array.from(files)) {
-      if (!original.type.startsWith("image/") && !/\.(heic|heif)$/i.test(original.name)) {
+      if (uploadKind(original) !== "image") {
         setPhotoError(Q.errors.photoType);
         continue;
       }
@@ -160,10 +175,11 @@ export function VeuQuestionnaire() {
       }
       // Large phone photos are resized in the browser before upload (keeps emails small and free).
       const f = await compressImage(original);
-      if (f.size > MAX_BYTES) {
+      if (total + f.size > MAX_TOTAL_BYTES) {
         setPhotoError(fmt(Q.errors.photoSize, { mb: MAX_MB }));
         continue;
       }
+      total += f.size;
       next.push({ file: f, url: URL.createObjectURL(f) });
     }
     setPhotos(next);
@@ -173,13 +189,14 @@ export function VeuQuestionnaire() {
     const original = files?.[0];
     if (!original) return;
     setPhotoError(null);
-    const isPdf = original.type === "application/pdf" || /\.pdf$/i.test(original.name);
-    if (!isPdf && !original.type.startsWith("image/") && !/\.(heic|heif)$/i.test(original.name)) {
+    const kind = uploadKind(original);
+    if (!kind) {
       setPhotoError(Q.errors.planType);
       return;
     }
-    const f = isPdf ? original : await compressImage(original, 2400);
-    if (f.size > MAX_BYTES) {
+    const f = kind === "image" ? await compressImage(original, 2400) : original;
+    const photosTotal = photos.reduce((n, p) => n + p.file.size, 0);
+    if (photosTotal + f.size > MAX_TOTAL_BYTES) {
       setPhotoError(fmt(Q.errors.planSize, { mb: MAX_MB }));
       return;
     }
@@ -364,7 +381,7 @@ export function VeuQuestionnaire() {
               <div className="mt-3 flex flex-wrap gap-3">
                 {photos.map((p, i) => (
                   <div key={p.url} className="relative size-24 overflow-hidden rounded-xl border border-line">
-                    <img src={p.url} alt={fmt(D.photoAlt, { n: i + 1, name: p.file.name })} className="size-full object-cover" />
+                    <PhotoThumb url={p.url} name={p.file.name} alt={fmt(D.photoAlt, { n: i + 1, name: p.file.name })} />
                     <button
                       type="button"
                       onClick={() => removePhoto(i)}
@@ -379,7 +396,7 @@ export function VeuQuestionnaire() {
                   <label className="flex size-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-navy-900/20 text-sm font-semibold text-navy-800 transition-colors hover:border-navy-900/50 hover:bg-navy-50 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-sky-500">
                     <ImagePlus className="size-6" aria-hidden />
                     {D.add}
-                    <input type="file" accept="image/*,.heic,.heif" multiple className="sr-only" onChange={(e) => { void addPhotos(e.target.files); e.target.value = ""; }} />
+                    <input type="file" accept={ACCEPT_IMAGES} multiple className="sr-only" onChange={(e) => { void addPhotos(e.target.files); e.target.value = ""; }} />
                   </label>
                 )}
               </div>
@@ -400,7 +417,7 @@ export function VeuQuestionnaire() {
                   <label className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-navy-900/20 bg-white px-4 py-2.5 text-sm font-semibold text-navy-800 transition-colors hover:border-navy-900/50 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-sky-500">
                     <ImagePlus className="size-4" aria-hidden />
                     {D.addPlan}
-                    <input type="file" accept="image/*,application/pdf,.heic,.heif" className="sr-only" onChange={(e) => { void addFloorPlan(e.target.files); e.target.value = ""; }} />
+                    <input type="file" accept={ACCEPT_ANY} className="sr-only" onChange={(e) => { void addFloorPlan(e.target.files); e.target.value = ""; }} />
                   </label>
                 )}
               </div>

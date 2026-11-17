@@ -3,6 +3,16 @@
 Every push to `main` is deployed automatically to Cloudflare. Each entry lists the **commit ID** of that
 version so it can be restored. Newest first. Add an entry here with every push.
 
+## v0.10.0 – 2026-11-18 · More flexible attachments
+
+- Quote form: up to 10 files, 20 MB in total – photos (incl. iPhone HEIC/HEIF, WebP, AVIF…), videos (MP4/MOV/M4V/WebM/AVI/3GP), PDF, ZIP, 7z.
+- VEU questionnaire: up to 10 photos (multi-select) + floor plan as image, PDF, video, ZIP or 7z; 20 MB in total.
+- Total lowered from 25 MB to 20 MB so the email (≈ +33% when encoded) stays under Resend's 40 MB and Microsoft 365's 36 MB default receive limit.
+- Worker: same rules server-side (extension or MIME, nothing executable/SVG); native base64 via `node:buffer` (`nodejs_compat`) to stay within the free plan's CPU time.
+- HEIC photos that the browser can't preview show a file-name tile.
+- Shared rules in `src/lib/uploads.ts`.
+- Rollback: `git revert` this commit.
+
 ## v0.9.5 – 2026-11-17 · Older Safari support + aftercare wording
 
 - Buttons not responding on some Macs: Next.js 16 compiles for Safari 16.4+ by default, and its core script uses syntax older Safari can't run, which stops all interactivity. Added a `browserslist` (Safari/iOS 14+, Chrome 87+, Firefox 78+) so the build is transpiled for older browsers, plus tiny inline polyfills (Object.hasOwn, Array/String .at).

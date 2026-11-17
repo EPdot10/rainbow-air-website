@@ -18,11 +18,16 @@
  *                       (needs a verified domain in Resend; defaults to Resend's test sender)
  */
 
-const MAX_FILES = 6; // VEU: 5 photos + 1 floor plan · quote: 5 files
-// Resend allows ~40 MB per email after base64 encoding (+33%), so keep raw attachments ≤ 25 MB.
-const MAX_FILE_BYTES = 25 * 1024 * 1024;
-const MAX_TOTAL_BYTES = 25 * 1024 * 1024;
-const FILE_TYPES = /^(image\/(jpeg|png|webp|heic|heif|gif)|application\/pdf|video\/(mp4|quicktime|webm))$/;
+import { Buffer } from "node:buffer";
+
+const MAX_FILES = 11; // VEU: 10 photos + 1 floor plan · quote: 10 files
+// Attachments travel inside the email. After base64 encoding (+33%) 20 MB stays under
+// Resend's 40 MB and Microsoft 365's default 36 MB receive limit. Keep src/lib/uploads.ts in sync.
+const MAX_TOTAL_BYTES = 20 * 1024 * 1024;
+// Images (incl. iPhone HEIC), videos, PDF, ZIP/7z. Nothing executable.
+const ALLOWED_EXT = /\.(jpe?g|png|webp|gif|heic|heif|avif|bmp|tiff?|mp4|mov|m4v|webm|avi|3gp|pdf|zip|7z)$/i;
+const ALLOWED_TYPE = /^(image\/(?!svg)|video\/|application\/(pdf|zip|x-zip-compressed|x-7z-compressed)$)/i;
+const allowedFile = (f) => ALLOWED_EXT.test(f.name || "") || ALLOWED_TYPE.test(f.type || "");
 
 const QUOTE_FIELDS = [
   ["fullName", "Name"],
@@ -69,12 +74,8 @@ const clean = (v, max = 2000) => (typeof v === "string" ? v.trim().slice(0, max)
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 const isPhone = (v) => /^[\d\s()+-]+$/.test(v) && v.replace(/\D/g, "").length >= 8 && v.replace(/\D/g, "").length <= 12;
 
-function toBase64(buffer) {
-  const bytes = new Uint8Array(buffer);
-  let binary = "";
-  for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
-  return btoa(binary);
-}
+// Native base64 (node:buffer) – much faster than a JS loop, keeps large uploads within the free plan's CPU limit.
+const toBase64 = (buffer) => Buffer.from(buffer).toString("base64");
 
 async function verifyTurnstile(token, ip, secret) {
   const body = new FormData();
@@ -144,8 +145,8 @@ async function handleEnquiry(request, env) {
     if (files.length > MAX_FILES) return json({ ok: false, error: "too_many_files" }, 400);
     let total = 0;
     for (const [i, f] of files.entries()) {
-      if (f.size > MAX_FILE_BYTES) return json({ ok: false, error: "file_too_large" }, 413);
-      if (f.type && !FILE_TYPES.test(f.type)) return json({ ok: false, error: "file_type" }, 400);
+      if (f.size > MAX_TOTAL_BYTES) return json({ ok: false, error: "file_too_large" }, 413);
+      if (!allowedFile(f)) return json({ ok: false, error: "file_type" }, 400);
       total += f.size;
       if (total > MAX_TOTAL_BYTES) return json({ ok: false, error: "too_large" }, 413);
       const isPlan = form.getAll("floorPlan").includes(f);
